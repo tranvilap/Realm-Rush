@@ -36,4 +36,17 @@ public class Waypoint : MonoBehaviour
     {
 
     }
+
+    public void SetTopColor(Color color)
+    {
+        var top = transform.Find("Top");
+        if (top != null)
+        {
+            var mesh = top.GetComponent<MeshRenderer>();
+            if (mesh != null)
+            {
+                mesh.material.color = color;
+            }
+        }
+    }
 }
