@@ -5,6 +5,7 @@ using UnityEditor;
 using ExecuteEditor;
 
 [CustomEditor(typeof(ExecuteEditorWaypointSnap))]
+[CanEditMultipleObjects]
 public class ExecuteEditorWaypointSnapEditor : Editor
 {
     public override void OnInspectorGUI()
