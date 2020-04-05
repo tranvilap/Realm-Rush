@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] List<Waypoint> path=null;
     [SerializeField] float movingTime=5f;
+    PathFinder pathFinder = null;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine(FollowPath(movingTime));
+        pathFinder = FindObjectOfType<PathFinder>();
+        if(pathFinder == null)
+        {
+            Debug.LogError("Couldn't find PathFinder");
+            return;
+        }
+        if(pathFinder.ShortestPathBFS == null)
+        {
+            Debug.LogError("Couldn't find Path to end point");
+            return;
+        }
+        StartCoroutine(FollowPath(pathFinder.ShortestPathBFS,movingTime));
     }
 
     // Update is called once per frame
@@ -18,12 +29,11 @@ public class EnemyMovement : MonoBehaviour
         
     }
 
-    IEnumerator FollowPath(float movingTime)
+    IEnumerator FollowPath(List<Waypoint> path, float movingTime)
     {
         Debug.Log("Starting patrol...");
         foreach(var waypoint in path)
         {
-            Debug.Log("Visiting block: " + waypoint.transform.position);
             transform.position = waypoint.transform.position;
             yield return new WaitForSeconds(movingTime/path.Count);
         }

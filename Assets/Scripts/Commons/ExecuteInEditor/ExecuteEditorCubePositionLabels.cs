@@ -27,6 +27,22 @@ namespace ExecuteEditor
                 xzLabelTextMesh.text = gridPos.x + "," + gridPos.y;
             }
         }
+
+        private void OnDisable()
+        {
+            if(xzLabelTextMesh != null)
+            {
+                xzLabelTextMesh.gameObject.SetActive(false);
+            }
+        }
+
+        private void OnEnable()
+        {
+            if (xzLabelTextMesh != null)
+            {
+                xzLabelTextMesh.gameObject.SetActive(true);
+            }
+        }
     }
 }
 

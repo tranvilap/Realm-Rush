@@ -14,13 +14,14 @@ public class PathFinder : MonoBehaviour
         Vector2.left, Vector2.right
     };
 
+    private List<Waypoint> shortestPathBFS = null;
 
+    public List<Waypoint> ShortestPathBFS { get => shortestPathBFS;  }
 
     void Awake()
     {
         LoadWaypoints();
         FindPathBFS();
-        //StartCoroutine(PathFind());
     }
 
     private void FindPathBFS()
@@ -35,43 +36,29 @@ public class PathFinder : MonoBehaviour
         {
             var current = path.Dequeue();
             visited.Add(current);
-            ExploreNeighbours(ref endFound, path, visited, cameFrom, current);
-        }
-        if (!endFound)
-        {
-            Debug.LogWarning("Couldn't find end waypoint");
-        }
-        else
-        {
-            foreach (var wp in GetBFSPath(startWaypoint, endWaypoint, cameFrom))
+            foreach (var direction in directions) //Explore neighbours
             {
-                SetWaypointTopColor(wp, Color.black);
-                Debug.Log(wp);
-            }
-        }
-    }
-
-    private void ExploreNeighbours(ref bool endFound, Queue<Waypoint> path, HashSet<Waypoint> visited, Dictionary<Waypoint, Waypoint> cameFrom, Waypoint current)
-    {
-        foreach (var direction in directions)
-        {
-            grid.TryGetValue(current.GridPos + direction, out Waypoint next);
-            if (next != null)
-            {
-                if (next == endWaypoint)
+                grid.TryGetValue(current.GridPos + direction, out Waypoint next);
+                if (next != null)
                 {
-                    cameFrom.Add(next, current);
-                    endFound = true;
-                    break;
-                }
-                if (!visited.Contains(next))
-                {
-                    path.Enqueue(next);
-                    visited.Add(next);
-                    cameFrom.Add(next, current);
-                    SetWaypointTopColor(next, Color.yellow);
+                    if (next == endWaypoint)
+                    {
+                        cameFrom.Add(next, current);
+                        endFound = true;
+                        break;
+                    }
+                    if (!visited.Contains(next))
+                    {
+                        path.Enqueue(next);
+                        visited.Add(next);
+                        cameFrom.Add(next, current);
+                    }
                 }
             }
+        }
+        if (endFound)
+        {
+            shortestPathBFS = GetBFSPath(startWaypoint, endWaypoint, cameFrom);
         }
     }
 
@@ -167,12 +154,4 @@ public class PathFinder : MonoBehaviour
     {
         waypoint.SetTopColor(color);
     }
-
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
 }
