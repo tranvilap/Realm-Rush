@@ -13,53 +13,87 @@ public class PathFinder : MonoBehaviour
         Vector2.up, Vector2.down,
         Vector2.left, Vector2.right
     };
-    // Start is called before the first frame update
+
+
 
     void Awake()
     {
         LoadWaypoints();
         FindPathBFS();
-
+        //StartCoroutine(PathFind());
     }
 
     private void FindPathBFS()
     {
-        System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
-        stopwatch.Start();
         bool endFound = false;
         Queue<Waypoint> path = new Queue<Waypoint>();
         HashSet<Waypoint> visited = new HashSet<Waypoint>();
+        Dictionary<Waypoint, Waypoint> cameFrom = new Dictionary<Waypoint, Waypoint>();
 
         path.Enqueue(startWaypoint);
         while (path.Count > 0 && !endFound)
         {
-            var waypoint = path.Dequeue();
-            visited.Add(waypoint);
-            foreach (var direction in directions)
-            {
-                grid.TryGetValue(waypoint.GridPos + direction, out Waypoint next);
-                if (next != null)
-                {
-                    if (next == endWaypoint)
-                    {
-                        SetWaypointTopColor(next, Color.black);
-                        endFound = true;
-                        break;
-                    }
-                    if (!visited.Contains(next))
-                    {
-                        path.Enqueue(next);
-                        SetWaypointTopColor(next, Color.yellow);
-                    }
-                }
-            }
+            var current = path.Dequeue();
+            visited.Add(current);
+            ExploreNeighbours(ref endFound, path, visited, cameFrom, current);
         }
-        stopwatch.Stop();
         if (!endFound)
         {
             Debug.LogWarning("Couldn't find end waypoint");
         }
-        Debug.LogError(stopwatch.Elapsed.TotalSeconds);
+        else
+        {
+            foreach (var wp in GetBFSPath(startWaypoint, endWaypoint, cameFrom))
+            {
+                SetWaypointTopColor(wp, Color.black);
+                Debug.Log(wp);
+            }
+        }
+    }
+
+    private void ExploreNeighbours(ref bool endFound, Queue<Waypoint> path, HashSet<Waypoint> visited, Dictionary<Waypoint, Waypoint> cameFrom, Waypoint current)
+    {
+        foreach (var direction in directions)
+        {
+            grid.TryGetValue(current.GridPos + direction, out Waypoint next);
+            if (next != null)
+            {
+                if (next == endWaypoint)
+                {
+                    cameFrom.Add(next, current);
+                    endFound = true;
+                    break;
+                }
+                if (!visited.Contains(next))
+                {
+                    path.Enqueue(next);
+                    visited.Add(next);
+                    cameFrom.Add(next, current);
+                    SetWaypointTopColor(next, Color.yellow);
+                }
+            }
+        }
+    }
+
+    List<Waypoint> GetBFSPath(Waypoint startWaypoint, Waypoint endWaypoint, Dictionary<Waypoint, Waypoint> cameFrom)
+    {
+        List<Waypoint> result = new List<Waypoint>();
+        Waypoint current = endWaypoint;
+        result.Add(endWaypoint);
+        while (current != startWaypoint)
+        {
+            if (!cameFrom.TryGetValue(current, out current))
+            {
+                result = null;
+                break;
+            }
+            result.Add(current);
+        }
+        if (result != null)
+        {
+            result.Reverse();
+        }
+        return result;
     }
 
     private bool CheckStartEndWaypoints()
@@ -76,6 +110,7 @@ public class PathFinder : MonoBehaviour
         }
         return true;
     }
+
     private void LoadWaypoints()
     {
         if (!CheckStartEndWaypoints()) { return; }
