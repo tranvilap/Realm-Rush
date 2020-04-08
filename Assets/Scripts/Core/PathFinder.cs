@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Map))]
 public class PathFinder : MonoBehaviour
 {
-    [SerializeField] Waypoint startWaypoint = null, endWaypoint = null;
-    [SerializeField] Color startWaypointColor = Color.red;
-    [SerializeField] Color endWaypointColor = Color.green;
+    Map map;
+    Waypoint startWaypoint = null, endWaypoint = null;
     Dictionary<Vector2, Waypoint> grid = new Dictionary<Vector2, Waypoint>();
     readonly Vector2[] directions = new Vector2[]
     {
@@ -20,6 +20,9 @@ public class PathFinder : MonoBehaviour
 
     void Awake()
     {
+        map = GetComponent<Map>();
+        startWaypoint = map.StartWaypoint;
+        endWaypoint = map.EndWaypoint;
         LoadWaypoints();
         FindPathBFS();
     }
@@ -122,7 +125,7 @@ public class PathFinder : MonoBehaviour
         {
             //Set top's color for Start Waypoint
             grid.TryGetValue(startGridPos, out Waypoint start);
-            SetWaypointTopColor(start, startWaypointColor);
+            SetWaypointTopColor(start, map.StartWaypointColor);
             startWaypoint = start;
         }
         else
@@ -134,7 +137,7 @@ public class PathFinder : MonoBehaviour
         {
             //Set top's color for End Waypoint
             grid.TryGetValue(endGridPos, out Waypoint end);
-            SetWaypointTopColor(end, endWaypointColor);
+            SetWaypointTopColor(end, map.EndWaypointColor);
             endWaypoint = end;
         }
         else
