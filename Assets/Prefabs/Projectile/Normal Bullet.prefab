@@ -4816,7 +4816,7 @@ GameObject:
   - component: {fileID: 6867447473776251853}
   - component: {fileID: 1575606912649151839}
   m_Layer: 9
-  m_Name: Projectile Crys
+  m_Name: Normal Bullet
   m_TagString: Projectile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

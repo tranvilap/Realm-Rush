@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class CannonGun : TowerGun
+public class CannonTower : ShootingTower
 {
     [SerializeField] Transform cannonTopToPan = null;
-    [SerializeField] Transform currentTargetEnemy = null;
     [SerializeField] Transform shootingPoint = null;
 
+    Transform currentTargetEnemy = null;
     float timer = 0f;
     // Start is called before the first frame update
 
@@ -17,8 +17,8 @@ public class CannonGun : TowerGun
     void Update()
     {
         if (cannonTopToPan == null) { return; }
+        SeekTarget();
         if (currentTargetEnemy == null) { return; }
-        SeekEnemy();
         Shoot();
 
     }
@@ -39,7 +39,7 @@ public class CannonGun : TowerGun
             var bullet = PrepareBullet();
             if (bullet != null)
             {
-                bullet.ShootTo(currentTargetEnemy, BulletSpeed, Power);
+                bullet.AimTo(currentTargetEnemy, BulletSpeed, Power);
             }
             timer = 0f;
         }
@@ -49,8 +49,17 @@ public class CannonGun : TowerGun
         }
     }
 
-    protected override void SeekEnemy()
+    protected override void SeekTarget()
     {
-        cannonTopToPan.LookAt(currentTargetEnemy);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRadius, WhatIsTarger);
+        if (hitColliders.Length > 0)
+        {
+            currentTargetEnemy = hitColliders[0].transform;
+            cannonTopToPan.LookAt(currentTargetEnemy);
+        }
+        else
+        {
+            currentTargetEnemy = null;
+        }
     }
 }

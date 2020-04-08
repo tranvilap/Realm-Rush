@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7399490433178380045}
   - component: {fileID: 241563251782907308}
   m_Layer: 0
-  m_Name: Tower
+  m_Name: Tower Cannon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,11 +75,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13d3e51b94e14db468bb1872faecf64a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  firingRate: 0.1
-  bulletSpeed: 5
+  effectRadius: 2
+  whatIsTarget:
+    serializedVersion: 2
+    m_Bits: 1024
+  firingRate: 1
+  bulletSpeed: 2
   power: 1
   cannonTopToPan: {fileID: 8697356176349041841}
-  currentTargetEnemy: {fileID: 0}
   shootingPoint: {fileID: 5706450072248095178}
 --- !u!1 &4576633524660694841
 GameObject:

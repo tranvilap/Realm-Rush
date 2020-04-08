@@ -6517,18 +6517,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 241563251782907308, guid: 8ec06937e78356a4b95f64e40bea4b63,
         type: 3}
-      propertyPath: currentTargetEnemy
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 241563251782907308, guid: 8ec06937e78356a4b95f64e40bea4b63,
-        type: 3}
       propertyPath: firingRate
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 241563251782907308, guid: 8ec06937e78356a4b95f64e40bea4b63,
         type: 3}
-      propertyPath: bulletSpeed
-      value: 2
+      propertyPath: power
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3736152526328824359, guid: 8ec06937e78356a4b95f64e40bea4b63,
         type: 3}

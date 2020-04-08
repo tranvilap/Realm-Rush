@@ -11,15 +11,43 @@ public class Bullet : MonoBehaviour
 
     protected float speed = 7f;
     protected float bulletPower = 1f;
+    
     public Transform target = null;
 
-    float timer = 0f;
+    protected float timer = 0f;
+    protected Vector3 targetPos;
 
-    Vector3 targetPos;
+    ShootingTower tower = null;
 
     public float BulletPower { get => bulletPower; set => bulletPower = value; }
 
-    public void ShootTo(Transform enemy, float bulletSpeed, float bulletPower)
+    void Start()
+    {
+        tower = GetComponentInParent<ShootingTower>();
+        if (tower != null)
+        {
+            ChangePower(tower.Power);
+        }
+    }
+
+    protected virtual void Update()
+    {
+        if(target == null)
+        {
+            gameObject.SetActive(false);
+            return;
+        }
+        if (autoDestroy)
+        {
+            timer += Time.deltaTime;
+            if (timer >= destroyAfter)
+            {
+                gameObject.SetActive(false);
+            }
+        }
+    }
+    
+    public void AimTo(Transform enemy, float bulletSpeed, float bulletPower)
     {
         this.target = enemy;
         this.speed = bulletSpeed;
@@ -30,37 +58,14 @@ public class Bullet : MonoBehaviour
         targetPos = enemy.position;
     }
 
-    void Update()
+    protected virtual void OnTriggerEnter(Collider other)
     {
-        if (target == null) { return; }
-        FlyToTarget();
-    }
-
-    void FlyToTarget()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-        if (autoDestroy)
-        {
-            timer += Time.deltaTime;
-            if (timer >= destroyAfter)
-            {
-                gameObject.SetActive(false);
-            }
-        }
-    }
-
-    void OnTriggerEnter(Collider other)
-    {
-        StartCoroutine(OnHitCollider());
-        if (other.CompareTag("Enemy"))
-        {
-            other.GetComponent<Enemy>().GetHit(BulletPower);
-        }
-    }
-
-    IEnumerator OnHitCollider()
-    {
+        StartCoroutine(HitExplosion());
         target = null;
+    }
+
+    IEnumerator HitExplosion()
+    {
         projectileParticle.gameObject.SetActive(false);
         onHitParticle.Play();
         yield return new WaitForSeconds(onHitParticle.main.duration);
@@ -71,9 +76,15 @@ public class Bullet : MonoBehaviour
     {
         timer = 0f;
     }
-    private void OnEnable()
+
+    protected virtual void OnEnable()
     {
         projectileParticle.gameObject.SetActive(true);
+    }
+
+    public void ChangePower(float amount)
+    {
+        BulletPower = amount;
     }
 }
 
