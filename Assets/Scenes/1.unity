@@ -4576,6 +4576,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6c229058091324e4fbfafdfa76c104f8, type: 3}
+--- !u!1 &1499145948 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5257507037226157052, guid: c3166e1e9ab5fff41ab78ce58ce26e5a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5257507035727029536}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1499145949
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499145948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f8150dcdfb2f424a9a73844ae52c7da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waves:
+    array:
+    - enemyNumber: 3
+      enemyPrefab: {fileID: 451340870617273051, guid: 57201016ab43fa745a7b0f9550f88bc8,
+        type: 3}
+      timeDelayBetweenSpawns: 0.3
+      timeDelayNextWave: 1
+    - enemyNumber: 3
+      enemyPrefab: {fileID: 451340870617273051, guid: 57201016ab43fa745a7b0f9550f88bc8,
+        type: 3}
+      timeDelayBetweenSpawns: 0.3
+      timeDelayNextWave: 1
 --- !u!1001 &1510864294
 PrefabInstance:
   m_ObjectHideFlags: 0
