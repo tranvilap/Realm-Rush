@@ -28,10 +28,11 @@ public class CannonGun : TowerGun
         var bullet = ammoPooler.GetBullet();
         if (bullet == null) { return null; }
         bullet.transform.position = shootingPoint.position;
+        bullet.gameObject.SetActive(true);
         return bullet.GetComponent<Bullet>();
     }
 
-    protected override void Shoot()
+    public override void Shoot()
     {
         if (timer >= FiringRate)
         {

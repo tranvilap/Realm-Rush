@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(BulletPooler))]
-public abstract class TowerGun : MonoBehaviour
+public abstract class TowerGun : MonoBehaviour, IShootable
 {
     [SerializeField] private float firingRate = 0.3f;
     [SerializeField] private float bulletSpeed = 2f;
@@ -19,6 +19,6 @@ public abstract class TowerGun : MonoBehaviour
         ammoPooler = GetComponent<BulletPooler>();
     }
 
-    protected abstract void Shoot();
     protected abstract void SeekEnemy();
+    public abstract void Shoot();
 }

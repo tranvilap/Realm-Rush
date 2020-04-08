@@ -4883,7 +4883,7 @@ MonoBehaviour:
   projectileParticle: {fileID: 4270640087640993766}
   onHitParticle: {fileID: 4712807282193341947}
   autoDestroy: 1
-  destroyAfter: 3
+  destroyAfter: 5
   target: {fileID: 0}
 --- !u!1 &5591906917480842905
 GameObject:

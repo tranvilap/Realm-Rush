@@ -24,10 +24,10 @@ public class Bullet : MonoBehaviour
         this.target = enemy;
         this.speed = bulletSpeed;
         this.bulletPower = bulletPower;
+
         if (enemy == null) { return; }
         transform.LookAt(enemy);
         targetPos = enemy.position;
-        gameObject.SetActive(true);
     }
 
     void Update()
@@ -76,3 +76,4 @@ public class Bullet : MonoBehaviour
         projectileParticle.gameObject.SetActive(true);
     }
 }
+
