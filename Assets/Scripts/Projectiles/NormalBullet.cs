@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class NormalBullet : Bullet
 {
-    [SerializeField] protected bool alreadyHit = false;
+    protected bool alreadyHit = false;
+
     protected override void Update()
     {
         base.Update();

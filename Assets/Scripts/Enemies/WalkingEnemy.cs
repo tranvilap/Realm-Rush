@@ -9,18 +9,14 @@ public class WalkingEnemy : Enemy
     private void Update()
     {
         Vector3 pos = transform.position;
-        if(pos.x == endWaypoint.GridPos.x && pos.z == endWaypoint.GridPos.y)
-        {
-            if (!reachedGoal)
-            {
-                ReachGoal();
-            }
-        }
+        CheckIfReachGoal(pos);
     }
+
     public override void Die()
     {
         Destroy(gameObject);
     }
+
     public override void GetHit(float damage)
     {
         healthPoint -= damage;
@@ -29,6 +25,23 @@ public class WalkingEnemy : Enemy
             Die();
         }
     }
+
+    public override void ReachGoal()
+    {
+        StartCoroutine(GoalReached());
+    }
+
+    private void CheckIfReachGoal(Vector3 pos)
+    {
+        if (pos.x == endWaypoint.GridPos.x && pos.z == endWaypoint.GridPos.y)
+        {
+            if (!reachedGoal)
+            {
+                ReachGoal();
+            }
+        }
+    }
+
     IEnumerator GoalReached()
     {
         Debug.Log(gameObject + " reached goal");
@@ -36,10 +49,5 @@ public class WalkingEnemy : Enemy
         Player.instance.TakeDamage(damage);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
-    }
-
-    public override void ReachGoal()
-    {
-        StartCoroutine(GoalReached());
     }
 }

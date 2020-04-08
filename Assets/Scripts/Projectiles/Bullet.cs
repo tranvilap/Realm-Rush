@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour
     
     public Transform target = null;
 
-    protected float timer = 0f;
+    protected float autoDestroyTimer = 0f;
     protected Vector3 targetPos;
 
     ShootingTower tower = null;
@@ -39,8 +39,8 @@ public class Bullet : MonoBehaviour
         }
         if (autoDestroy)
         {
-            timer += Time.deltaTime;
-            if (timer >= destroyAfter)
+            autoDestroyTimer += Time.deltaTime;
+            if (autoDestroyTimer >= destroyAfter)
             {
                 gameObject.SetActive(false);
             }
@@ -72,13 +72,10 @@ public class Bullet : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    void OnDisable()
-    {
-        timer = 0f;
-    }
 
     protected virtual void OnEnable()
     {
+        autoDestroyTimer = 0f;
         projectileParticle.gameObject.SetActive(true);
     }
 

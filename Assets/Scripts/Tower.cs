@@ -10,12 +10,12 @@ public abstract class Tower : MonoBehaviour
     public float EffectRadius { get => effectRadius; set => effectRadius = value; }
     public LayerMask WhatIsTarger { get => whatIsTarget; set => whatIsTarget = value; }
 
-    protected BulletPooler ammoPooler;
+    protected BulletPooler bulletPooler;
 
 
     protected virtual void Start()
     {
-        ammoPooler = GetComponent<BulletPooler>();
+        bulletPooler = GetComponent<BulletPooler>();
     }
     protected abstract void SeekTarget();
 

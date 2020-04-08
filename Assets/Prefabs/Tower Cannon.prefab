@@ -79,9 +79,9 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 1024
-  firingRate: 1
+  firingRate: 0.1
   bulletSpeed: 2
-  power: 1
+  power: 10
   cannonTopToPan: {fileID: 8697356176349041841}
   shootingPoint: {fileID: 5706450072248095178}
 --- !u!1 &4576633524660694841

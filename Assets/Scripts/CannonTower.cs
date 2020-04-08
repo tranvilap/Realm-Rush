@@ -6,7 +6,7 @@ using UnityEngine;
 public class CannonTower : ShootingTower
 {
     [SerializeField] Transform cannonTopToPan = null;
-    [SerializeField] Transform shootingPoint = null;
+
 
     Transform currentTargetEnemy = null;
     float timer = 0f;
@@ -23,14 +23,6 @@ public class CannonTower : ShootingTower
 
     }
 
-    private Bullet PrepareBullet()
-    {
-        var bullet = ammoPooler.GetBullet();
-        if (bullet == null) { return null; }
-        bullet.transform.position = shootingPoint.position;
-        bullet.gameObject.SetActive(true);
-        return bullet.GetComponent<Bullet>();
-    }
 
     public override void Shoot()
     {
