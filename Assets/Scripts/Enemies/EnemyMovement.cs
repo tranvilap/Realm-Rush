@@ -7,6 +7,7 @@ public abstract class EnemyMovement : MonoBehaviour, IEnemyMove
 {
     [SerializeField] protected float movingSpeed = 5f;
     protected PathFinder pathFinder = null;
+
     protected virtual void Start()
     {
         pathFinder = FindObjectOfType<PathFinder>();
@@ -18,4 +19,5 @@ public abstract class EnemyMovement : MonoBehaviour, IEnemyMove
     }
 
     public abstract void MoveToGoal();
+
 }
