@@ -20,11 +20,16 @@ public class PathFinder : MonoBehaviour
 
     void Awake()
     {
+        LoadMap();
+        LoadWaypoints();
+        FindPathBFS();
+    }
+
+    private void LoadMap()
+    {
         map = GetComponent<Map>();
         startWaypoint = map.StartWaypoint;
         endWaypoint = map.EndWaypoint;
-        LoadWaypoints();
-        FindPathBFS();
     }
 
     private void FindPathBFS()
