@@ -30,7 +30,8 @@ public class WalkingEnemy : Enemy
     public override void ReachGoal()
     {
         base.ReachGoal();
-        StartCoroutine(GoalReached());
+        reachedGoal = true;
+        Destroy(gameObject, 0.5f);
     }
 
     private void CheckIfReachGoal(Vector3 pos)
@@ -44,10 +45,5 @@ public class WalkingEnemy : Enemy
         }
     }
 
-    IEnumerator GoalReached()
-    {
-        reachedGoal = true;
-        yield return new WaitForSeconds(0.5f);
-        Destroy(gameObject);
-    }
+
 }
