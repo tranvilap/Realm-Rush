@@ -66,11 +66,11 @@ public class PathFinder : MonoBehaviour
         }
         if (endFound)
         {
-            shortestPathBFS = GetBFSPath(startWaypoint, endWaypoint, cameFrom);
+            shortestPathBFS = BreadcrumbTrack(startWaypoint, endWaypoint, cameFrom);
         }
     }
 
-    List<Waypoint> GetBFSPath(Waypoint startWaypoint, Waypoint endWaypoint, Dictionary<Waypoint, Waypoint> cameFrom)
+    List<Waypoint> BreadcrumbTrack(Waypoint startWaypoint, Waypoint endWaypoint, Dictionary<Waypoint, Waypoint> cameFrom)
     {
         List<Waypoint> result = new List<Waypoint>();
         Waypoint current = endWaypoint;

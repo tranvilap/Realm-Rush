@@ -14,6 +14,7 @@ public class WalkingEnemy : Enemy
 
     public override void Die()
     {
+        base.Die();
         Destroy(gameObject);
     }
 
@@ -28,6 +29,7 @@ public class WalkingEnemy : Enemy
 
     public override void ReachGoal()
     {
+        base.ReachGoal();
         StartCoroutine(GoalReached());
     }
 
@@ -44,9 +46,7 @@ public class WalkingEnemy : Enemy
 
     IEnumerator GoalReached()
     {
-        Debug.Log(gameObject + " reached goal");
         reachedGoal = true;
-        Player.instance.TakeDamage(damage);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }

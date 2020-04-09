@@ -1740,6 +1740,7 @@ GameObject:
   - component: {fileID: 600202694}
   - component: {fileID: 600202695}
   - component: {fileID: 600202693}
+  - component: {fileID: 600202696}
   m_Layer: 0
   m_Name: Main Game Controller
   m_TagString: Untagged
@@ -1789,6 +1790,18 @@ MonoBehaviour:
   waves:
   - {fileID: 11400000, guid: 6ebcf3c5a7023044cbc22e735abd7005, type: 2}
   - {fileID: 11400000, guid: f6a2644bf5d061b4d861b5a27c2c1405, type: 2}
+--- !u!114 &600202696
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 600202692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d861afb89ffaa4439600b94ebd75787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &618301948
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6517,13 +6530,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 241563251782907308, guid: 8ec06937e78356a4b95f64e40bea4b63,
         type: 3}
-      propertyPath: firingRate
-      value: 0.1
+      propertyPath: bulletSpeed
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 241563251782907308, guid: 8ec06937e78356a4b95f64e40bea4b63,
         type: 3}
-      propertyPath: power
-      value: 10
+      propertyPath: firingRate
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3736152526328824359, guid: 8ec06937e78356a4b95f64e40bea4b63,
         type: 3}
@@ -6594,6 +6607,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2314835262863645036, guid: c3166e1e9ab5fff41ab78ce58ce26e5a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314835262863645037, guid: c3166e1e9ab5fff41ab78ce58ce26e5a,
+        type: 3}
+      propertyPath: m_Name
+      value: X:2, Y:0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2314835264109068775, guid: c3166e1e9ab5fff41ab78ce58ce26e5a,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5257507037226157052, guid: c3166e1e9ab5fff41ab78ce58ce26e5a,
         type: 3}
       propertyPath: m_Name

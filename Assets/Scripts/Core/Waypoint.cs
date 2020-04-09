@@ -5,7 +5,6 @@ using UnityEngine;
 public class Waypoint : MonoBehaviour
 {
     [SerializeField] [Min(1f)] private const float gridSize = 1f;
-
     public float GridSize
     {
         get

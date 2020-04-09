@@ -14,6 +14,7 @@ public class TileSnapMovement : EnemyMovement
         Debug.Log("Starting patrol...");
         foreach (var waypoint in path)
         {
+            transform.LookAt(waypoint.transform);
             transform.position = waypoint.transform.position;
             yield return new WaitForSeconds(movingTime);
         }
