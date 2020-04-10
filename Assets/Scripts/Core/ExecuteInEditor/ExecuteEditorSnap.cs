@@ -8,6 +8,15 @@ namespace ExecuteEditor
     {
         [SerializeField] [Min(1f)] float gridSize = 1f;
         private Vector3 snapPos = new Vector3();
+
+        private void Start()
+        {
+            if (Application.isPlaying)
+            {
+                this.enabled = false;
+            }
+        }
+
         // Update is called once per frame
         void Update()
         {

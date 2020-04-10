@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnPoint : MonoBehaviour
+public class PlaceTowerPoint : MonoBehaviour
 {
     [SerializeField] bool isPlacable = true;
     GameObject placingTower = null;
@@ -10,9 +10,9 @@ public class SpawnPoint : MonoBehaviour
 
     public bool IsPlacable { get => isPlacable; set => isPlacable = value; }
 
-    public void ShowPreviewTower(GameObject tower)
+    public void ShowPreviewTower(GameObject previewTower)
     {
-        previewingTower = Instantiate(tower, transform.position, Quaternion.identity);
+        previewingTower = Instantiate(previewTower, transform.position, Quaternion.identity);
     }
 
     public void HidePreviewTower()

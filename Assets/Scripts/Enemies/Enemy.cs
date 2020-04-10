@@ -7,6 +7,12 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected float healthPoint = 10f;
     [SerializeField] protected int damage = 10;
+    [SerializeField] protected ParticleSystem dieParticle = null;
+    [SerializeField] protected ParticleSystem reachedGoalParticle = null;
+
+    public bool isHitable = true;
+    public bool isDead = false;
+
     protected Waypoint endWaypoint;
 
     public float HealthPoint { get => healthPoint; set => healthPoint = value; }
@@ -23,6 +29,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Die()
     {
+        isDead = true;
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemyDie(this));

@@ -15,17 +15,17 @@ MonoBehaviour:
   minorWaves:
     array:
     - enemyNumber: 3
-      enemyPrefab: {fileID: 451340870617273051, guid: 3ce2ae28520edc0489449d6c0d9bad31,
+      enemyPrefab: {fileID: 451340870617273051, guid: 57201016ab43fa745a7b0f9550f88bc8,
         type: 3}
       timeDelayBetweenSpawns: 2
       timeDelayNextWave: 5
     - enemyNumber: 5
-      enemyPrefab: {fileID: 451340870617273051, guid: 3ce2ae28520edc0489449d6c0d9bad31,
+      enemyPrefab: {fileID: 451340870617273051, guid: 57201016ab43fa745a7b0f9550f88bc8,
         type: 3}
       timeDelayBetweenSpawns: 0.2
       timeDelayNextWave: 10
     - enemyNumber: 10
-      enemyPrefab: {fileID: 451340870617273051, guid: 3ce2ae28520edc0489449d6c0d9bad31,
+      enemyPrefab: {fileID: 451340870617273051, guid: 57201016ab43fa745a7b0f9550f88bc8,
         type: 3}
       timeDelayBetweenSpawns: 0.2
       timeDelayNextWave: 10

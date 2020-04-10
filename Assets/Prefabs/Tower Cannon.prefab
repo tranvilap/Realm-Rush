@@ -82,8 +82,8 @@ MonoBehaviour:
   firingRate: 0.1
   bulletSpeed: 2
   power: 10
-  cannonTopToPan: {fileID: 8697356176349041841}
   shootingPoint: {fileID: 5706450072248095178}
+  cannonTopToPan: {fileID: 8697356176349041841}
 --- !u!1 &4576633524660694841
 GameObject:
   m_ObjectHideFlags: 0
