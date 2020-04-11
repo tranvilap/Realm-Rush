@@ -1602,6 +1602,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bluey
       objectReference: {fileID: 0}
+    - target: {fileID: 451340870617273051, guid: 57201016ab43fa745a7b0f9550f88bc8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3940409629010262419, guid: 57201016ab43fa745a7b0f9550f88bc8,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2494,7 +2499,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 700257651}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 341932256}
+        m_MethodName: SpawNextWave
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &700257651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7720,21 +7736,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 241563251782907308, guid: 8ec06937e78356a4b95f64e40bea4b63,
-        type: 3}
-      propertyPath: bulletSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 241563251782907308, guid: 8ec06937e78356a4b95f64e40bea4b63,
-        type: 3}
-      propertyPath: firingRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 241563251782907308, guid: 8ec06937e78356a4b95f64e40bea4b63,
-        type: 3}
-      propertyPath: power
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3736152526328824359, guid: 8ec06937e78356a4b95f64e40bea4b63,
         type: 3}
       propertyPath: m_Name

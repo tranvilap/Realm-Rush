@@ -6,39 +6,21 @@ using UnityEngine;
 public class CannonTower : ShootingTower
 {
     [SerializeField] Transform cannonTopToPan = null;
-
-
-    Transform currentTargetEnemy = null;
-    float timer = 0f;
-    // Start is called before the first frame update
-
-
+   
+    
     // Update is called once per frame
     void Update()
     {
         if (cannonTopToPan == null) { return; }
         SeekTarget();
         if (currentTargetEnemy == null) { return; }
-        Shoot();
+        Shoot(currentTargetEnemy);
 
     }
-
-
-    public override void Shoot()
+    
+    public override void Shoot(Transform target)
     {
-        if (timer >= FiringRate)
-        {
-            var bullet = PrepareBullet();
-            if (bullet != null)
-            {
-                bullet.AimTo(currentTargetEnemy, BulletSpeed, Power);
-            }
-            timer = 0f;
-        }
-        else
-        {
-            timer += Time.deltaTime;
-        }
+        base.Shoot(target);
     }
 
     protected override void SeekTarget()
@@ -53,5 +35,15 @@ public class CannonTower : ShootingTower
         {
             currentTargetEnemy = null;
         }
+    }
+
+    public override bool Upgrade() //Not Update
+    {
+        if (!base.Upgrade()) { return false; }
+        //Todo write upgrade logic
+        firingRate -= 0.2f;
+        bulletSpeed += 0.2f;
+        power += 1f;
+        return true;
     }
 }

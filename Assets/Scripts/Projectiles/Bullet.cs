@@ -26,7 +26,7 @@ public class Bullet : MonoBehaviour
         tower = GetComponentInParent<ShootingTower>();
         if (tower != null)
         {
-            ChangePower(tower.Power);
+            ChangePower(tower.power);
         }
     }
 

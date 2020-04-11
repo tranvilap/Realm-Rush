@@ -79,9 +79,12 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 1024
-  firingRate: 0.1
-  bulletSpeed: 2
-  power: 10
+  summonPrice: 5
+  upgradeLevelCap: 3
+  upgradePrices: 0a000000140000001e000000
+  firingRate: 1
+  bulletSpeed: 1
+  power: 0
   shootingPoint: {fileID: 5706450072248095178}
   cannonTopToPan: {fileID: 8697356176349041841}
 --- !u!1 &4576633524660694841

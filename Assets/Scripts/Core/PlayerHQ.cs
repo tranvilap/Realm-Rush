@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerHQ : MonoBehaviour, IEnemyEvent
+public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent
 {
     [SerializeField] int hqHealth = 10;
     [SerializeField] private int money = 0;
@@ -76,12 +76,25 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent
 
     private void ChangeMoney(int amount)
     {
-        Mathf.Min(0, amount);
+        if(amount <= 0)
+        {
+            amount = 0;
+        }
+        money = amount;
         OnChangeMoneyEvent?.Invoke(amount);
     }
 
     private void OnPlacingTowerEvent(TowerData towerData)
     {
         SubtractMoney(towerData.price);
+    }
+
+    public void OnSellingTower(Tower tower)
+    {
+    }
+
+    public void OnUpgradeTower(Tower tower, int moneyToUpgrade)
+    {
+        SubtractMoney(moneyToUpgrade);
     }
 }
