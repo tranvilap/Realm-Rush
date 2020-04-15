@@ -181,9 +181,9 @@ GameObject:
   - component: {fileID: 1959200374901854873}
   - component: {fileID: 114264498919039620}
   - component: {fileID: 466855493}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Friendly Cube
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -242,7 +242,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d384984336ddf447ba082d0a641b9f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlacable: 1
+  isPlaceable: 1
 --- !u!1001 &4241021016901225528
 PrefabInstance:
   m_ObjectHideFlags: 0

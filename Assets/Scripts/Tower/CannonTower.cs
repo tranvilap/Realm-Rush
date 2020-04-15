@@ -37,13 +37,13 @@ public class CannonTower : ShootingTower
         }
     }
 
-    public override bool Upgrade() //Not Update
+    public override void Upgrade() //Not Update
     {
-        if (!base.Upgrade()) { return false; }
+        if (!CheckUpgradeable()) { return; }
+        base.Upgrade();
         //Todo write upgrade logic
         firingRate -= 0.2f;
         bulletSpeed += 0.2f;
         power += 1f;
-        return true;
     }
 }

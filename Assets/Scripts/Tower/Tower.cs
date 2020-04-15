@@ -8,6 +8,7 @@ public abstract class Tower : MonoBehaviour
     [Header("Basic Info")]
     [SerializeField] private float effectRadius = 2f;
     [SerializeField] LayerMask whatIsTarget;
+    [SerializeField] Canvas menuCanvas = null;
 
     [Tooltip("Must be assign with the value in Tower Data price, can be change in run time")]
     [SerializeField] private int summonPrice = 0;
@@ -17,16 +18,20 @@ public abstract class Tower : MonoBehaviour
     public float EffectRadius { get => effectRadius; set => effectRadius = value; }
     public LayerMask WhatIsTarger { get => whatIsTarget; set => whatIsTarget = value; }
     public virtual int SellingPrice { get => (int)(towerTotalValue * 0.8f); }
+    public Canvas MenuCanvas { get => menuCanvas; set => menuCanvas = value; }
 
     protected BulletPooler bulletPooler;
     protected PlayerHQ playerHQ;
     public TowerPlacePoint placingPoint;
-    
+
+    protected Camera mainCamera;
+
     protected virtual void Start()
     {
         bulletPooler = GetComponent<BulletPooler>();
         playerHQ = FindObjectOfType<PlayerHQ>();
         towerTotalValue = summonPrice;
+        //CloseTowerMenu();
     }
     
     public virtual void PlaceTowerAt(TowerPlacePoint point)
@@ -34,7 +39,7 @@ public abstract class Tower : MonoBehaviour
         placingPoint = point;
     }
 
-    public void SellTower()
+    public virtual void SellTower()
     {
         foreach (var go in EventSystemListener.main.Listeners)
         {
@@ -42,6 +47,16 @@ public abstract class Tower : MonoBehaviour
         }
         placingPoint.IsPlaceable = true;
         Destroy(gameObject);
+    }
+
+    public virtual void OpenTowerMenu()
+    {
+        MenuCanvas.gameObject.SetActive(true);
+    }
+
+    public virtual void CloseTowerMenu()
+    {
+        MenuCanvas.gameObject.SetActive(false);
     }
 
     protected abstract void SeekTarget();
@@ -53,12 +68,4 @@ public abstract class Tower : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, effectRadius);
     }
 
-    private void OnMouseOver()
-    {
-        if (Input.GetMouseButtonUp(0))
-        {
-            Debug.Log("Sell tower");
-            SellTower();
-        }
-    }
 }

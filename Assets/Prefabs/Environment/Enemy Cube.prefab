@@ -103,9 +103,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4260040049543050750}
   - component: {fileID: 114610768750989734}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Enemy Cube
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

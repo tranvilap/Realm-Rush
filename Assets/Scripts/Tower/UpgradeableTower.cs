@@ -11,9 +11,7 @@ public abstract class UpgradeableTower : Tower
     [SerializeField]
     [Tooltip("List size must be equal to Upgrade Level Cap. For describing upgrade price for each level")]
     List<int> upgradePrices = new List<int>();
-
-
-
+    
     private int currentTowerUpgradeLevel = 0;
     public int CurrentTowerUpgradeLevel
     {
@@ -42,7 +40,19 @@ public abstract class UpgradeableTower : Tower
         }
     }
 
-    public virtual bool Upgrade()
+    public virtual void Upgrade()
+    {
+        if (!CheckUpgradeable()) { return; }
+        towerTotalValue += MoneyToNextUpgrade;
+        foreach (var go in EventSystemListener.main.Listeners)
+        {
+            ExecuteEvents.Execute<IUpgradeTowerEvent>(go, null, (x, y) => x.OnUpgradeTower(this, MoneyToNextUpgrade));
+        }
+        CurrentTowerUpgradeLevel++;
+        
+    }
+
+    protected virtual bool CheckUpgradeable()
     {
         if (CurrentTowerUpgradeLevel >= upgradeLevelCap)
         {
@@ -54,12 +64,6 @@ public abstract class UpgradeableTower : Tower
             Debug.LogWarning("Not enough money to upgrade this tower", gameObject);
             return false;
         }
-        towerTotalValue += MoneyToNextUpgrade;
-        foreach (var go in EventSystemListener.main.Listeners)
-        {
-            ExecuteEvents.Execute<IUpgradeTowerEvent>(go, null, (x, y) => x.OnUpgradeTower(this, MoneyToNextUpgrade));
-        }
-        CurrentTowerUpgradeLevel++;
         return true;
     }
 }

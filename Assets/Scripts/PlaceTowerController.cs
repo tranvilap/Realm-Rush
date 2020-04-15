@@ -72,4 +72,13 @@ public class PlaceTowerController : MonoBehaviour
     {
         choosingTowerData = null;
     }
+
+    public void CeasePlacingTower()
+    {
+        if(choosingSpawpoint != null)
+        {
+            choosingSpawpoint.HidePreviewTower();
+        }
+        choosingSpawpoint = null;
+    }
 }
