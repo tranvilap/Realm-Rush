@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 public class PlaceTowerController : MonoBehaviour
 {
-    public enum PLACE_TOWER_FAIL_REASON { NOT_ENOUGH_MONEY}
+    public enum PLACE_TOWER_FAIL_REASON { NOT_ENOUGH_MONEY, UNPLACEABLE_POINT }
 
     public delegate void OnSuccessPlacingTower(TowerData tower);
     public event OnSuccessPlacingTower SuccessPlacingTowerEvent;
@@ -14,7 +14,7 @@ public class PlaceTowerController : MonoBehaviour
     private TowerPlacePoint choosingSpawpoint = null;
     PlayerHQ playerHQ;
 
-    public TowerData ChoosingTowerData { get => choosingTowerData;}
+    public TowerData ChoosingTowerData { get => choosingTowerData; }
 
     private void Start()
     {
@@ -36,27 +36,22 @@ public class PlaceTowerController : MonoBehaviour
                     choosingSpawpoint = placePoint;
                     choosingSpawpoint.ShowPreviewTower(choosingTowerData.towerPreviewPrefab);
                 }
-                if (Input.GetMouseButton(0))
-                {
-                    PlaceTower(placePoint, choosingTowerData);
-                }
-            }
-        }
-        else
-        {
-            if (choosingSpawpoint != null)
-            {
-                choosingSpawpoint.HidePreviewTower();
             }
         }
     }
 
     private void PlaceTower(TowerPlacePoint placePoint, TowerData towerData)
     {
-        if(playerHQ.Money < towerData.price)
+        if (playerHQ.Money < towerData.price)
         {
             Debug.LogWarning("Not enough money");
             FailedPlacingTowerEvent?.Invoke(towerData, PLACE_TOWER_FAIL_REASON.NOT_ENOUGH_MONEY);
+            return;
+        }
+        if(!placePoint.IsPlaceable)
+        {
+            Debug.LogWarning("This point is unplaceable");
+            FailedPlacingTowerEvent?.Invoke(towerData, PLACE_TOWER_FAIL_REASON.UNPLACEABLE_POINT);
             return;
         }
         placePoint.BuildTower(towerData.towerPrefab);
@@ -75,10 +70,18 @@ public class PlaceTowerController : MonoBehaviour
 
     public void CeasePlacingTower()
     {
-        if(choosingSpawpoint != null)
+        if (choosingSpawpoint != null)
         {
             choosingSpawpoint.HidePreviewTower();
         }
         choosingSpawpoint = null;
+    }
+
+    public void PlaceChoosingTower()
+    {
+        if (choosingSpawpoint != null && choosingTowerData != null)
+        {
+            PlaceTower(choosingSpawpoint, choosingTowerData);
+        }
     }
 }

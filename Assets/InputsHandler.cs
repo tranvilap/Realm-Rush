@@ -7,7 +7,8 @@ public class InputsHandler : MonoBehaviour
 {
     PlaceTowerController placeTowerController = null;
 
-    Canvas showingTowerMenu = null;
+    Canvas showingTowerMenu = null; 
+    Canvas currentPointingPlaceTowerPoint = null;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,47 +26,57 @@ public class InputsHandler : MonoBehaviour
         {
             var selection = hit.transform;
 
-            var tower = selection.GetComponent<Tower>(); //Handle Tower Menu Open/Close
-            if (tower != null)
-            {
-                if (Input.GetMouseButtonDown(0))
-                {
-                    if (showingTowerMenu != tower.MenuCanvas)
-                    {
-                        if (showingTowerMenu != null)
-                        {
-                            showingTowerMenu.gameObject.SetActive(false);
-                        }
-                        tower.OpenTowerMenu();
-                        showingTowerMenu = tower.MenuCanvas;
-                    }
-                    else
-                    {
-                        if (!showingTowerMenu.gameObject.activeInHierarchy)
-                        {
-                            showingTowerMenu.gameObject.SetActive(true);
-                        }
-                    }
-                }
-                return;
-            }
-            //Close Menu canvas if player press somewhere different from menu
-            if (showingTowerMenu != null 
-                && Input.GetMouseButtonUp(0)) { showingTowerMenu.gameObject.SetActive(false); return; } 
+            //Handle Hover Mouse
 
+            //Handle Placing Tower 
             var towerPlacePoint = selection.GetComponent<TowerPlacePoint>();
             if (towerPlacePoint != null)
             {
                 if (placeTowerController.ChoosingTowerData != null)
                 {
                     placeTowerController.CheckTowerPlaceable(towerPlacePoint);
-                    return;
                 }
             }
-            //Destroy Preview Tower left in the screen
-            placeTowerController.CeasePlacingTower();
+            else
+            {
+                //Destroy Preview Tower left in the screen
+                placeTowerController.CeasePlacingTower();
+            }
 
+            //Handle Clicked Mouse 0
+            if (Input.GetMouseButtonUp(0))
+            {
+                //Handle Opening/Closing Tower Menu
+                var tower = selection.GetComponent<Tower>(); 
+                if (tower != null)
+                {
+                    if (showingTowerMenu != null)
+                    {
+                        showingTowerMenu.gameObject.SetActive(false);
+                    }
+                    tower.OpenTowerMenu();
+                    showingTowerMenu = tower.MenuCanvas;
+                    return;
+                }
 
+                if(showingTowerMenu != null)
+                {
+                    if(showingTowerMenu.gameObject.activeInHierarchy)
+                    {
+                        showingTowerMenu.gameObject.SetActive(false);
+                        showingTowerMenu = null;
+                        return;
+                    }
+                    else
+                    {
+                        showingTowerMenu = null;
+                    }
+                }
+
+                //Handle Placing Tower
+                placeTowerController.PlaceChoosingTower();
+
+            }
         }
     }
 }
