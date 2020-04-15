@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public abstract class Tower : MonoBehaviour
 {
@@ -17,16 +18,32 @@ public abstract class Tower : MonoBehaviour
     public LayerMask WhatIsTarger { get => whatIsTarget; set => whatIsTarget = value; }
     public virtual int SellingPrice { get => (int)(towerTotalValue * 0.8f); }
 
-
     protected BulletPooler bulletPooler;
     protected PlayerHQ playerHQ;
-
+    public TowerPlacePoint placingPoint;
+    
     protected virtual void Start()
     {
         bulletPooler = GetComponent<BulletPooler>();
         playerHQ = FindObjectOfType<PlayerHQ>();
         towerTotalValue = summonPrice;
     }
+    
+    public virtual void PlaceTowerAt(TowerPlacePoint point)
+    {
+        placingPoint = point;
+    }
+
+    public void SellTower()
+    {
+        foreach (var go in EventSystemListener.main.Listeners)
+        {
+            ExecuteEvents.Execute<ITowerEvent>(go, null, (x, y) => x.OnSellingTower(this));
+        }
+        placingPoint.IsPlaceable = true;
+        Destroy(gameObject);
+    }
+
     protected abstract void SeekTarget();
 
     private void OnDrawGizmos()
@@ -34,5 +51,14 @@ public abstract class Tower : MonoBehaviour
         Gizmos.color = Color.red;
         //Use the same vars you use to draw your Overlap SPhere to draw your Wire Sphere.
         Gizmos.DrawWireSphere(transform.position, effectRadius);
+    }
+
+    private void OnMouseOver()
+    {
+        if (Input.GetMouseButtonUp(0))
+        {
+            Debug.Log("Sell tower");
+            SellTower();
+        }
     }
 }

@@ -11,18 +11,20 @@ public class TileSnapMovement : EnemyMovement
     }
     IEnumerator FollowPath(List<Waypoint> path, float movingTime)
     {
-        Debug.Log("Starting patrol...");
         foreach (var waypoint in path)
         {
+            if (!isMovable) { break; }
             transform.LookAt(waypoint.transform);
             transform.position = waypoint.transform.position;
             yield return new WaitForSeconds(movingTime);
         }
-        Debug.Log("Ending patrol");
     }
 
     public override void MoveToGoal()
     {
-        StartCoroutine(FollowPath(pathFinder.ShortestPathBFS, movingSpeed));
+        if (isMovable)
+        {
+            StartCoroutine(FollowPath(pathFinder.ShortestPathBFS, movingSpeed));
+        }
     }
 }

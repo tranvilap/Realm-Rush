@@ -7,7 +7,6 @@ public class WalkingEnemy : Enemy
     [SerializeField] protected ParticleSystem onHitParticle = null;
     bool reachedGoal = false;
 
-
     private void Update()
     {
         Vector3 pos = transform.position;

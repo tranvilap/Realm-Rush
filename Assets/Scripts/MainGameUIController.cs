@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class MainGameUIController : MonoBehaviour, IMainGameEvent
+public class MainGameUIController : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI hqHealthValueText = null;
     [SerializeField] TextMeshProUGUI moneyValueText = null;
@@ -14,6 +14,7 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
         UpdateHQHealthText(playerHQ.HQHealth);
         UpdateMoneyText(playerHQ.Money);
         playerHQ.OnChangeMoneyEvent += UpdateMoneyText;
+        playerHQ.TookDamage += OnHQTakeDamage;
     }
     private void UpdateHQHealthText(int currentHealth)
     {

@@ -10,6 +10,9 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected ParticleSystem dieParticle = null;
     [SerializeField] protected ParticleSystem reachedGoalParticle = null;
 
+    public delegate void OnDie();
+    public OnDie OnDieEvent;
+
     public bool isHitable = true;
     public bool isDead = false;
 
@@ -30,6 +33,7 @@ public abstract class Enemy : MonoBehaviour
     public virtual void Die()
     {
         isDead = true;
+        OnDieEvent?.Invoke(); 
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemyDie(this));

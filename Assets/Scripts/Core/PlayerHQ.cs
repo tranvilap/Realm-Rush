@@ -3,17 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent
+public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEvent
 {
     [SerializeField] int hqHealth = 10;
     [SerializeField] private int money = 0;
 
     public delegate void OnAddMoney(int amount);
-    public OnAddMoney OnAddMoneyEvent;   //For Add money animation on UI
+    public event OnAddMoney OnAddMoneyEvent;   //For Add money animation on UI
+
     public delegate void OnSubtractMoney(int amount);
-    public OnSubtractMoney OnSubtractMoneyEvent;   //For Subtract money animation on UI
+    public event OnSubtractMoney OnSubtractMoneyEvent;   //For Subtract money animation on UI
+
     public delegate void OnChangeMoney(int amount);
-    public OnChangeMoney OnChangeMoneyEvent;
+    public event OnChangeMoney OnChangeMoneyEvent;
+
+    public delegate void OnTakeDamage(PlayerHQ playerHQ);
+    public event OnTakeDamage TookDamage;
 
 
     PlaceTowerController placeTowerController;
@@ -33,10 +38,7 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent
         if (HQHealth > 0)
         {
             HQHealth -= amount;
-            foreach (var go in EventSystemListener.main.Listeners)
-            {
-                ExecuteEvents.Execute<IMainGameEvent>(go, null, (x, y) => x.OnHQTakeDamage(this));
-            }
+            TookDamage?.Invoke(this);
             if (HQHealth <= 0)
             {
                 HQHealth = 0;
@@ -91,6 +93,8 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent
 
     public void OnSellingTower(Tower tower)
     {
+        AddMoney(tower.SellingPrice);
+        Debug.Log("Sold " + tower);
     }
 
     public void OnUpgradeTower(Tower tower, int moneyToUpgrade)

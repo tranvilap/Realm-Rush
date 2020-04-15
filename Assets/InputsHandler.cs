@@ -23,7 +23,7 @@ public class InputsHandler : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
             var selection = hit.transform;
-            var spawnPoint = selection.GetComponent<PlaceTowerPoint>();
+            var spawnPoint = selection.GetComponent<TowerPlacePoint>();
             placeTowerController.CheckTowerPlaceable(spawnPoint);
         }
     }

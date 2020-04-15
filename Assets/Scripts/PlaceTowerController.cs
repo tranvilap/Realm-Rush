@@ -11,7 +11,7 @@ public class PlaceTowerController : MonoBehaviour
     public event OnFailedPlacingTower FailedPlacingTowerEvent;
 
     private TowerData choosingTowerData = null;
-    private PlaceTowerPoint choosingSpawpoint = null;
+    private TowerPlacePoint choosingSpawpoint = null;
     PlayerHQ playerHQ;
 
     public TowerData ChoosingTowerData { get => choosingTowerData;}
@@ -21,24 +21,24 @@ public class PlaceTowerController : MonoBehaviour
         playerHQ = FindObjectOfType<PlayerHQ>();
     }
 
-    public void CheckTowerPlaceable(PlaceTowerPoint spawnPoint)
+    public void CheckTowerPlaceable(TowerPlacePoint placePoint)
     {
-        if (spawnPoint != null)
+        if (placePoint != null)
         {
-            if (spawnPoint.IsPlacable)
+            if (placePoint.IsPlaceable)
             {
-                if (spawnPoint != choosingSpawpoint)
+                if (placePoint != choosingSpawpoint)
                 {
                     if (choosingSpawpoint != null)
                     {
                         choosingSpawpoint.HidePreviewTower();
                     }
-                    choosingSpawpoint = spawnPoint;
+                    choosingSpawpoint = placePoint;
                     choosingSpawpoint.ShowPreviewTower(choosingTowerData.towerPreviewPrefab);
                 }
                 if (Input.GetMouseButton(0))
                 {
-                    PlaceTower(spawnPoint, choosingTowerData);
+                    PlaceTower(placePoint, choosingTowerData);
                 }
             }
         }
@@ -51,7 +51,7 @@ public class PlaceTowerController : MonoBehaviour
         }
     }
 
-    private void PlaceTower(PlaceTowerPoint spawnPoint, TowerData towerData)
+    private void PlaceTower(TowerPlacePoint placePoint, TowerData towerData)
     {
         if(playerHQ.Money < towerData.price)
         {
@@ -59,7 +59,7 @@ public class PlaceTowerController : MonoBehaviour
             FailedPlacingTowerEvent?.Invoke(towerData, PLACE_TOWER_FAIL_REASON.NOT_ENOUGH_MONEY);
             return;
         }
-        spawnPoint.PlaceTower(towerData.towerPrefab);
+        placePoint.BuildTower(towerData.towerPrefab);
         SuccessPlacingTowerEvent?.Invoke(towerData);
     }
 

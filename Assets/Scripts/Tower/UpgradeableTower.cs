@@ -12,7 +12,7 @@ public abstract class UpgradeableTower : Tower
     [Tooltip("List size must be equal to Upgrade Level Cap. For describing upgrade price for each level")]
     List<int> upgradePrices = new List<int>();
 
-    private float moneyToNextUpgrade = 0f;
+
 
     private int currentTowerUpgradeLevel = 0;
     public int CurrentTowerUpgradeLevel
@@ -57,7 +57,7 @@ public abstract class UpgradeableTower : Tower
         towerTotalValue += MoneyToNextUpgrade;
         foreach (var go in EventSystemListener.main.Listeners)
         {
-            ExecuteEvents.Execute<ITowerEvent>(go, null, (x, y) => x.OnUpgradeTower(this, MoneyToNextUpgrade));
+            ExecuteEvents.Execute<IUpgradeTowerEvent>(go, null, (x, y) => x.OnUpgradeTower(this, MoneyToNextUpgrade));
         }
         CurrentTowerUpgradeLevel++;
         return true;
