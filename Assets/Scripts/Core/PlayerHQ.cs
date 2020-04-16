@@ -19,8 +19,7 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
 
     public delegate void OnTakeDamage(PlayerHQ playerHQ);
     public event OnTakeDamage TookDamage;
-
-
+    
     PlaceTowerController placeTowerController;
 
     public int HQHealth { get => hqHealth; set => hqHealth = value; }
@@ -53,7 +52,12 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
         {
             ExecuteEvents.Execute<IMainGameEvent>(go, null, (x, y) => x.OnGameOverLose());
         }
-        Debug.LogError("Player died");
+        Debug.LogError("Game Over Lose");
+    }
+
+    public void GameOverWin()
+    {
+        Debug.LogError("WIN");
     }
 
     public void OnEnemyReachedGoal(Enemy enemy)
@@ -62,7 +66,10 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
         TakeDamage(enemy.Damage);
     }
 
-    public void OnEnemyDie(Enemy enemy) { }
+    public void OnEnemyDie(Enemy enemy)
+    {
+        AddMoney(enemy.Money);
+    }
 
     public void AddMoney(int amount)
     {

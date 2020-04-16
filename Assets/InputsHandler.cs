@@ -8,7 +8,6 @@ public class InputsHandler : MonoBehaviour
     PlaceTowerController placeTowerController = null;
 
     Canvas showingTowerMenu = null; 
-    Canvas currentPointingPlaceTowerPoint = null;
     // Start is called before the first frame update
     void Start()
     {

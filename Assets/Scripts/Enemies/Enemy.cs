@@ -7,6 +7,8 @@ public abstract class Enemy : MonoBehaviour
 {
     [SerializeField] protected float healthPoint = 10f;
     [SerializeField] protected int damage = 10;
+    [SerializeField] private int money;
+
     [SerializeField] protected ParticleSystem dieParticle = null;
     [SerializeField] protected ParticleSystem reachedGoalParticle = null;
 
@@ -20,6 +22,7 @@ public abstract class Enemy : MonoBehaviour
 
     public float HealthPoint { get => healthPoint; set => healthPoint = value; }
     public int Damage { get => damage; set => damage = value; }
+    public int Money { get => money; protected set => money = value; }
 
     protected virtual void Start()
     {

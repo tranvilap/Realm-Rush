@@ -6,10 +6,17 @@ using Malee;
 public class SpawningController : MonoBehaviour
 {
     [SerializeField] Wave[] waves = null;
-    private int waveIndex = -1;
-    private bool isSpawning = false;
 
-    public bool IsSpawning { get => isSpawning;}
+    private int waveIndex = -1;
+    private PlayerHQ playerHQ;
+
+    private bool isSpawning = false;
+    public bool IsSpawning { get => isSpawning; }
+
+    private void Start()
+    {
+        playerHQ = FindObjectOfType<PlayerHQ>();
+    }
 
     Wave GetNextWave()
     {
@@ -26,7 +33,7 @@ public class SpawningController : MonoBehaviour
 
     public void SpawMinorWavelist(MinorWave minorWave)
     {
-        if(isSpawning) { return; }
+        if (isSpawning) { return; }
         StartCoroutine(MinorWaveSpawning(minorWave));
     }
 
@@ -62,8 +69,8 @@ public class SpawningController : MonoBehaviour
             }
             yield return new WaitForSeconds(minorWave.TimeDelayNextWave);
         }
-        isSpawning = false;
     }
+
     IEnumerator MinorWaveSpawning(MinorWave minorWave)
     {
         isSpawning = true;
@@ -76,7 +83,17 @@ public class SpawningController : MonoBehaviour
         isSpawning = false;
     }
 
-
+    private bool CheckWin()
+    {
+        if (waveIndex >= waves.Length)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
 
 

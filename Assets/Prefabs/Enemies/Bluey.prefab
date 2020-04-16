@@ -64,6 +64,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthPoint: 2
   damage: 1
+  money: 2
   dieParticle: {fileID: 3939482803385708327}
   reachedGoalParticle: {fileID: 3939482803385708327}
   isHitable: 1

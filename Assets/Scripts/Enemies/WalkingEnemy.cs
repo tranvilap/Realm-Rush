@@ -6,6 +6,13 @@ public class WalkingEnemy : Enemy
 {
     [SerializeField] protected ParticleSystem onHitParticle = null;
     bool reachedGoal = false;
+    Collider collider;
+
+    protected override void Start()
+    {
+        base.Start();
+        collider = GetComponent<Collider>();
+    }
 
     private void Update()
     {
@@ -16,6 +23,7 @@ public class WalkingEnemy : Enemy
     public override void Die()
     {
         base.Die();
+        collider.enabled = false;
         isHitable = false;
         isDead = true;
         if (dieParticle != null)
