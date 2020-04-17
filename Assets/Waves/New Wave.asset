@@ -28,4 +28,4 @@ MonoBehaviour:
       enemyPrefab: {fileID: 451340870617273051, guid: 57201016ab43fa745a7b0f9550f88bc8,
         type: 3}
       timeDelayBetweenSpawns: 0.2
-      timeDelayNextWave: 10
+      timeDelayNextWave: 0

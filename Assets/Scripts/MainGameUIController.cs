@@ -8,13 +8,21 @@ public class MainGameUIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI moneyValueText = null;
 
     PlayerHQ playerHQ = null;
-    private void Start()
+
+    private void OnEnable()
     {
-        playerHQ = FindObjectOfType<PlayerHQ>();
-        UpdateHQHealthText(playerHQ.HQHealth);
-        UpdateMoneyText(playerHQ.Money);
+        if (playerHQ == null)
+        {
+            playerHQ = FindObjectOfType<PlayerHQ>();
+        }
         playerHQ.OnChangeMoneyEvent += UpdateMoneyText;
         playerHQ.TookDamage += OnHQTakeDamage;
+    }
+
+    private void Start()
+    {
+        UpdateHQHealthText(playerHQ.HQHealth);
+        UpdateMoneyText(playerHQ.Money);
     }
     private void UpdateHQHealthText(int currentHealth)
     {
@@ -33,5 +41,11 @@ public class MainGameUIController : MonoBehaviour
     public void UpdateMoneyText(int amount)
     {
         moneyValueText.text = amount.ToString();
+    }
+
+    private void OnDisable()
+    {
+        playerHQ.OnChangeMoneyEvent -= UpdateMoneyText;
+        playerHQ.TookDamage -= OnHQTakeDamage;
     }
 }

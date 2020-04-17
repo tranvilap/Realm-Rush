@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Malee;
+using System;
 
 public class SpawningController : MonoBehaviour
 {
     [SerializeField] Wave[] waves = null;
+    
 
     private int waveIndex = -1;
     private PlayerHQ playerHQ;
+    GameController gameController;
 
     private bool isSpawning = false;
     public bool IsSpawning { get => isSpawning; }
@@ -16,6 +19,7 @@ public class SpawningController : MonoBehaviour
     private void Start()
     {
         playerHQ = FindObjectOfType<PlayerHQ>();
+        gameController = FindObjectOfType<GameController>();
     }
 
     Wave GetNextWave()
@@ -30,6 +34,32 @@ public class SpawningController : MonoBehaviour
             return waves[waveIndex];
         }
     }
+
+    public Wave NextWave
+    {
+        get
+        {
+            if (waveIndex + 1 >= waves.Length)
+            {
+                return null;
+            }
+            return waves[waveIndex + 1];
+        }
+    }
+
+    public Wave CurrentWave
+    {
+        get
+        {
+            if (waveIndex < 0)
+            {
+                return null;
+            }
+            return waves[waveIndex];
+        }
+    }
+
+    public bool IsFinalWave { get => waveIndex == (waves.Length - 1); }
 
     public void SpawMinorWavelist(MinorWave minorWave)
     {
@@ -57,10 +87,19 @@ public class SpawningController : MonoBehaviour
         }
     }
 
+    public void SetIsSpawning(bool value)
+    {
+        isSpawning = value;
+    }
+
     IEnumerator WaveSpawning(Wave wave)
     {
         isSpawning = true;
         foreach (var minorWave in wave.minorWaves)
+        {
+            gameController.AddAliveEnemy(minorWave.EnemyNumber);
+        }
+            foreach (var minorWave in wave.minorWaves)
         {
             for (int i = 0; i < minorWave.EnemyNumber; i++)
             {
@@ -69,6 +108,7 @@ public class SpawningController : MonoBehaviour
             }
             yield return new WaitForSeconds(minorWave.TimeDelayNextWave);
         }
+        isSpawning = false;
     }
 
     IEnumerator MinorWaveSpawning(MinorWave minorWave)
@@ -81,18 +121,6 @@ public class SpawningController : MonoBehaviour
         }
         yield return new WaitForSeconds(minorWave.TimeDelayNextWave);
         isSpawning = false;
-    }
-
-    private bool CheckWin()
-    {
-        if (waveIndex >= waves.Length)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
     }
 }
 

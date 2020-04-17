@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,12 +12,12 @@ public abstract class Enemy : MonoBehaviour
 
     [SerializeField] protected ParticleSystem dieParticle = null;
     [SerializeField] protected ParticleSystem reachedGoalParticle = null;
-
-    public delegate void OnDie();
-    public OnDie OnDieEvent;
+    
+    public event Action OnEnemyDieEvent;
 
     public bool isHitable = true;
     public bool isDead = false;
+    public bool atGoal = false;
 
     protected Waypoint endWaypoint;
 
@@ -31,12 +32,16 @@ public abstract class Enemy : MonoBehaviour
         {
             endWaypoint = map.EndWaypoint;
         }
+        foreach (var go in EventSystemListener.main.Listeners)
+        {
+            ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemySpawned(this));
+        }
     }
 
     public virtual void Die()
     {
         isDead = true;
-        OnDieEvent?.Invoke(); 
+        OnEnemyDieEvent?.Invoke(); 
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemyDie(this));
@@ -45,6 +50,7 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void ReachGoal()
     {
+        atGoal = true;
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemyReachedGoal(this));

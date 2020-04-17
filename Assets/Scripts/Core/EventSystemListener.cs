@@ -25,7 +25,11 @@ public class EventSystemListener : MonoBehaviour
     private void Start()
     {
         var gos = GameObject.FindGameObjectsWithTag("Listener");
-        Listeners.AddRange(gos);
+        foreach(var go in gos)
+        {
+            AddListener(go);
+        }
+        //Listeners.AddRange(gos);
     }
 
 

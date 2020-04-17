@@ -11,6 +11,15 @@ public abstract class EnemyMovement : MonoBehaviour, IEnemyMove
 
     Enemy enemyMain;
 
+    protected virtual void OnEnable()
+    {
+        enemyMain = GetComponent<Enemy>();
+        if (enemyMain != null)
+        {
+            enemyMain.OnEnemyDieEvent += StopMoving;
+        }
+    }
+
     protected virtual void Start()
     {
         pathFinder = FindObjectOfType<PathFinder>();
@@ -21,24 +30,15 @@ public abstract class EnemyMovement : MonoBehaviour, IEnemyMove
         }
     }
 
-    protected virtual void OnDisable()
-    {
-        enemyMain.OnDieEvent -= StopMoving;
-    }
-
-    protected virtual void OnEnable()
-    {
-        enemyMain = GetComponent<Enemy>();
-        if (enemyMain != null)
-        {
-            enemyMain.OnDieEvent += StopMoving;
-        }
-    }
-
     public abstract void MoveToGoal();
 
     protected virtual void StopMoving()
     {
         isMovable = false;
+    }
+
+    protected virtual void OnDisable()
+    {
+        enemyMain.OnEnemyDieEvent -= StopMoving;
     }
 }
