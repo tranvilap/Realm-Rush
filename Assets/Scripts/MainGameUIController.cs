@@ -4,12 +4,21 @@ using UnityEngine;
 using TMPro;
 public class MainGameUIController : MonoBehaviour, IMainGameEvent
 {
+    [Header("Health")]
     [SerializeField] TextMeshProUGUI hqHealthValueText = null;
+
+    [Header("Money")]
     [SerializeField] TextMeshProUGUI moneyValueText = null;
+
+    [Header("Wave")]
+    [SerializeField] TextMeshProUGUI currentWaveText = null;
+    [SerializeField] TextMeshProUGUI waveCapText = null;
+
     [SerializeField] GameObject GameOverWinPanel = null;
     [SerializeField] GameObject GameOVerLosePanel = null;
 
     PlayerHQ playerHQ = null;
+    SpawningController spawningController;
 
     private void OnEnable()
     {
@@ -24,14 +33,26 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     private void Start()
     {
         EventSystemListener.main.AddListener(gameObject);
-        UpdateHQHealthText(playerHQ.HQHealth);
-        UpdateMoneyText(playerHQ.Money);
+
+        spawningController = FindObjectOfType<SpawningController>();
+
+        SetUpUI();
+
     }
+
     private void UpdateHQHealthText(int currentHealth)
     {
         hqHealthValueText.text = currentHealth.ToString();
-    } 
+    }
 
+    private void UpdateCurrentWaveText(int currentWave)
+    {
+        currentWaveText.text = currentWave.ToString();
+    }
+    private void UpdateWaveCapText(int waveCap)
+    {
+        waveCapText.text = waveCap.ToString();
+    }
     public void OnHQTakeDamage(PlayerHQ playerHQ)
     {
         UpdateHQHealthText(playerHQ.HQHealth);
@@ -49,6 +70,16 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     {
         moneyValueText.text = amount.ToString();
     }
+
+    private void SetUpUI()
+    {
+        UpdateHQHealthText(playerHQ.HQHealth);
+        UpdateMoneyText(playerHQ.Money);
+        UpdateCurrentWaveText(spawningController.WaveIndex + 1);
+        UpdateWaveCapText(spawningController.WaveQuantity);
+    }
+
+    
 
     private void OnDisable()
     {

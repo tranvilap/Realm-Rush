@@ -24,14 +24,14 @@ public class SpawningController : MonoBehaviour
 
     Wave GetNextWave()
     {
-        waveIndex++;
-        if (waveIndex >= waves.Length)
+        WaveIndex++;
+        if (WaveIndex >= waves.Length)
         {
             return null;
         }
         else
         {
-            return waves[waveIndex];
+            return waves[WaveIndex];
         }
     }
 
@@ -39,11 +39,11 @@ public class SpawningController : MonoBehaviour
     {
         get
         {
-            if (waveIndex + 1 >= waves.Length)
+            if (WaveIndex + 1 >= waves.Length)
             {
                 return null;
             }
-            return waves[waveIndex + 1];
+            return waves[WaveIndex + 1];
         }
     }
 
@@ -51,15 +51,17 @@ public class SpawningController : MonoBehaviour
     {
         get
         {
-            if (waveIndex < 0)
+            if (WaveIndex < 0)
             {
                 return null;
             }
-            return waves[waveIndex];
+            return waves[WaveIndex];
         }
     }
 
-    public bool IsFinalWave { get => waveIndex == (waves.Length - 1); }
+    public bool IsFinalWave { get => WaveIndex == (waves.Length - 1); }
+    public int WaveIndex { get => waveIndex; private set => waveIndex = value; }
+    public int WaveQuantity { get => waves.Length; }
 
     public void SpawMinorWavelist(MinorWave minorWave)
     {
