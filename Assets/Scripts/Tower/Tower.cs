@@ -25,12 +25,14 @@ public abstract class Tower : MonoBehaviour
     public TowerPlacePoint placingPoint;
 
     protected Camera mainCamera;
+    protected InputsHandler inputsHandler;
 
     protected virtual void Start()
     {
         bulletPooler = GetComponent<BulletPooler>();
         playerHQ = FindObjectOfType<PlayerHQ>();
         towerTotalValue = summonPrice;
+        inputsHandler = FindObjectOfType<InputsHandler>();
         //CloseTowerMenu();
     }
     
@@ -47,6 +49,18 @@ public abstract class Tower : MonoBehaviour
         }
         placingPoint.IsPlaceable = true;
         Destroy(gameObject);
+    }
+
+    public virtual void OnSellTowerButton()
+    {
+        if (inputsHandler != null)
+        {
+            if (inputsHandler.isDragingCamera)
+            {
+                return;
+            }
+        }
+        SellTower();
     }
 
     public virtual void OpenTowerMenu()

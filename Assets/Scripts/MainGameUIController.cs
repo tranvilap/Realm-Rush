@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-public class MainGameUIController : MonoBehaviour
+public class MainGameUIController : MonoBehaviour, IMainGameEvent
 {
     [SerializeField] TextMeshProUGUI hqHealthValueText = null;
     [SerializeField] TextMeshProUGUI moneyValueText = null;
+    [SerializeField] GameObject GameOverWinPanel = null;
+    [SerializeField] GameObject GameOVerLosePanel = null;
 
     PlayerHQ playerHQ = null;
 
@@ -21,6 +23,7 @@ public class MainGameUIController : MonoBehaviour
 
     private void Start()
     {
+        EventSystemListener.main.AddListener(gameObject);
         UpdateHQHealthText(playerHQ.HQHealth);
         UpdateMoneyText(playerHQ.Money);
     }
@@ -34,9 +37,13 @@ public class MainGameUIController : MonoBehaviour
         UpdateHQHealthText(playerHQ.HQHealth);
     }
 
-    public void OnGameOverLose(){}
+    public void OnGameOverLose(){
+        GameOVerLosePanel.SetActive(true);
+    }
 
-    public void OnGameOverWin(){}
+    public void OnGameOverWin(){
+        GameOverWinPanel.SetActive(true);
+    }
 
     public void UpdateMoneyText(int amount)
     {

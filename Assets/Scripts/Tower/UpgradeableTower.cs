@@ -66,4 +66,16 @@ public abstract class UpgradeableTower : Tower
         }
         return true;
     }
+
+    public virtual void OnUpgradeButton()
+    {
+        if(inputsHandler != null)
+        {
+            if(inputsHandler.isDragingCamera)
+            {
+                return;
+            }
+        }
+        Upgrade();
+    }
 }

@@ -7,6 +7,8 @@ public class GameController : MonoBehaviour, IEnemyEvent
 {
     SpawningController spawningController;
     int aliveEnemies = 0;
+    bool gameOver = false;
+
 
     public int AliveEnemies
     {
@@ -61,7 +63,10 @@ public class GameController : MonoBehaviour, IEnemyEvent
             {
                 if (spawningController.IsFinalWave)
                 {
-                    GameOverWin();
+                    if (FindObjectOfType<PlayerHQ>().HQHealth > 0)
+                    {
+                        GameOverWin();
+                    }
                 }
                 else
                 {
@@ -74,6 +79,8 @@ public class GameController : MonoBehaviour, IEnemyEvent
 
     public void GameOverLose()
     {
+        if (gameOver) { return; }
+        gameOver = true;
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IMainGameEvent>(go, null, (x, y) => x.OnGameOverLose());
@@ -83,6 +90,12 @@ public class GameController : MonoBehaviour, IEnemyEvent
 
     public void GameOverWin()
     {
+        if (gameOver) { return; }
+        gameOver = true;
+        foreach (var go in EventSystemListener.main.Listeners)
+        {
+            ExecuteEvents.Execute<IMainGameEvent>(go, null, (x, y) => x.OnGameOverWin());
+        }
         Debug.LogError("WIN");
     }
 

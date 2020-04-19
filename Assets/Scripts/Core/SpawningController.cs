@@ -7,7 +7,7 @@ using System;
 public class SpawningController : MonoBehaviour
 {
     [SerializeField] Wave[] waves = null;
-    
+
 
     private int waveIndex = -1;
     private PlayerHQ playerHQ;
@@ -76,6 +76,7 @@ public class SpawningController : MonoBehaviour
     public void SpawNextWave()
     {
         if (isSpawning) { return; }
+        if(FindObjectOfType<Enemy>() != null) { return; }
         var nextWave = GetNextWave();
         if (nextWave != null)
         {
@@ -99,7 +100,7 @@ public class SpawningController : MonoBehaviour
         {
             gameController.AddAliveEnemy(minorWave.EnemyNumber);
         }
-            foreach (var minorWave in wave.minorWaves)
+        foreach (var minorWave in wave.minorWaves)
         {
             for (int i = 0; i < minorWave.EnemyNumber; i++)
             {
