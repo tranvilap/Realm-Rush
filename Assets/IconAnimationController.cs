@@ -34,5 +34,10 @@ public class IconAnimationController : MonoBehaviour
         go.GetComponent<IconAnimations>().PlayDecrementAnimation(amount);
     }
     private void OnHealthIncrement(int amount) { }
-    private void OnHealthDecrement(int amount) { }
+    private void OnHealthDecrement(int amount)
+    {
+        var go = health.GetObject();
+        if (go == null) { return; }
+        go.GetComponent<IconAnimations>().PlayDecrementAnimation(amount);
+    }
 }

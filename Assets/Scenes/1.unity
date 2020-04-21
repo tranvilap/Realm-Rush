@@ -2372,10 +2372,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 410867839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa6ad5ab8ec02a94d8d2105b958f953a, type: 3}
+  m_Script: {fileID: 11500000, guid: 5acb7721c75d46347b7c8c097fdd984e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goldCoin: {fileID: 1119539153}
+  prefabToPool: {fileID: 1119539151}
+  amountToPool: 5
 --- !u!222 &410867843
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2452,6 +2453,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 221801943037326873, guid: 57201016ab43fa745a7b0f9550f88bc8,
+        type: 3}
+      propertyPath: movingSpeed
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 451340870617273050, guid: 57201016ab43fa745a7b0f9550f88bc8,
         type: 3}
@@ -4215,6 +4221,7 @@ GameObject:
   - component: {fileID: 769533054}
   - component: {fileID: 769533053}
   - component: {fileID: 769533052}
+  - component: {fileID: 769533057}
   m_Layer: 5
   m_Name: Game UI Canvas
   m_TagString: Listener
@@ -4322,6 +4329,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &769533057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 769533051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa6ad5ab8ec02a94d8d2105b958f953a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goldCoin: {fileID: 410867841}
+  health: {fileID: 1239140822}
 --- !u!4 &770518200 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4260040049543050750, guid: c7aac26f75915b04f9f5281a4cd3ac19,
@@ -5909,10 +5930,10 @@ MonoBehaviour:
   rootObject: {fileID: 1119539152}
   amountText: {fileID: 1345270358}
   icon: {fileID: 1031157337}
-  incrementDistance: 200
-  decrementDistance: -200
+  incrementDistance: 50
+  decrementDistance: -75
   movingDuration: 1
-  iconRotateDuration: 0.2
+  iconRotateDuration: 0.1
 --- !u!1001 &1140288173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6139,7 +6160,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1239140821}
   - component: {fileID: 1239140822}
-  - component: {fileID: 1239140823}
   m_Layer: 5
   m_Name: Heart Icon Animation
   m_TagString: Untagged
@@ -6167,26 +6187,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -254, y: -72}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!95 &1239140822
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1239140820}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e1251b85cee0f594fa26771c2e9d4bc6, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &1239140823
+--- !u!114 &1239140822
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6195,10 +6196,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1239140820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cde09e0632e21874dab2ad296891dd67, type: 3}
+  m_Script: {fileID: 11500000, guid: 5acb7721c75d46347b7c8c097fdd984e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountText: {fileID: 253765421}
+  prefabToPool: {fileID: 1409269264}
+  amountToPool: 5
 --- !u!1001 &1239579074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7494,8 +7496,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1409269265}
+  - component: {fileID: 1409269266}
   m_Layer: 5
-  m_Name: Heart Icon Animation (1)
+  m_Name: Heart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7522,6 +7525,25 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1409269266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409269264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6632027b5b555cc4b97128b8cc3f677a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootObject: {fileID: 1409269265}
+  amountText: {fileID: 253765421}
+  icon: {fileID: 138452226}
+  incrementDistance: 50
+  decrementDistance: -75
+  movingDuration: 0.6
+  iconRotateDuration: 0.2
 --- !u!1001 &1414364786
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10917,6 +10939,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Tower
+      objectReference: {fileID: 0}
+    - target: {fileID: 3736152526328824359, guid: 8ec06937e78356a4b95f64e40bea4b63,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5816122167082250813, guid: 8ec06937e78356a4b95f64e40bea4b63,
         type: 3}
