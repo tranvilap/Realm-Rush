@@ -53,7 +53,7 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     {
         waveCapText.text = waveCap.ToString();
     }
-    public void OnHQTakeDamage(PlayerHQ playerHQ)
+    public void OnHQTakeDamage(int amount)
     {
         UpdateHQHealthText(playerHQ.HQHealth);
     }

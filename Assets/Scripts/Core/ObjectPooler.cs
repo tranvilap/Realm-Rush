@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BulletPooler : MonoBehaviour
+public class ObjectPooler : MonoBehaviour
 {
-    [SerializeField] GameObject ammoPrefabToPool = null;
+    [SerializeField] GameObject prefabToPool = null;
     [SerializeField] [Min(0f)] int amountToPool = 3;
     List<GameObject> pooledAmmo = new List<GameObject>();
 
-    public GameObject GetBullet()
+    public GameObject GetObject()
     {
         for (int i = 0; i < pooledAmmo.Count; i++)
         {
@@ -20,13 +20,13 @@ public class BulletPooler : MonoBehaviour
         return null;
     }
 
-    void Start()
+    void Awake()
     {
-        if (ammoPrefabToPool != null)
+        if (prefabToPool != null)
         {
             for (int i = 0; i < amountToPool; i++)
             {
-                GameObject obj = Instantiate(ammoPrefabToPool, this.transform);
+                GameObject obj = Instantiate(prefabToPool, this.transform);
                 obj.gameObject.SetActive(false);
                 pooledAmmo.Add(obj);
             }

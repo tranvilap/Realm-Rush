@@ -12,12 +12,12 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
     public event OnAddMoney OnAddMoneyEvent;   //For Add money animation on UI
 
     public delegate void OnSubtractMoney(int amount);
-    public event OnSubtractMoney OnSubtractMoneyEvent;   //For Subtract money animation on UI
+    public event OnSubtractMoney OnDeductMoneyEvent;   //For Subtract money animation on UI
 
     public delegate void OnChangeMoney(int amount);
     public event OnChangeMoney OnChangeMoneyEvent;
 
-    public delegate void OnTakeDamage(PlayerHQ playerHQ);
+    public delegate void OnTakeDamage(int amount);
     public event OnTakeDamage TookDamage;
 
     PlaceTowerController placeTowerController;
@@ -58,7 +58,7 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
         if (HQHealth > 0)
         {
             HQHealth -= amount;
-            TookDamage?.Invoke(this);
+            TookDamage?.Invoke(amount);
             if (HQHealth <= 0)
             {
                 HQHealth = 0;
@@ -84,7 +84,7 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
     public void SubtractMoney(int amount)
     {
         ChangeMoney(money - amount);
-        OnSubtractMoneyEvent?.Invoke(amount);
+        OnDeductMoneyEvent?.Invoke(amount);
     }
 
     private void OnPlacingTowerEvent(TowerData towerData)

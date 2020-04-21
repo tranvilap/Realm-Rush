@@ -20,7 +20,7 @@ public abstract class Tower : MonoBehaviour
     public virtual int SellingPrice { get => (int)(towerTotalValue * 0.8f); }
     public Canvas MenuCanvas { get => menuCanvas; set => menuCanvas = value; }
 
-    protected BulletPooler bulletPooler;
+    protected ObjectPooler bulletPooler;
     protected PlayerHQ playerHQ;
     public TowerPlacePoint placingPoint;
 
@@ -29,7 +29,7 @@ public abstract class Tower : MonoBehaviour
 
     protected virtual void Start()
     {
-        bulletPooler = GetComponent<BulletPooler>();
+        bulletPooler = GetComponent<ObjectPooler>();
         playerHQ = FindObjectOfType<PlayerHQ>();
         towerTotalValue = summonPrice;
         inputsHandler = FindObjectOfType<InputsHandler>();

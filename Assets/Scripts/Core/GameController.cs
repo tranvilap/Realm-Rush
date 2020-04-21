@@ -27,13 +27,6 @@ public class GameController : MonoBehaviour, IEnemyEvent
         RecheckAliveEnemies();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            Debug.Log(AliveEnemies);
-        }
-    }
 
     private void RecheckAliveEnemies()
     {

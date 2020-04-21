@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(BulletPooler))]
+[RequireComponent(typeof(ObjectPooler))]
 public abstract class ShootingTower : UpgradeableTower, IShootable
 {
     [Header("Shooting Info")]
@@ -17,7 +17,7 @@ public abstract class ShootingTower : UpgradeableTower, IShootable
     
     protected Bullet PrepareBullet()
     {
-        var bullet = bulletPooler.GetBullet();
+        var bullet = bulletPooler.GetObject();
         if (bullet == null) { return null; }
         bullet.transform.position = shootingPoint.position;
         bullet.gameObject.SetActive(true);
