@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class IconAnimations : MonoBehaviour
 {
-    [SerializeField] RectTransform baseRect;
+    [SerializeField] RectTransform baseRect=null;
     [SerializeField] TextMeshProUGUI amountText = null;
     [SerializeField] RectTransform icon = null;
 

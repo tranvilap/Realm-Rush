@@ -14,6 +14,7 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     [SerializeField] TextMeshProUGUI currentWaveText = null;
     [SerializeField] TextMeshProUGUI waveCapText = null;
 
+    [Header("")]
     [SerializeField] GameObject GameOverWinPanel = null;
     [SerializeField] GameObject GameOVerLosePanel = null;
 
@@ -78,8 +79,6 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
         UpdateCurrentWaveText(spawningController.WaveIndex + 1);
         UpdateWaveCapText(spawningController.WaveQuantity);
     }
-
-    
 
     private void OnDisable()
     {

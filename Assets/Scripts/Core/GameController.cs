@@ -8,7 +8,7 @@ public class GameController : MonoBehaviour, IEnemyEvent
     SpawningController spawningController;
     int aliveEnemies = 0;
     bool gameOver = false;
-
+    public TowerData[] bringingTowers;
 
     public int AliveEnemies
     {

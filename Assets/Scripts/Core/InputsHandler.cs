@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
 public class InputsHandler : MonoBehaviour
 {
     [SerializeField] [Tooltip("Main Camera for controlling moving around")] Camera mainCamera = null;
@@ -25,7 +24,8 @@ public class InputsHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (EventSystem.current.IsPointerOverGameObject())
+        //Be careful about || EventSystem.current.currentSelectedGameObject != null
+        if (EventSystem.current.IsPointerOverGameObject() || EventSystem.current.currentSelectedGameObject != null)
         {
             ExitDragCamera();
             return;
@@ -141,4 +141,5 @@ public class InputsHandler : MonoBehaviour
             placeTowerController.CeasePlacingTower();
         }
     }
+
 }

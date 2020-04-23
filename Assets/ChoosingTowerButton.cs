@@ -9,7 +9,7 @@ public class ChoosingTowerButton : MonoBehaviour
     [SerializeField] Sprite isChoosingSprite = null;
     [SerializeField] Image towerImage = null;
 
-    bool isChoosing = false;
+    public bool isChoosing = false;
     Sprite originalButtonSprite;
     Image buttonImage;
     Button button;
@@ -54,14 +54,14 @@ public class ChoosingTowerButton : MonoBehaviour
         
     }
 
-    private void UnchooseButton()
+    public void UnchooseButton()
     {
         placeTowerController.UnchooseTowerToPlace();
         buttonImage.sprite = originalButtonSprite;
         isChoosing = false;
     }
 
-    private void ChooseButton()
+    public void ChooseButton()
     {
         placeTowerController.ChooseTowerToPlace(holdingTowerData);
         buttonImage.sprite = isChoosingSprite;
