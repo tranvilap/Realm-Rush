@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class IconAnimations : MonoBehaviour
 {
-    [SerializeField] RectTransform rootObject;
+    [SerializeField] RectTransform baseRect;
     [SerializeField] TextMeshProUGUI amountText = null;
     [SerializeField] RectTransform icon = null;
 
@@ -17,14 +17,18 @@ public class IconAnimations : MonoBehaviour
     [SerializeField] float movingDuration = 1f;
     [SerializeField] float iconRotateDuration = 0.2f;
 
+    private void Start()
+    {
+        //rectTransform = GetComponent<RectTransform>();
+    }
 
     public void PlayIncrementAnimation(int amount)
     {
-        Vector3 originalPos = rootObject.position;
+        Vector3 originalPos = baseRect.position;
         amountText.text = "+" + amount.ToString();
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(rootObject.DOAnchorPosY(incrementDistance, movingDuration, false))
+        sequence.Append(baseRect.DOAnchorPosY(incrementDistance, movingDuration, false))
             .Join(icon.DORotate(new Vector3(0f, 360f, 0f), iconRotateDuration, RotateMode.WorldAxisAdd)
                 .SetLoops((int)(movingDuration / iconRotateDuration)))
             .OnComplete(() => OnCompleteAnimation(originalPos));
@@ -32,11 +36,11 @@ public class IconAnimations : MonoBehaviour
 
     public void PlayDecrementAnimation(int amount)
     {
-        Vector3 originalPos = rootObject.position;
+        Vector3 originalPos = baseRect.position;
         amountText.text = "-" + amount.ToString();
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(rootObject.DOAnchorPosY(decrementDistance, movingDuration, false))
+        sequence.Append(baseRect.DOAnchorPosY(decrementDistance, movingDuration, false))
             .Join(icon.DORotate(new Vector3(0f, 360f, 0f), iconRotateDuration, RotateMode.WorldAxisAdd)
                 .SetLoops((int)(movingDuration / iconRotateDuration)))
             .OnComplete(() => OnCompleteAnimation(originalPos));
@@ -44,7 +48,7 @@ public class IconAnimations : MonoBehaviour
 
     private void OnCompleteAnimation(Vector3 originalPos)
     {
-        rootObject.position = originalPos;
-        rootObject.gameObject.SetActive(false);
+        baseRect.position = originalPos;
+        baseRect.gameObject.SetActive(false);
     }
 }
