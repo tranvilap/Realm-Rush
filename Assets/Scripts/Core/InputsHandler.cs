@@ -5,33 +5,26 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 public class InputsHandler : MonoBehaviour
 {
+
     PlaceTowerController placeTowerController = null;
     Canvas showingTowerMenu = null;
     Bounds cameraBounds;
-
+    CameraController cameraController;
     // Start is called before the first frame update
     void Start()
     {
         placeTowerController = FindObjectOfType<PlaceTowerController>();
+        cameraController = FindObjectOfType<CameraController>();
     }
 
     // Update is called once per frame
     void Update()
     {
         //Be careful about || EventSystem.current.currentSelectedGameObject != null
-        if (EventSystem.current.IsPointerOverGameObject() || EventSystem.current.currentSelectedGameObject != null)
+        if (EventSystem.current.IsPointerOverGameObject() || cameraController.cameraIsMoving)
         {
             return;
         }
-
-
-        //Handle placing tower
-        FireRay();
-
-    }
-
-    private void FireRay()
-    {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -39,37 +32,39 @@ public class InputsHandler : MonoBehaviour
 
             //Handle Hover Mouse
             PreviewTowerOnPlacePoint(selection);
-
-            //Handle Clicked Mouse 0
-            if (Input.GetMouseButtonUp(0))
+            
+        }
+        //Handle Clicked Mouse 0
+        if (Input.GetMouseButtonUp(0))
+        {
+            //Handle Opening/Closing Tower Menu
+            var tower = hit.transform.GetComponent<Tower>();
+            if (tower != null)
             {
-                //Handle Opening/Closing Tower Menu
-                var tower = selection.GetComponent<Tower>();
-                if (tower != null)
+                OpenTowerMenu(tower);
+                return;
+            }
+
+            if (showingTowerMenu != null)
+            {
+                if (showingTowerMenu.gameObject.activeInHierarchy)
                 {
-                    OpenTowerMenu(tower);
+                    CloseTowerMenu();
                     return;
                 }
-
-                if (showingTowerMenu != null)
+                else
                 {
-                    if (showingTowerMenu.gameObject.activeInHierarchy)
-                    {
-                        CloseTowerMenu();
-                        return;
-                    }
-                    else
-                    {
-                        showingTowerMenu = null;
-                    }
+                    showingTowerMenu = null;
                 }
-
-                //Handle Placing Tower
-                placeTowerController.PlaceChoosingTower();
-
             }
+
+            //Handle Placing Tower
+            placeTowerController.PlaceChoosingTower();
+
         }
     }
+
+
 
 
     private void CloseTowerMenu()

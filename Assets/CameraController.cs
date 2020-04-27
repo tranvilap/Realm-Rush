@@ -24,9 +24,10 @@ class CameraController : MonoBehaviour
     Camera mainCamera;
     Bounds borderBounds;
     public bool cameraIsMoving = false;
+    public delegate void OnRotateCamera(Transform transform);
+    public event OnRotateCamera RotateCameraEvent;
 
-
-    Vector3 offset;
+    
     private void Start()
     {
         mainCamera = Camera.main;
@@ -80,7 +81,7 @@ class CameraController : MonoBehaviour
                 newPos = transform.position + dragStartPos - dragCurerntPos;
                 ClampNewPostition();
             }
-            if (transform.position != newPos)
+            if (!(transform.position == newPos))
             {
                 cameraIsMoving = true;
             }
@@ -118,9 +119,15 @@ class CameraController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, newPos, Time.deltaTime * smoothFactor);
 
         currentEulerAngle = Vector3.Lerp(currentEulerAngle, new Vector3(rotX, rotY, 0.0f), Time.deltaTime * rotationSpeed);
-        transform.rotation = Quaternion.Euler(currentEulerAngle.x, currentEulerAngle.y, 0.0f);
+        if(transform.rotation != Quaternion.Euler(currentEulerAngle.x, currentEulerAngle.y, 0.0f))
+        {
+
+            transform.rotation = Quaternion.Euler(currentEulerAngle.x, currentEulerAngle.y, 0.0f);
+            RotateCameraEvent?.Invoke(mainCamera.transform);
+        }
 
         mainCamera.transform.localPosition = Vector3.Lerp(mainCamera.transform.localPosition, newZoom, Time.deltaTime * smoothFactor);
+
     }
 
 

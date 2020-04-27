@@ -66,4 +66,5 @@ public class ChoosingTowerButton : MonoBehaviour
         buttonImage.sprite = isChoosingSprite;
         isChoosing = true;
     }
+    
 }

@@ -69,7 +69,6 @@ public abstract class UpgradeableTower : Tower
 
     public virtual void OnUpgradeButton()
     {
-
         Upgrade();
     }
 }
