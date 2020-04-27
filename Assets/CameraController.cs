@@ -37,6 +37,8 @@ class CameraController : MonoBehaviour
         ClampNewPostition();
 
         currentEulerAngle = transform.rotation.eulerAngles;
+        rotX = currentEulerAngle.x;
+        rotY = currentEulerAngle.y;
 
         newZoom = mainCamera.transform.localPosition;
         ClampNewZoom();
