@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using DG.Tweening;
 public class InputsHandler : MonoBehaviour
 {
-    [SerializeField] [Tooltip("Main Camera for controlling moving around")] Camera mainCamera = null;
-    [SerializeField] float cameraDragSpeed = 30f;
-    [SerializeField] [Tooltip("Area represents moving range of camera")]BoxCollider cameraAreaBox = null;
-
-    [HideInInspector]public bool isDragingCamera = false;
-
     PlaceTowerController placeTowerController = null;
     Canvas showingTowerMenu = null;
     Bounds cameraBounds;
@@ -18,7 +13,6 @@ public class InputsHandler : MonoBehaviour
     void Start()
     {
         placeTowerController = FindObjectOfType<PlaceTowerController>();
-        cameraBounds = cameraAreaBox.bounds;
     }
 
     // Update is called once per frame
@@ -27,22 +21,17 @@ public class InputsHandler : MonoBehaviour
         //Be careful about || EventSystem.current.currentSelectedGameObject != null
         if (EventSystem.current.IsPointerOverGameObject() || EventSystem.current.currentSelectedGameObject != null)
         {
-            ExitDragCamera();
-            return;
-        }
-
-        if (Input.GetMouseButton(0)) //Enter Drag Camera
-        {
-            DragCamera();
-        }
-        if (isDragingCamera) //Exit draging camera
-        {
-            ExitDragCamera();
             return;
         }
 
 
         //Handle placing tower
+        FireRay();
+
+    }
+
+    private void FireRay()
+    {
         var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -80,8 +69,8 @@ public class InputsHandler : MonoBehaviour
 
             }
         }
-
     }
+
 
     private void CloseTowerMenu()
     {
@@ -99,31 +88,6 @@ public class InputsHandler : MonoBehaviour
         showingTowerMenu = tower.MenuCanvas;
     }
 
-    private void ExitDragCamera()
-    {
-        if (isDragingCamera)
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                isDragingCamera = false;
-            }
-        }
-    }
-
-    private void DragCamera()
-    {
-        float xAxis = Input.GetAxis("Mouse X");
-        float yAxis = Input.GetAxis("Mouse Y");
-        if (!Mathf.Approximately(xAxis, 0f) || !Mathf.Approximately(yAxis, 0f))
-        {
-            isDragingCamera = true;
-            float speed = cameraDragSpeed * Time.deltaTime;
-            var currentPos = mainCamera.transform.position;
-            mainCamera.transform.position = new Vector3(Mathf.Clamp(currentPos.x + xAxis * speed, cameraBounds.min.x, cameraBounds.max.x)
-                , currentPos.y + 0.0f,
-                Mathf.Clamp(currentPos.z + yAxis * speed, cameraBounds.min.z, cameraBounds.max.z));
-        }
-    }
 
     private void PreviewTowerOnPlacePoint(Transform selection)
     {

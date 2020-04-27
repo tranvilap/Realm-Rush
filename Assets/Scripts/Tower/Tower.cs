@@ -53,13 +53,6 @@ public abstract class Tower : MonoBehaviour
 
     public virtual void OnSellTowerButton()
     {
-        if (inputsHandler != null)
-        {
-            if (inputsHandler.isDragingCamera)
-            {
-                return;
-            }
-        }
         SellTower();
     }
 

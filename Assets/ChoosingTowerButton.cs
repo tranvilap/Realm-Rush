@@ -19,7 +19,6 @@ public class ChoosingTowerButton : MonoBehaviour
         button = GetComponent<Button>();
         placeTowerController = FindObjectOfType<PlaceTowerController>();
         originalButtonSprite = button.GetComponent<Image>().sprite;
-        Debug.Log(originalButtonSprite);
         buttonImage = GetComponent<Image>();
     }
 
