@@ -21,7 +21,7 @@ public class InputsHandler : MonoBehaviour
     void Update()
     {
         //Be careful about || EventSystem.current.currentSelectedGameObject != null
-        if (EventSystem.current.IsPointerOverGameObject() || cameraController.cameraIsMoving)
+        if (EventSystem.current.IsPointerOverGameObject() || cameraController.cameraIsMoving )
         {
             return;
         }
@@ -37,6 +37,7 @@ public class InputsHandler : MonoBehaviour
         //Handle Clicked Mouse 0
         if (Input.GetMouseButtonUp(0))
         {
+            if(EventSystem.current.currentSelectedGameObject != null) {return; }
             //Handle Opening/Closing Tower Menu
             var tower = hit.transform.GetComponent<Tower>();
             if (tower != null)

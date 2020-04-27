@@ -75,7 +75,7 @@ class CameraController : MonoBehaviour
             Plane plane = new Plane(Vector3.up, Vector3.zero);
 
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
+            Vector3 tmp = newPos;
             float entry;
             if (plane.Raycast(ray, out entry))
             {
@@ -83,7 +83,11 @@ class CameraController : MonoBehaviour
                 newPos = transform.position + dragStartPos - dragCurerntPos;
                 ClampNewPostition();
             }
-            if (!(transform.position == newPos))
+            if (newPos == tmp)
+            {
+                cameraIsMoving = false;
+            }
+            else
             {
                 cameraIsMoving = true;
             }

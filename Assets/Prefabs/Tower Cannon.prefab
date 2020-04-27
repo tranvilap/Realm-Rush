@@ -601,7 +601,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 4.31}
+  m_AnchoredPosition: {x: 0, y: 2.89}
   m_SizeDelta: {x: 600, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1724847618
@@ -1093,7 +1093,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc6dd9b6e8f636428273cb3030363ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ammoPrefabToPool: {fileID: 5039587878975332208, guid: b83700c2efdc2984b8ecbf71a1d9b8a0,
+  prefabToPool: {fileID: 5039587878975332208, guid: b83700c2efdc2984b8ecbf71a1d9b8a0,
     type: 3}
   amountToPool: 3
 --- !u!114 &241563251782907308
