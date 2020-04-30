@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -11,8 +12,11 @@ public abstract class UpgradeableTower : Tower
     [SerializeField]
     [Tooltip("List size must be equal to Upgrade Level Cap. For describing upgrade price for each level")]
     List<int> upgradePrices = new List<int>();
-    
+
+    public event Action<UpgradeableTower> OnUpgradeEvent;
+
     private int currentTowerUpgradeLevel = 0;
+
     public int CurrentTowerUpgradeLevel
     {
         get
@@ -24,8 +28,7 @@ public abstract class UpgradeableTower : Tower
             currentTowerUpgradeLevel = Mathf.Clamp(value, 0, upgradeLevelCap);
         }
     }
-
-    public int MoneyToNextUpgrade
+    public int NextUpgradeCost
     {
         get
         {
@@ -39,17 +42,24 @@ public abstract class UpgradeableTower : Tower
             }
         }
     }
+    public bool isFinalLevel
+    {
+        get
+        {
+            return currentTowerUpgradeLevel >= upgradeLevelCap;
+        }
+    }
 
     public virtual void Upgrade()
     {
         if (!CheckUpgradeable()) { return; }
-        towerTotalValue += MoneyToNextUpgrade;
+        towerTotalValue += NextUpgradeCost;
         foreach (var go in EventSystemListener.main.Listeners)
         {
-            ExecuteEvents.Execute<IUpgradeTowerEvent>(go, null, (x, y) => x.OnUpgradeTower(this, MoneyToNextUpgrade));
+            ExecuteEvents.Execute<IUpgradeTowerEvent>(go, null, (x, y) => x.OnUpgradeTower(this, NextUpgradeCost));
         }
         CurrentTowerUpgradeLevel++;
-        
+        OnUpgradeEvent?.Invoke(this);
     }
 
     protected virtual bool CheckUpgradeable()
@@ -59,7 +69,7 @@ public abstract class UpgradeableTower : Tower
             Debug.LogWarning("Tower reached level cap", gameObject);
             return false;
         }
-        if (playerHQ.Money < MoneyToNextUpgrade)
+        if (playerHQ.Money < NextUpgradeCost)
         {
             Debug.LogWarning("Not enough money to upgrade this tower", gameObject);
             return false;

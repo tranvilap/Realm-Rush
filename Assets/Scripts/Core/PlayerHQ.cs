@@ -94,7 +94,6 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
     public void OnSellingTower(Tower tower)
     {
         AddMoney(tower.SellingPrice);
-        Debug.Log("Sold " + tower);
     }
     public void OnUpgradeTower(Tower tower, int moneyToUpgrade)
     {

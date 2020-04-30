@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TowerMenu : MonoBehaviour
 {
@@ -9,7 +7,7 @@ public class TowerMenu : MonoBehaviour
     {
         get
         {
-            if(mainCamera == null)
+            if (mainCamera == null)
             {
                 mainCamera = Camera.main;
             }
@@ -18,21 +16,21 @@ public class TowerMenu : MonoBehaviour
     }
     CameraController cameraController;
 
-    private void Start()
+    protected virtual void Start()
     {
         gameObject.SetActive(false);
     }
-    private void OnEnable()
+    protected virtual void OnEnable()
     {
-        if(cameraController==null)
+        if (cameraController == null)
         {
-            cameraController= FindObjectOfType<CameraController>();
+            cameraController = FindObjectOfType<CameraController>();
         }
         cameraController.RotateCameraEvent += OnRotateCamera;
         LookAtCamera();
     }
 
-    private void LookAtCamera()
+    protected virtual void LookAtCamera()
     {
         Vector3 v = MainCamera.transform.position - transform.position;
 
@@ -43,11 +41,11 @@ public class TowerMenu : MonoBehaviour
         transform.rotation = (MainCamera.transform.rotation);
     }
 
-    public void OnRotateCamera(Transform cameraTransform)
+    protected virtual void OnRotateCamera(Transform cameraTransform)
     {
         LookAtCamera();
     }
-    private void OnDisable()
+    protected virtual void OnDisable()
     {
         cameraController.RotateCameraEvent -= OnRotateCamera;
     }
