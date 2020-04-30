@@ -44,7 +44,6 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
     
     public void OnEnemyReachedGoal(Enemy enemy)
     {
-        Debug.Log("Enemy reached goal");
         TakeDamage(enemy.Damage);
     }
     public void OnEnemyDie(Enemy enemy)

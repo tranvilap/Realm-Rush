@@ -5,7 +5,7 @@ using UnityEngine;
 
 public abstract class EnemyMovement : MonoBehaviour, IEnemyMove
 {
-    [SerializeField] protected float movingSpeed = 5f;
+    [SerializeField] protected float baseMovingSpeed = 5f;
     protected PathFinder pathFinder = null;
     protected bool isMovable = true;
 

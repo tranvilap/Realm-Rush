@@ -1,13 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class TileSnapMovement : EnemyMovement
 {
+    int pathIndex = -1;
+    float timeEachStep = 0f;
+    float timer = 0f;
     protected override void Start()
     {
         base.Start();
-        MoveToGoal();
     }
     IEnumerator FollowPath(List<Waypoint> path, float movingTime)
     {
@@ -19,12 +21,34 @@ public class TileSnapMovement : EnemyMovement
             yield return new WaitForSeconds(movingTime);
         }
     }
-
+    private void Update()
+    {
+        MoveToGoal();
+    }
     public override void MoveToGoal()
     {
-        if (isMovable)
+        if (!isMovable) { return; }
+        if (baseMovingSpeed > 0)
         {
-            StartCoroutine(FollowPath(pathFinder.ShortestPathBFS, movingSpeed));
+            timeEachStep = 1 / baseMovingSpeed;
+        }
+        if(pathIndex < 0) { timer = timeEachStep; }
+        if (timer < timeEachStep) { timer += Time.deltaTime; }
+        else
+        {
+            if (pathIndex + 1 >= pathFinder.ShortestPathBFS.Count) { isMovable = false; }
+            else
+            {
+                pathIndex++;
+                transform.position = pathFinder.ShortestPathBFS[pathIndex].transform.position;
+                if (pathIndex + 1 < pathFinder.ShortestPathBFS.Count)
+                {
+                    Waypoint wp = pathFinder.ShortestPathBFS[pathIndex + 1];
+                    //transform.LookAt(pathFinder.ShortestPathBFS[pathIndex + 1].transform);
+                    transform.DOLookAt(wp.transform.position, timeEachStep);
+                }
+                timer = 0;
+            }
         }
     }
 }
