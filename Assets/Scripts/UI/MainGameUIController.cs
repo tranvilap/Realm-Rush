@@ -17,6 +17,7 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
 
     [Header("Game Over UI")]
     [SerializeField] GameOverCanvas gameOverLoseCanvas = null;
+    [SerializeField] GameOverCanvas gameOverWinCanvas = null;
 
     PlayerHQ playerHQ = null;
     SpawningController spawningController;
@@ -66,7 +67,7 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     }
 
     public void OnGameOverWin(){
-        //GameOverWinPanel.SetActive(true);
+        OpenGameOverMenu(gameOverWinCanvas);
     }
 
     public void UpdateMoneyText(int amount)

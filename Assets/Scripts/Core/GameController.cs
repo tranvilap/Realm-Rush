@@ -6,12 +6,20 @@ using UnityEngine.EventSystems;
 
 public class GameController : MonoBehaviour, IEnemyEvent
 {
+    [SerializeField] int damageToSilver = 1;
+    [SerializeField] int damageToBronze = 5;
+
     public TowerData[] bringingTowers;
+
+    public enum StageRank { Bronze, Silver, Gold}
+    StageRank currentStageRank = StageRank.Gold;
     public event Action OnCompleteOneWave;
+
     SpawningController spawningController;
     EnemyBase enemyBase;
     int aliveEnemies = 0;
     bool gameOver = false;
+    int takenDamage = 0;
 
     public int AliveEnemies
     {
@@ -22,6 +30,8 @@ public class GameController : MonoBehaviour, IEnemyEvent
             else { aliveEnemies = value; }
         }
     }
+
+    public StageRank CurrentStageRank { get => currentStageRank; private set => currentStageRank = value; }
 
     private void Start()
     {
@@ -96,6 +106,22 @@ public class GameController : MonoBehaviour, IEnemyEvent
 
     public void OnEnemyReachedGoal(Enemy enemy)
     {
+        takenDamage++;
+        if(CurrentStageRank == StageRank.Bronze) { return; }
+        if(CurrentStageRank == StageRank.Gold)
+        {
+            if(takenDamage >= damageToSilver)
+            {
+                CurrentStageRank = StageRank.Silver;
+            }
+        }
+        if(CurrentStageRank == StageRank.Silver)
+        {
+            if (takenDamage >= damageToBronze)
+            {
+                CurrentStageRank = StageRank.Bronze;
+            }
+        }
         RemoveDeadEnemy(enemy);
     }
 
