@@ -8,10 +8,12 @@ public class SpawningController : MonoBehaviour
 {
     [SerializeField] Wave[] waves = null;
 
+    public event Action OnSpawnedNextWave;
 
     private int waveIndex = -1;
     private PlayerHQ playerHQ;
     GameController gameController;
+
 
     private bool isSpawning = false;
     public bool IsSpawning { get => isSpawning; }
@@ -24,14 +26,14 @@ public class SpawningController : MonoBehaviour
 
     Wave GetNextWave()
     {
-        WaveIndex++;
-        if (WaveIndex >= waves.Length)
+        CurrentWaveIndex++;
+        if (CurrentWaveIndex >= waves.Length)
         {
             return null;
         }
         else
         {
-            return waves[WaveIndex];
+            return waves[CurrentWaveIndex];
         }
     }
 
@@ -39,11 +41,11 @@ public class SpawningController : MonoBehaviour
     {
         get
         {
-            if (WaveIndex + 1 >= waves.Length)
+            if (CurrentWaveIndex + 1 >= waves.Length)
             {
                 return null;
             }
-            return waves[WaveIndex + 1];
+            return waves[CurrentWaveIndex + 1];
         }
     }
 
@@ -51,16 +53,16 @@ public class SpawningController : MonoBehaviour
     {
         get
         {
-            if (WaveIndex < 0)
+            if (CurrentWaveIndex < 0)
             {
                 return null;
             }
-            return waves[WaveIndex];
+            return waves[CurrentWaveIndex];
         }
     }
 
-    public bool IsFinalWave { get => WaveIndex == (waves.Length - 1); }
-    public int WaveIndex { get => waveIndex; private set => waveIndex = value; }
+    public bool IsFinalWave { get => CurrentWaveIndex == (waves.Length - 1); }
+    public int CurrentWaveIndex { get => waveIndex; private set => waveIndex = value; }
     public int WaveQuantity { get => waves.Length; }
 
     public void SpawMinorWavelist(MinorWave minorWave)
@@ -83,6 +85,7 @@ public class SpawningController : MonoBehaviour
         if (nextWave != null)
         {
             SpawnWave(nextWave);
+            OnSpawnedNextWave?.Invoke();
         }
         else
         {

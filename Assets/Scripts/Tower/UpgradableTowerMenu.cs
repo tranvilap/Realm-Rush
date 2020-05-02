@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UpgradableTowerMenu : TowerMenu
+public class UpgradableTowerMenu : LookAtCameraObject
 {
     [SerializeField] Button upgradeButton = null;
     [SerializeField] TextMeshProUGUI upgradeCostText = null;
@@ -18,16 +18,15 @@ public class UpgradableTowerMenu : TowerMenu
         if (tower == null)
         {
             tower = GetComponentInParent<UpgradeableTower>();
-            Debug.Log(tower);
         }
         if(tower != null)
         {
             tower.OnUpgradeEvent += OnUpgradeTower;
         }
     }
-    protected override void Start()
+     private void Start()
     {
-        base.Start();
+        gameObject.SetActive(false);
         if(tower!= null)
         {
             UpdateTowerUI(tower);

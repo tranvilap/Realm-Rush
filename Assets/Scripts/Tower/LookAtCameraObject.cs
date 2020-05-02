@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TowerMenu : MonoBehaviour
+public class LookAtCameraObject : MonoBehaviour
 {
     Camera mainCamera;
     Camera MainCamera
@@ -16,10 +16,6 @@ public class TowerMenu : MonoBehaviour
     }
     CameraController cameraController;
 
-    protected virtual void Start()
-    {
-        gameObject.SetActive(false);
-    }
     protected virtual void OnEnable()
     {
         if (cameraController == null)

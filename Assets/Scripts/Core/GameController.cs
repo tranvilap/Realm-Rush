@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class GameController : MonoBehaviour, IEnemyEvent
 {
+    public TowerData[] bringingTowers;
+    public event Action OnCompleteOneWave;
     SpawningController spawningController;
+    EnemyBase enemyBase;
     int aliveEnemies = 0;
     bool gameOver = false;
-    public TowerData[] bringingTowers;
 
     public int AliveEnemies
     {
@@ -26,7 +29,6 @@ public class GameController : MonoBehaviour, IEnemyEvent
         EventSystemListener.main.AddListener(gameObject);
         RecheckAliveEnemies();
     }
-
 
     private void RecheckAliveEnemies()
     {
@@ -46,7 +48,7 @@ public class GameController : MonoBehaviour, IEnemyEvent
         Debug.Log(AliveEnemies);
     }
 
-    private void RemoveAliveEnemy(Enemy enemy)
+    private void RemoveDeadEnemy(Enemy enemy)
     {
         AliveEnemies -= 1;
         if (AliveEnemies <= 0)
@@ -64,10 +66,11 @@ public class GameController : MonoBehaviour, IEnemyEvent
                 else
                 {
                     Debug.LogWarning("Still have more waves");
+                    OnCompleteOneWave?.Invoke();
                 }
             }
         }
-        Debug.Log(AliveEnemies);
+        Debug.Log("Alive enemies: " + AliveEnemies);
     }
 
     public void GameOverLose()
@@ -94,12 +97,12 @@ public class GameController : MonoBehaviour, IEnemyEvent
 
     public void OnEnemyReachedGoal(Enemy enemy)
     {
-        RemoveAliveEnemy(enemy);
+        RemoveDeadEnemy(enemy);
     }
 
     public void OnEnemyDie(Enemy enemy)
     {
-        RemoveAliveEnemy(enemy);
+        RemoveDeadEnemy(enemy);
     }
 
     public void OnEnemySpawned(Enemy enemy) { }

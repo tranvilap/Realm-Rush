@@ -27,15 +27,19 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
         {
             playerHQ = FindObjectOfType<PlayerHQ>();
         }
+        if (spawningController == null)
+        {
+            spawningController = FindObjectOfType<SpawningController>();
+        }
         playerHQ.OnChangeMoneyEvent += UpdateMoneyText;
         playerHQ.TookDamage += OnHQTakeDamage;
+        spawningController.OnSpawnedNextWave += OnSpawnedNextWave;
+        
     }
 
     private void Start()
     {
         EventSystemListener.main.AddListener(gameObject);
-
-        spawningController = FindObjectOfType<SpawningController>();
 
         SetUpUI();
 
@@ -72,11 +76,16 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
         moneyValueText.text = amount.ToString();
     }
 
+    private void OnSpawnedNextWave()
+    {
+        currentWaveText.text = (spawningController.CurrentWaveIndex+1).ToString();
+    }
+
     private void SetUpUI()
     {
         UpdateHQHealthText(playerHQ.HQHealth);
         UpdateMoneyText(playerHQ.Money);
-        UpdateCurrentWaveText(spawningController.WaveIndex + 1);
+        UpdateCurrentWaveText(spawningController.CurrentWaveIndex + 1);
         UpdateWaveCapText(spawningController.WaveQuantity);
     }
 
@@ -84,5 +93,6 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     {
         playerHQ.OnChangeMoneyEvent -= UpdateMoneyText;
         playerHQ.TookDamage -= OnHQTakeDamage;
+        spawningController.OnSpawnedNextWave -= OnSpawnedNextWave;
     }
 }
