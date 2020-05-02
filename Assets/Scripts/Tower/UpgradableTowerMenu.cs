@@ -31,6 +31,7 @@ public class UpgradableTowerMenu : LookAtCameraObject
         {
             UpdateTowerUI(tower);
         }
+        GetComponent<Canvas>().worldCamera = Camera.main;
     }
     private void OnUpgradeTower(UpgradeableTower tower)
     {

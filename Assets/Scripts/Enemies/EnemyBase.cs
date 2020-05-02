@@ -22,6 +22,7 @@ public class EnemyBase : MonoBehaviour
     }
     private void Start()
     {
+        enemyBaseMenu.GetComponent<Canvas>().worldCamera = Camera.main;
         OpenMenu();
     }
     public void OpenMenu()
