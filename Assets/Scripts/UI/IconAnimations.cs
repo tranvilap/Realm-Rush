@@ -28,7 +28,7 @@ public class IconAnimations : MonoBehaviour
         amountText.text = "+" + amount.ToString();
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(baseRect.DOAnchorPosY(incrementDistance, movingDuration, false))
+        sequence.SetUpdate(true).Append(baseRect.DOAnchorPosY(incrementDistance, movingDuration, false))
             .Join(icon.DORotate(new Vector3(0f, 360f, 0f), iconRotateDuration, RotateMode.WorldAxisAdd)
                 .SetLoops((int)(movingDuration / iconRotateDuration)))
             .OnComplete(() => OnCompleteAnimation(originalPos));
@@ -40,7 +40,7 @@ public class IconAnimations : MonoBehaviour
         amountText.text = "-" + amount.ToString();
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(baseRect.DOAnchorPosY(decrementDistance, movingDuration, false))
+        sequence.SetUpdate(true).Append(baseRect.DOAnchorPosY(decrementDistance, movingDuration, false))
             .Join(icon.DORotate(new Vector3(0f, 360f, 0f), iconRotateDuration, RotateMode.WorldAxisAdd)
                 .SetLoops((int)(movingDuration / iconRotateDuration)))
             .OnComplete(() => OnCompleteAnimation(originalPos));

@@ -22,7 +22,6 @@ public class WalkingEnemy : Enemy
 
     public override void Die()
     {
-        base.Die();
         enemyCollider.enabled = false;
         isHitable = false;
         isDead = true;
@@ -35,6 +34,7 @@ public class WalkingEnemy : Enemy
         {
             Destroy(gameObject);
         }
+        base.Die();
     }
 
     public override void GetHit(float damage)

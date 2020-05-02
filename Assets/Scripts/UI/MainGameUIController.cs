@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using DG.Tweening;
 public class MainGameUIController : MonoBehaviour, IMainGameEvent
 {
     [Header("Health")]
@@ -14,9 +15,8 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     [SerializeField] TextMeshProUGUI currentWaveText = null;
     [SerializeField] TextMeshProUGUI waveCapText = null;
 
-    [Header("")]
-    [SerializeField] GameObject GameOverWinPanel = null;
-    [SerializeField] GameObject GameOVerLosePanel = null;
+    [Header("Game Over UI")]
+    [SerializeField] GameOverCanvas gameOverLoseCanvas = null;
 
     PlayerHQ playerHQ = null;
     SpawningController spawningController;
@@ -40,9 +40,7 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     private void Start()
     {
         EventSystemListener.main.AddListener(gameObject);
-
         SetUpUI();
-
     }
 
     private void UpdateHQHealthText(int currentHealth)
@@ -64,11 +62,11 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     }
 
     public void OnGameOverLose(){
-        GameOVerLosePanel.SetActive(true);
+        OpenGameOverMenu(gameOverLoseCanvas);
     }
 
     public void OnGameOverWin(){
-        GameOverWinPanel.SetActive(true);
+        //GameOverWinPanel.SetActive(true);
     }
 
     public void UpdateMoneyText(int amount)
@@ -87,6 +85,11 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
         UpdateMoneyText(playerHQ.Money);
         UpdateCurrentWaveText(spawningController.CurrentWaveIndex + 1);
         UpdateWaveCapText(spawningController.WaveQuantity);
+    }
+
+    private void OpenGameOverMenu(GameOverCanvas gameOverCanvas)
+    {
+        gameOverCanvas.ActiveCanvas();
     }
 
     private void OnDisable()

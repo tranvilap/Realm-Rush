@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBase : MonoBehaviour
 {
-    [SerializeField] GameObject enemyMenu;
+    [SerializeField] GameObject enemyBaseMenu = null;
     GameController gameController;
     SpawningController spawningController;
     private void OnEnable()
@@ -26,12 +26,12 @@ public class EnemyBase : MonoBehaviour
     }
     public void OpenMenu()
     {
-        enemyMenu.SetActive(true);
+        enemyBaseMenu.SetActive(true);
     }
 
     public void CloseMenu()
     {
-        enemyMenu.SetActive(false);
+        enemyBaseMenu.SetActive(false);
     }
 
     private void OnDisable()

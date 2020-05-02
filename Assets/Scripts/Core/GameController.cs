@@ -25,6 +25,7 @@ public class GameController : MonoBehaviour, IEnemyEvent
 
     private void Start()
     {
+        Time.timeScale = 1f;
         spawningController = FindObjectOfType<SpawningController>();
         EventSystemListener.main.AddListener(gameObject);
         RecheckAliveEnemies();
@@ -81,7 +82,6 @@ public class GameController : MonoBehaviour, IEnemyEvent
         {
             ExecuteEvents.Execute<IMainGameEvent>(go, null, (x, y) => x.OnGameOverLose());
         }
-        Debug.LogError("Game Over Lose");
     }
 
     public void GameOverWin()
@@ -92,7 +92,6 @@ public class GameController : MonoBehaviour, IEnemyEvent
         {
             ExecuteEvents.Execute<IMainGameEvent>(go, null, (x, y) => x.OnGameOverWin());
         }
-        Debug.LogError("WIN");
     }
 
     public void OnEnemyReachedGoal(Enemy enemy)
