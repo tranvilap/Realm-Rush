@@ -27,6 +27,14 @@ public abstract class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
+        var parent = GameObject.Find("Enemies");
+        if (parent == null)
+        {
+            parent = new GameObject("Enemies");
+            parent.transform.position = Vector3.zero;
+        }
+        transform.parent = parent.transform;
+
         Map map = FindObjectOfType<Map>();
         if (map != null)
         {

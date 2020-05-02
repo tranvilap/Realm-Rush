@@ -33,6 +33,7 @@ public abstract class Tower : MonoBehaviour
         playerHQ = FindObjectOfType<PlayerHQ>();
         towerTotalValue = summonPrice;
         inputsHandler = FindObjectOfType<InputsHandler>();
+
         var parent = GameObject.Find("Towers");
         if(parent == null)
         {
