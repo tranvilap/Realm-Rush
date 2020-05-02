@@ -33,7 +33,13 @@ public abstract class Tower : MonoBehaviour
         playerHQ = FindObjectOfType<PlayerHQ>();
         towerTotalValue = summonPrice;
         inputsHandler = FindObjectOfType<InputsHandler>();
-        //CloseTowerMenu();
+        var parent = GameObject.Find("Towers");
+        if(parent == null)
+        {
+            parent = new GameObject("Towers");
+            parent.transform.position = Vector3.zero;
+        }
+        transform.parent = parent.transform;
     }
     
     public virtual void PlaceTowerAt(TowerPlacePoint point)
