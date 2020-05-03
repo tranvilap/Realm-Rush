@@ -56,7 +56,7 @@ public class GameController : MonoBehaviour, IEnemyEvent
     public void AddAliveEnemy(int quantity)
     {
         AliveEnemies += quantity;
-        Debug.Log(AliveEnemies);
+        Debug.Log("Current alive: "+ AliveEnemies);
     }
 
     private void RemoveDeadEnemy(Enemy enemy)
@@ -107,7 +107,6 @@ public class GameController : MonoBehaviour, IEnemyEvent
     public void OnEnemyReachedGoal(Enemy enemy)
     {
         takenDamage++;
-        if(CurrentStageRank == StageRank.Bronze) { return; }
         if(CurrentStageRank == StageRank.Gold)
         {
             if(takenDamage >= damageToSilver)
