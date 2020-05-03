@@ -152,10 +152,8 @@ public class PathFinder : MonoBehaviour
         //Check if Start Waypoint is the same as End Waypoint
         if (startWaypoint == endWaypoint)
         {
-            Debug.LogError("Start Waypoint is the same as End Waypoint.", startWaypoint);
+            Debug.LogWarning("Start Waypoint is the same as End Waypoint.", startWaypoint);
         }
-
-        Debug.Log("Loaded " + grid.Count + "blocks.");
     }
 
     private void SetWaypointTopColor(Waypoint waypoint, Color color)

@@ -56,7 +56,6 @@ public class GameController : MonoBehaviour, IEnemyEvent
     public void AddAliveEnemy(int quantity)
     {
         AliveEnemies += quantity;
-        Debug.Log("Current alive: "+ AliveEnemies);
     }
 
     private void RemoveDeadEnemy(Enemy enemy)
@@ -81,7 +80,6 @@ public class GameController : MonoBehaviour, IEnemyEvent
                 }
             }
         }
-        Debug.Log("Alive enemies: " + AliveEnemies);
     }
 
     public void GameOverLose()

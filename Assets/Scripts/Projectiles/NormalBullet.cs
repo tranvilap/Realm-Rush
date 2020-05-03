@@ -4,34 +4,45 @@ using UnityEngine;
 
 public class NormalBullet : Bullet
 {
-    protected bool alreadyHit = false;
+    [SerializeField] ParticleSystem projectileParticle = null;
+    [SerializeField] ParticleSystem onHitParticle = null;
+    
 
     protected override void Update()
     {
         base.Update();
-        if (target == null) { return; }
-        FlyToTarget();
+        FlyForward();
     }
 
-    void FlyToTarget()
+    void FlyForward()
     {
-        transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        //transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
+        transform.position += transform.forward * speed * Time.deltaTime;
     }
 
     protected override void OnTriggerEnter(Collider other)
     {
         if (alreadyHit) { return; }
-        base.OnTriggerEnter(other);
+        StartCoroutine(HitExplosion());
         if (other.CompareTag("Enemy"))
         {
             other.GetComponent<Enemy>().GetHit(BulletPower);
         }
-        alreadyHit = true;
+        base.OnTriggerEnter(other);
     }
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        alreadyHit = false;
+
+        projectileParticle.gameObject.SetActive(true);
+    }
+
+    IEnumerator HitExplosion()
+    {
+        projectileParticle.gameObject.SetActive(false);
+        onHitParticle.Play();
+        yield return new WaitForSeconds(onHitParticle.main.duration);
+        gameObject.SetActive(false);
     }
 }

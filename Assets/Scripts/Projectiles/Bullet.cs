@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] ParticleSystem projectileParticle = null;
-    [SerializeField] ParticleSystem onHitParticle = null;
     [SerializeField] protected bool autoDestroy = true;
     [SerializeField] protected float destroyAfter = 3f;
 
+    protected bool alreadyHit = false;
     protected float speed = 7f;
     protected float bulletPower = 1f;
     
-    public Transform target = null;
-
     protected float autoDestroyTimer = 0f;
     protected Vector3 targetPos;
 
@@ -32,11 +29,6 @@ public class Bullet : MonoBehaviour
 
     protected virtual void Update()
     {
-        if(target == null)
-        {
-            gameObject.SetActive(false);
-            return;
-        }
         if (autoDestroy)
         {
             autoDestroyTimer += Time.deltaTime;
@@ -49,7 +41,6 @@ public class Bullet : MonoBehaviour
     
     public void AimTo(Transform enemy, float bulletSpeed, float bulletPower)
     {
-        this.target = enemy;
         this.speed = bulletSpeed;
         this.bulletPower = bulletPower;
 
@@ -60,23 +51,13 @@ public class Bullet : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        StartCoroutine(HitExplosion());
-        target = null;
+        alreadyHit = true;
     }
-
-    IEnumerator HitExplosion()
-    {
-        projectileParticle.gameObject.SetActive(false);
-        onHitParticle.Play();
-        yield return new WaitForSeconds(onHitParticle.main.duration);
-        gameObject.SetActive(false);
-    }
-
-
+    
     protected virtual void OnEnable()
     {
+        alreadyHit = false;
         autoDestroyTimer = 0f;
-        projectileParticle.gameObject.SetActive(true);
     }
 
     public void ChangePower(float amount)
