@@ -6,8 +6,8 @@ using UnityEngine;
 public class CannonTower : ShootingTower
 {
     [SerializeField] Transform cannonTopToPan = null;
-   
-    
+
+    private float firingTimer = 0f;
     // Update is called once per frame
     void Update()
     {
@@ -20,7 +20,20 @@ public class CannonTower : ShootingTower
     
     public override void Shoot(Transform target)
     {
-        base.Shoot(target);
+        if (target == null) { return; }
+        if (firingTimer >= firingRate)
+        {
+            var bullet = PrepareBullet();
+            if (bullet != null)
+            {
+                bullet.AimTo(target, bulletSpeed, power);
+            }
+            firingTimer = 0f;
+        }
+        else
+        {
+            firingTimer += Time.deltaTime;
+        }
     }
 
     protected override void SeekTarget()

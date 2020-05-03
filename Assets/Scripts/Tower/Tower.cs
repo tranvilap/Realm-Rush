@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
+[SelectionBase]
 public abstract class Tower : MonoBehaviour
 {
     [Header("Basic Info")]

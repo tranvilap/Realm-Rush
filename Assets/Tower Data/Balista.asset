@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22e75497a559bf8498388d8f3a01f9b4, type: 3}
+  m_Name: Balista
+  m_EditorClassIdentifier: 
+  price: 5
+  towerImage: {fileID: 21300000, guid: b3c2643edc7f3314ca185d1f03e9b3af, type: 3}
+  towerPreviewPrefab: {fileID: 3736152526328824359, guid: 0f43cdf8034d64446b591b2d601967a8,
+    type: 3}
+  towerPrefab: {fileID: 7154574107333806312, guid: a586a2b991f41eb49b56f94c467ee917,
+    type: 3}

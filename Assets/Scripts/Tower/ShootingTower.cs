@@ -12,8 +12,6 @@ public abstract class ShootingTower : UpgradeableTower, IShootable
     [SerializeField] protected Transform shootingPoint = null;
 
     protected Transform currentTargetEnemy = null;
-
-    private float firingTimer = 0f;
     
     protected Bullet PrepareBullet()
     {
@@ -23,22 +21,6 @@ public abstract class ShootingTower : UpgradeableTower, IShootable
         bullet.gameObject.SetActive(true);
         return bullet.GetComponent<Bullet>();
     }
-    public virtual void Shoot(Transform target)
-    {
-        if (target == null) { return; }
-        if (firingTimer >= firingRate)
-        {
-            var bullet = PrepareBullet();
-            if (bullet != null)
-            {
-                bullet.AimTo(target, bulletSpeed, power);
-            }
-            firingTimer = 0f;
-        }
-        else
-        {
-            firingTimer += Time.deltaTime;
-        }
-    }
+    public abstract void Shoot(Transform target);
 
 }
