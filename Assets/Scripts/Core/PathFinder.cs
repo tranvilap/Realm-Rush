@@ -130,7 +130,6 @@ public class PathFinder : MonoBehaviour
         {
             //Set top's color for Start Waypoint
             grid.TryGetValue(startGridPos, out Waypoint start);
-            SetWaypointTopColor(start, map.StartWaypointColor);
             startWaypoint = start;
         }
         else
@@ -142,7 +141,6 @@ public class PathFinder : MonoBehaviour
         {
             //Set top's color for End Waypoint
             grid.TryGetValue(endGridPos, out Waypoint end);
-            SetWaypointTopColor(end, map.EndWaypointColor);
             endWaypoint = end;
         }
         else
@@ -154,10 +152,5 @@ public class PathFinder : MonoBehaviour
         {
             Debug.LogWarning("Start Waypoint is the same as End Waypoint.", startWaypoint);
         }
-    }
-
-    private void SetWaypointTopColor(Waypoint waypoint, Color color)
-    {
-        waypoint.SetTopColor(color);
     }
 }

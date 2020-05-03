@@ -5,10 +5,19 @@ using UnityEngine;
 public class TowerPlacePoint : MonoBehaviour
 {
     [SerializeField] bool isPlaceable = true;
+    [SerializeField] GameObject pedestal = null;
     Tower placingTower = null;
     GameObject previewingTower = null;
 
-    public bool IsPlaceable { get => isPlaceable; set => isPlaceable = value; }
+    public bool IsPlaceable
+    {
+        get => isPlaceable;
+        set
+        {
+            isPlaceable = value;
+            pedestal.SetActive(isPlaceable);
+        }
+    }
 
     public void ShowPreviewTower(GameObject previewTower)
     {
@@ -33,7 +42,7 @@ public class TowerPlacePoint : MonoBehaviour
         {
             placingTower.PlaceTowerAt(this);
         }
-        isPlaceable = false;
+        IsPlaceable = false;
     }
 
 
