@@ -4,22 +4,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public abstract class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     [SerializeField] protected float healthPoint = 10f;
     [SerializeField] protected int damage = 10;
     [SerializeField] private int money;
-
-    [SerializeField] protected ParticleSystem dieParticle = null;
-    [SerializeField] protected ParticleSystem reachedGoalParticle = null;
     
     public event Action OnEnemyDieEvent;
 
     public bool isHitable = true;
     public bool isDead = false;
-    public bool atGoal = false;
+    public bool reachedGoal = false;
 
-    protected Waypoint endWaypoint;
+
+    protected Waypoint goal;
 
     public float HealthPoint { get => healthPoint; set => healthPoint = value; }
     public int Damage { get => damage; set => damage = value; }
@@ -38,7 +36,7 @@ public abstract class Enemy : MonoBehaviour
         Map map = FindObjectOfType<Map>();
         if (map != null)
         {
-            endWaypoint = map.EndWaypoint;
+            goal = map.EndWaypoint;
         }
         foreach (var go in EventSystemListener.main.Listeners)
         {
@@ -46,9 +44,16 @@ public abstract class Enemy : MonoBehaviour
         }
     }
 
+    protected virtual void Update()
+    {
+        CheckIfReachGoal(transform.position);
+    }
+
     public virtual void Die()
     {
+        if(isDead || reachedGoal) { return; }
         isDead = true;
+        isHitable = false;
         OnEnemyDieEvent?.Invoke(); 
         foreach (var go in EventSystemListener.main.Listeners)
         {
@@ -58,13 +63,32 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void ReachGoal()
     {
-        atGoal = true;
+        if (isDead || reachedGoal) { return; }
+        reachedGoal = true;
+        isHitable = false;
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemyReachedGoal(this));
         }
     }
 
-    public abstract void GetHit(float damage);
-
+    public virtual void GetHit(float damage)
+    {
+        if (!isHitable || isDead || reachedGoal) { return; }
+        healthPoint -= damage;
+        if (healthPoint <= 0)
+        {
+            Die();
+        }
+    }
+    protected virtual void CheckIfReachGoal(Vector3 pos)
+    {
+        if (pos.x == goal.GridPos.x && pos.z == goal.GridPos.y && !isDead)
+        {
+            if (!reachedGoal)
+            {
+                ReachGoal();
+            }
+        }
+    }
 }

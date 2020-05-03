@@ -46,7 +46,7 @@ public class GameController : MonoBehaviour, IEnemyEvent
         var foundEnemies = FindObjectsOfType<Enemy>();
         foreach (var enemy in foundEnemies)
         {
-            if (!enemy.isDead && !enemy.atGoal)
+            if (!enemy.isDead && !enemy.reachedGoal)
             {
                 AddAliveEnemy(1);
             }
