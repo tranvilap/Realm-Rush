@@ -16,5 +16,5 @@ MonoBehaviour:
   towerImage: {fileID: 21300000, guid: b3c2643edc7f3314ca185d1f03e9b3af, type: 3}
   towerPreviewPrefab: {fileID: 3736152526328824359, guid: 0f43cdf8034d64446b591b2d601967a8,
     type: 3}
-  towerPrefab: {fileID: 7154574107333806312, guid: a586a2b991f41eb49b56f94c467ee917,
+  towerPrefab: {fileID: 4245604623712744416, guid: 4142477ac445a1841ad675f9dfb9eb8d,
     type: 3}

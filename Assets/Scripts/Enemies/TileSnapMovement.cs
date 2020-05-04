@@ -11,16 +11,6 @@ public class TileSnapMovement : EnemyMovement
     {
         base.Start();
     }
-    IEnumerator FollowPath(List<Waypoint> path, float movingTime)
-    {
-        foreach (var waypoint in path)
-        {
-            if (!isMovable) { break; }
-            transform.LookAt(waypoint.transform);
-            transform.position = waypoint.transform.position;
-            yield return new WaitForSeconds(movingTime);
-        }
-    }
     private void Update()
     {
         MoveToGoal();

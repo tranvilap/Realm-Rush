@@ -477,6 +477,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9048549767452451881}
   - component: {fileID: 114777564572751990}
+  - component: {fileID: 7054481800126927916}
   m_Layer: 11
   m_Name: Crystal Block
   m_TagString: Ground
@@ -513,3 +514,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: 1
+--- !u!65 &7054481800126927916
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9048549767452451880}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: -0.5, z: 0}

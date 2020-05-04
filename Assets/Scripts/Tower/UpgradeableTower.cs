@@ -13,9 +13,9 @@ public abstract class UpgradeableTower : Tower
     [Tooltip("List size must be equal to Upgrade Level Cap. For describing upgrade price for each level")]
     List<int> upgradePrices = new List<int>();
 
-    public event Action<UpgradeableTower> OnUpgradeEvent;
+    [SerializeField]private int currentTowerUpgradeLevel = 0;
 
-    private int currentTowerUpgradeLevel = 0;
+    public event Action<UpgradeableTower> OnUpgradeEvent;
 
     public int CurrentTowerUpgradeLevel
     {
@@ -50,6 +50,11 @@ public abstract class UpgradeableTower : Tower
         }
     }
 
+    protected override void Start()
+    {
+        base.Start();
+        CurrentTowerUpgradeLevel = currentTowerUpgradeLevel;
+    }
     public virtual void Upgrade()
     {
         if (!CheckUpgradeable()) { return; }

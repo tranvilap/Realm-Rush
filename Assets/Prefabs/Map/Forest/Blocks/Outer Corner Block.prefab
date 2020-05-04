@@ -88,6 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2972908577196987474}
   - component: {fileID: 114251775612948276}
+  - component: {fileID: 7608425632249431102}
   m_Layer: 11
   m_Name: Outer Corner Block
   m_TagString: Ground
@@ -124,6 +125,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: 1
+--- !u!65 &7608425632249431102
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2972908577196987485}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!1 &2972908578188017379
 GameObject:
   m_ObjectHideFlags: 0

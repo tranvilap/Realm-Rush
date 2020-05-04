@@ -90,6 +90,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8515409235806664810}
   - component: {fileID: 114265074485326852}
+  - component: {fileID: 9052614909767883901}
   m_Layer: 11
   m_Name: River Bridge Block
   m_TagString: Ground
@@ -126,6 +127,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridSize: 1
+--- !u!65 &9052614909767883901
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515409235806664725}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: -0.5, z: 0}
 --- !u!1 &8515409236347958053
 GameObject:
   m_ObjectHideFlags: 0

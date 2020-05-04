@@ -15,7 +15,10 @@ public class TowerPlacePoint : MonoBehaviour
         set
         {
             isPlaceable = value;
-            pedestal.SetActive(isPlaceable);
+            if (pedestal != null)
+            {
+                pedestal.SetActive(isPlaceable);
+            }
         }
     }
 
