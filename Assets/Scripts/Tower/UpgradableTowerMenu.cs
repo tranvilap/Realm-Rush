@@ -26,7 +26,6 @@ public class UpgradableTowerMenu : LookAtCameraObject
     }
      private void Start()
     {
-        gameObject.SetActive(false);
         if(tower!= null)
         {
             UpdateTowerUI(tower);

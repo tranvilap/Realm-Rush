@@ -1213,7 +1213,7 @@ GameObject:
   - component: {fileID: 4245604623712744419}
   - component: {fileID: 4245604623712744418}
   m_Layer: 12
-  m_Name: Balista
+  m_Name: Ballista
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

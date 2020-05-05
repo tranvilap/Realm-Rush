@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BalistaTower : ShootingTower
+public class BallistaTower : ShootingTower
 {
 
     [Header("Level 0")]
