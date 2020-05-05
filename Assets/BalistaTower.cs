@@ -4,21 +4,27 @@ using UnityEngine;
 
 public class BalistaTower : ShootingTower
 {
+
     [Header("Level 0")]
     [SerializeField] GameObject level0Tower = null;
     [SerializeField] Transform level0ShootingPoint = null;
     [SerializeField] Transform level0Balista = null;
     [SerializeField] Transform level0Bow = null;
+    [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level0Collider = null;
+
     [Header("Level 1")]
     [SerializeField] GameObject level1Tower = null;
     [SerializeField] Transform level1ShootingPoint = null;
     [SerializeField] Transform level1Balista = null;
     [SerializeField] Transform level1Bow = null;
+    [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level1Collider = null;
+
     [Header("Level 2")]
     [SerializeField] GameObject level2Tower = null;
     [SerializeField] Transform level2ShootingPoint = null;
     [SerializeField] Transform level2Balista = null;
     [SerializeField] Transform level2Bow = null;
+    [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level2Collider = null;
 
     [Header("Level 2 - Second Balista")]
     [SerializeField] Transform secondShootingPoint = null;
@@ -27,6 +33,7 @@ public class BalistaTower : ShootingTower
 
     Transform balistaToPan = null;
     Transform bowToPan = null;
+    BoxCollider boxCollider;
 
     private float firingTimer = 0f;
     private Transform secondTargetEnemy = null;
@@ -34,6 +41,7 @@ public class BalistaTower : ShootingTower
     protected override void Start()
     {
         base.Start();
+        boxCollider = GetComponent<BoxCollider>();
         SetUpTower();
     }
 
@@ -110,6 +118,7 @@ public class BalistaTower : ShootingTower
                     level1Tower.SetActive(false);
                     level2Tower.SetActive(false);
 
+                    SetUpCollider(level0Collider);
                     shootingPoint = level0ShootingPoint;
                     balistaToPan = level0Balista;
                     bowToPan = level0Bow;
@@ -121,6 +130,7 @@ public class BalistaTower : ShootingTower
                     level1Tower.SetActive(true);
                     level2Tower.SetActive(false);
 
+                    SetUpCollider(level1Collider);
                     shootingPoint = level1ShootingPoint;
                     balistaToPan = level1Balista;
                     bowToPan = level1Bow;
@@ -133,6 +143,7 @@ public class BalistaTower : ShootingTower
                     level1Tower.SetActive(false);
                     level2Tower.SetActive(true);
 
+                    SetUpCollider(level2Collider);
                     shootingPoint = level2ShootingPoint;
                     balistaToPan = level2Balista;
                     bowToPan = level2Bow;
@@ -140,10 +151,24 @@ public class BalistaTower : ShootingTower
                 }
         }
     }
+    private void SetUpCollider(BoxCollider targetBoxCollider)
+    {
+        boxCollider.size = targetBoxCollider.size;
+        boxCollider.center = targetBoxCollider.center;
+    }
 
     public override void Upgrade()
     {
         base.Upgrade();
         SetUpTower();
+        GameObject upgradeEffect =  SharedObjectPooler.main.GetPooledObject(Constants.UPGRADE_TOWER_VFX);
+        if(upgradeEffect != null)
+        {
+            Vector3 effectPosition = transform.position;
+            effectPosition.y = upgradeEffect.transform.position.y;
+            upgradeEffect.transform.position = effectPosition;
+            upgradeEffect.SetActive(true);
+        }
     }
+
 }
