@@ -21,12 +21,12 @@ public class CannonTower : ShootingTower
     public override void Shoot(Transform target)
     {
         if (target == null) { return; }
-        if (firingTimer >= firingRate)
+        if (firingTimer >= currentFiringRate)
         {
             var bullet = PrepareBullet();
             if (bullet != null)
             {
-                bullet.AimTo(target, bulletSpeed, power);
+                bullet.AimTo(target, currentBulletSpeed, currentPower);
             }
             firingTimer = 0f;
         }
@@ -38,7 +38,7 @@ public class CannonTower : ShootingTower
 
     protected override void SeekTarget()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRadius, WhatIsTarger);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, currentEffectRadius, WhatIsTarget);
         if (hitColliders.Length > 0)
         {
             currentTargetEnemy = hitColliders[0].transform;
@@ -55,8 +55,8 @@ public class CannonTower : ShootingTower
         if (!CheckUpgradeable()) { return; }
         base.Upgrade();
         //Todo write upgrade logic
-        firingRate -= 0.2f;
-        bulletSpeed += 0.2f;
-        power += 1f;
+        baseFiringRate -= 0.2f;
+        baseBulletSpeed += 0.2f;
+        basePower += 1f;
     }
 }

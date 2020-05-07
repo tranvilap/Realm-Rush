@@ -14,18 +14,7 @@ public class Bullet : MonoBehaviour
     protected float autoDestroyTimer = 0f;
     protected Vector3 targetPos;
 
-    ShootingTower tower = null;
-
     public float BulletPower { get => bulletPower; set => bulletPower = value; }
-
-    void Start()
-    {
-        tower = GetComponentInParent<ShootingTower>();
-        if (tower != null)
-        {
-            ChangePower(tower.power);
-        }
-    }
 
     protected virtual void Update()
     {
@@ -63,6 +52,11 @@ public class Bullet : MonoBehaviour
     public void ChangePower(float amount)
     {
         BulletPower = amount;
+    }
+
+    public virtual void Shoot()
+    {
+
     }
 }
 

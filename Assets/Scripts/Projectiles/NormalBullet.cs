@@ -2,23 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalBullet : Bullet
+public class NormalBullet : FlyForwardTagetBullet
 {
     [SerializeField] ParticleSystem projectileParticle = null;
     [SerializeField] ParticleSystem onHitParticle = null;
     
-
-    protected override void Update()
-    {
-        base.Update();
-        FlyForward();
-    }
-
-    void FlyForward()
-    {
-        //transform.position = Vector3.MoveTowards(transform.position, targetPos, speed * Time.deltaTime);
-        transform.position += transform.forward * speed * Time.deltaTime;
-    }
 
     protected override void OnTriggerEnter(Collider other)
     {

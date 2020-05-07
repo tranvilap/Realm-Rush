@@ -60,15 +60,15 @@ public class BallistaTower : ShootingTower
         {
             case 0:
             case 1:
-            case 2:
                 {
                     if (target == null) { return; }
-                    if (firingTimer >= firingRate)
+                    if (firingTimer >= currentFiringRate)
                     {
                         var bullet = PrepareBullet();
                         if (bullet != null)
                         {
-                            bullet.AimTo(target, bulletSpeed, power);
+                            bullet.AimTo(target, currentBulletSpeed, currentPower);
+                            bullet.Shoot();
                         }
                         firingTimer = 0f;
                     }
@@ -78,33 +78,63 @@ public class BallistaTower : ShootingTower
                     }
                     break;
                 }
-            case 3:
-                {
-                    break;
-                }
+            case 2:
             default:
+                if (target == null) { return; }
+                if (firingTimer >= currentFiringRate)
+                {
+                    var bullet = PrepareBullet();
+                    var secondBullet = PrepareBulletAt(secondShootingPoint);
+                    if (bullet != null)
+                    {
+                        bullet.AimTo(target, currentBulletSpeed, currentPower);
+                        bullet.Shoot();
+                    }
+                    if(secondBullet != null)
+                    {
+                        secondBullet.AimTo(secondTargetEnemy, currentBulletSpeed, currentPower);
+                        secondBullet.Shoot();
+                    }
+                    firingTimer = 0f;
+                }
+                else
+                {
+                    firingTimer += Time.deltaTime;
+                }
                 break;
         }
     }
 
     protected override void SeekTarget()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRadius, WhatIsTarger);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, CurrentEffectRadius, WhatIsTarget);
         if (hitColliders.Length == 0) { currentTargetEnemy = null; return; }
-        if (CurrentTowerUpgradeLevel == 3)
-        {
+        currentTargetEnemy = hitColliders[0].transform;
+        Vector3 balistaTarget = new Vector3(currentTargetEnemy.transform.position.x,
+                                        balistaToPan.transform.position.y,
+                                        currentTargetEnemy.transform.position.z);
 
-        }
-        else
-        {
-            currentTargetEnemy = hitColliders[0].transform;
-            Vector3 balistaTarget = new Vector3(currentTargetEnemy.transform.position.x,
-                                            balistaToPan.transform.position.y,
-                                            currentTargetEnemy.transform.position.z);
+        balistaToPan.LookAt(balistaTarget);
+        bowToPan.LookAt(currentTargetEnemy);
 
-            balistaToPan.LookAt(balistaTarget);
-            bowToPan.LookAt(currentTargetEnemy);
+        if (CurrentTowerUpgradeLevel >= 2)
+        {
+            if(hitColliders.Length < 2)
+            {
+                secondTargetEnemy = currentTargetEnemy;
+            }
+            else
+            {
+                secondTargetEnemy = hitColliders[1].transform;
+            }
+            Vector3 secondBalistaTarget = new Vector3(secondTargetEnemy.position.x,
+                                        secondBalista.position.y,
+                                        secondTargetEnemy.position.z);
+
+            secondBalista.LookAt(secondBalistaTarget);
+            secondBow.LookAt(secondTargetEnemy);
         }
+
 
     }
 
@@ -136,7 +166,7 @@ public class BallistaTower : ShootingTower
                     bowToPan = level1Bow;
                     break;
                 }
-            case 3:
+            case 2:
             default:
                 {
                     level0Tower.SetActive(false);
