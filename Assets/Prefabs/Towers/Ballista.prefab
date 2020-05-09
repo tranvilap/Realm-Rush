@@ -1263,9 +1263,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfc6dd9b6e8f636428273cb3030363ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabToPool: {fileID: 5039587878975332208, guid: b83700c2efdc2984b8ecbf71a1d9b8a0,
+  prefabToPool: {fileID: 2425768343275772388, guid: 7d09d51ba4225354ab3a02b3072b0351,
     type: 3}
-  amountToPool: 3
+  amountToPool: 5
 --- !u!114 &4245604623712744418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1278,7 +1278,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f08a01ee4d94c4b43a86cbaa99f3537a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseEffectRadius: 2
+  effectRadius:
+    BaseValue: 2
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 1024
@@ -1288,13 +1289,13 @@ MonoBehaviour:
   upgradeLevelCap: 2
   upgradePrices: 64000000c8000000
   currentTowerUpgradeLevel: 0
-  baseFiringRate: 0.3
-  baseBulletSpeed: 2
-  basePower: 1
+  firingRate:
+    BaseValue: 0.5
+  bulletSpeed:
+    BaseValue: 7
+  power:
+    BaseValue: 1
   shootingPoint: {fileID: 0}
-  currentFiringRate: 0
-  currentBulletSpeed: 0
-  currentPower: 0
   level0Tower: {fileID: 6917973546644315467}
   level0ShootingPoint: {fileID: 1101817631770976405}
   level0Balista: {fileID: 141308543514615965}

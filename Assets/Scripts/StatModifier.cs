@@ -1,4 +1,5 @@
-﻿
+﻿using System;
+
 namespace Stats
 {
     public enum StatModifierType
@@ -7,7 +8,7 @@ namespace Stats
         PercentAdd = 200,
         PercentMultiply = 300
     }
-
+    [Serializable]
     public class StatModifier
     {
         public readonly float Value;

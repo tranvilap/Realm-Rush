@@ -3458,37 +3458,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4245604623712744418, guid: 4142477ac445a1841ad675f9dfb9eb8d,
-        type: 3}
-      propertyPath: baseBulletSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245604623712744418, guid: 4142477ac445a1841ad675f9dfb9eb8d,
-        type: 3}
-      propertyPath: basePower
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245604623712744418, guid: 4142477ac445a1841ad675f9dfb9eb8d,
-        type: 3}
-      propertyPath: baseEffectRadius
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245604623712744418, guid: 4142477ac445a1841ad675f9dfb9eb8d,
-        type: 3}
-      propertyPath: baseFiringRate
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4245604623712744419, guid: 4142477ac445a1841ad675f9dfb9eb8d,
-        type: 3}
-      propertyPath: prefabToPool
-      value: 
-      objectReference: {fileID: 2425768343275772388, guid: 7d09d51ba4225354ab3a02b3072b0351,
-        type: 3}
-    - target: {fileID: 4245604623712744419, guid: 4142477ac445a1841ad675f9dfb9eb8d,
-        type: 3}
-      propertyPath: amountToPool
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4142477ac445a1841ad675f9dfb9eb8d, type: 3}
 --- !u!1 &1928945722 stripped
@@ -3732,7 +3701,7 @@ PrefabInstance:
     - target: {fileID: 2361536774323665670, guid: a868551af03c5a746a59beb1883a9b00,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.000005722046
+      value: -0.00006484985
       objectReference: {fileID: 0}
     - target: {fileID: 2361536774481689115, guid: a868551af03c5a746a59beb1883a9b00,
         type: 3}

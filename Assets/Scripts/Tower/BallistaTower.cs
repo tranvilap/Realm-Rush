@@ -62,12 +62,12 @@ public class BallistaTower : ShootingTower
             case 1:
                 {
                     if (target == null) { return; }
-                    if (firingTimer >= currentFiringRate)
+                    if (firingTimer >= firingRate.CalculatedValue)
                     {
                         var bullet = PrepareBullet();
                         if (bullet != null)
                         {
-                            bullet.AimTo(target, currentBulletSpeed, currentPower);
+                            bullet.AimTo(target, bulletSpeed.CalculatedValue, power.CalculatedValue);
                             bullet.Shoot();
                         }
                         firingTimer = 0f;
@@ -81,18 +81,18 @@ public class BallistaTower : ShootingTower
             case 2:
             default:
                 if (target == null) { return; }
-                if (firingTimer >= currentFiringRate)
+                if (firingTimer >= firingRate.CalculatedValue)
                 {
                     var bullet = PrepareBullet();
                     var secondBullet = PrepareBulletAt(secondShootingPoint);
                     if (bullet != null)
                     {
-                        bullet.AimTo(target, currentBulletSpeed, currentPower);
+                        bullet.AimTo(target, bulletSpeed.CalculatedValue, power.CalculatedValue);
                         bullet.Shoot();
                     }
                     if(secondBullet != null)
                     {
-                        secondBullet.AimTo(secondTargetEnemy, currentBulletSpeed, currentPower);
+                        secondBullet.AimTo(secondTargetEnemy, bulletSpeed.CalculatedValue, power.CalculatedValue);
                         secondBullet.Shoot();
                     }
                     firingTimer = 0f;
@@ -107,7 +107,7 @@ public class BallistaTower : ShootingTower
 
     protected override void SeekTarget()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, CurrentEffectRadius, WhatIsTarget);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRadius.CalculatedValue, WhatIsTarget);
         if (hitColliders.Length == 0) { currentTargetEnemy = null; return; }
         currentTargetEnemy = hitColliders[0].transform;
         Vector3 balistaTarget = new Vector3(currentTargetEnemy.transform.position.x,

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using Stats;
 [SelectionBase]
 public abstract class Tower : MonoBehaviour
 {
     [Header("Basic Info")]
-    [SerializeField] private float baseEffectRadius = 2f;
+    [SerializeField] private BaseStat effectRadius;
     [SerializeField] LayerMask whatIsTarget;
     [SerializeField] Canvas menuCanvas = null;
 
@@ -16,10 +16,7 @@ public abstract class Tower : MonoBehaviour
 
     [Min(0)] protected int towerTotalValue = 0;
 
-    protected float currentEffectRadius;
-
-    public float BaseEffectRadius { get => baseEffectRadius; set => baseEffectRadius = value; }
-    public float CurrentEffectRadius { get => currentEffectRadius; set => currentEffectRadius = value; }
+    public BaseStat EffectRadius { get => effectRadius; set => effectRadius = value; }
     public LayerMask WhatIsTarget { get => whatIsTarget; set => whatIsTarget = value; }
     public virtual int SellingPrice { get => (int)(towerTotalValue * 0.8f); }
     public Canvas MenuCanvas { get => menuCanvas; set => menuCanvas = value; }
@@ -37,7 +34,6 @@ public abstract class Tower : MonoBehaviour
         playerHQ = FindObjectOfType<PlayerHQ>();
         towerTotalValue = summonPrice;
         inputsHandler = FindObjectOfType<InputsHandler>();
-        currentEffectRadius = baseEffectRadius;
 
         var parent = GameObject.Find("Towers");
         if(parent == null)
@@ -84,7 +80,7 @@ public abstract class Tower : MonoBehaviour
     {
         Gizmos.color = Color.red;
         //Use the same vars you use to draw your Overlap SPhere to draw your Wire Sphere.
-        Gizmos.DrawWireSphere(transform.position, currentEffectRadius);
+        Gizmos.DrawWireSphere(transform.position, effectRadius.CalculatedValue);
     }
 
 }

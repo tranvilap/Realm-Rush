@@ -1,28 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using Stats;
 
 [RequireComponent(typeof(ObjectPooler))]
 public abstract class ShootingTower : UpgradeableTower, IShootable
 {
     [Header("Shooting Info")]
-    [SerializeField] protected float baseFiringRate = 0.3f;
-    [SerializeField] protected float baseBulletSpeed = 2f;
-    [SerializeField] protected float basePower = 1f;
+    [SerializeField] protected BaseStat firingRate;
+    [SerializeField] protected BaseStat bulletSpeed;
+    [SerializeField] protected BaseStat power;
     [SerializeField] protected Transform shootingPoint = null;
 
     protected Transform currentTargetEnemy = null;
 
-    [HideInInspector] public float currentFiringRate;
-    [HideInInspector] public float currentBulletSpeed;
-    [HideInInspector] public float currentPower;
-
     protected override void Start()
     {
         base.Start();
-        currentFiringRate = baseFiringRate;
-        currentBulletSpeed = baseBulletSpeed;
-        currentPower = basePower;
     }
 
     protected Bullet PrepareBullet()
