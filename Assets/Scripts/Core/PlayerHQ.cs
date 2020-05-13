@@ -9,10 +9,10 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
     [SerializeField] private int money = 0;
 
     public delegate void OnAddMoney(int amount);
-    public event OnAddMoney OnAddMoneyEvent;   //For Add money animation on UI
+    public event OnAddMoney OnEarningMoneyEvent;   //For Add money animation on UI
 
     public delegate void OnSubtractMoney(int amount);
-    public event OnSubtractMoney OnDeductMoneyEvent;   //For Subtract money animation on UI
+    public event OnSubtractMoney OnSpendingMoneyEvent;   //For Subtract money animation on UI
 
     public delegate void OnChangeMoney(int amount);
     public event OnChangeMoney OnChangeMoneyEvent;
@@ -78,12 +78,12 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
     public void AddMoney(int amount)
     {
         ChangeMoney(money + amount);
-        OnAddMoneyEvent?.Invoke(amount);
+        OnEarningMoneyEvent?.Invoke(amount);
     }
     public void SubtractMoney(int amount)
     {
         ChangeMoney(money - amount);
-        OnDeductMoneyEvent?.Invoke(amount);
+        OnSpendingMoneyEvent?.Invoke(amount);
     }
 
     private void OnPlacingTowerEvent(TowerData towerData, GameObject placedTower)
@@ -94,7 +94,7 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
     {
         AddMoney(tower.SellingPrice);
     }
-    public void OnUpgradeTower(Tower tower, int moneyToUpgrade)
+    public void OnUpgradeTower(UpgradeableTower tower, int moneyToUpgrade)
     {
         SubtractMoney(moneyToUpgrade);
     }

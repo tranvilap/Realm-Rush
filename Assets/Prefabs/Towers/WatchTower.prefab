@@ -1667,7 +1667,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be3dffa9163fd004bae3b56a99b571bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectRange:
+  effectRangeRadius:
     BaseValue: 2
   whatIsTarget:
     serializedVersion: 2

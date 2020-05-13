@@ -5,5 +5,5 @@ using UnityEngine.EventSystems;
 
 public interface IUpgradeTowerEvent : IEventSystemHandler
 {
-    void OnUpgradeTower(Tower tower, int moneyToUpgrade);
+    void OnUpgradeTower(UpgradeableTower tower, int moneyToUpgrade);
 }

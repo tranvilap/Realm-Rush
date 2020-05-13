@@ -107,7 +107,7 @@ public class BallistaTower : ShootingTower
 
     protected override void SeekTarget()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRange.CalculatedValue, WhatIsTarget);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
         if (hitColliders.Length == 0) { currentTargetEnemy = null; return; }
         currentTargetEnemy = hitColliders[0].transform;
         Vector3 balistaTarget = new Vector3(currentTargetEnemy.transform.position.x,
@@ -189,8 +189,9 @@ public class BallistaTower : ShootingTower
 
     public override void Upgrade()
     {
-        base.Upgrade();
         if (!CheckUpgradeable()) { return; }
+        base.Upgrade();
+        EffectRangeRadius.BaseValue += 1;
         SetUpTower();
         GameObject upgradeEffect =  SharedObjectPooler.main.GetPooledObject(Constants.UPGRADE_TOWER_VFX);
         if(upgradeEffect != null)

@@ -17,7 +17,7 @@ namespace TowerBuffs
             foreach (var mod in effectRangeMods)
             {
                 var newMod = new StatModifier(mod, parent);
-                tower.EffectRange.AddModifier(newMod);
+                tower.EffectRangeRadius.AddModifier(newMod);
             }
             if (tower is ShootingTower)
             {
@@ -42,7 +42,7 @@ namespace TowerBuffs
         public override bool RemoveEffect(BaseTowerBuff parent, Tower tower)
         {
             bool didRemove = false;
-            didRemove = tower.EffectRange.RemoveModifiersFromSource(parent);
+            didRemove = tower.EffectRangeRadius.RemoveModifiersFromSource(parent);
             if (tower is ShootingTower)
             {
                 if (!didRemove)

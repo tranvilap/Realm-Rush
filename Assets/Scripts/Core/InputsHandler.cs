@@ -5,15 +5,26 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 public class InputsHandler : MonoBehaviour
 {
+    [SerializeField] TowerRangeDisplayer towerRangeDisplayer = null;
 
     PlaceTowerController placeTowerController = null;
     Canvas showingTowerMenu = null;
     Bounds cameraBounds;
     CameraController cameraController;
+
+    private void OnEnable()
+    {
+        if(placeTowerController == null)
+        {
+            placeTowerController = FindObjectOfType<PlaceTowerController>();
+        }
+        placeTowerController.OnUpgradingTowerEvent += OnUpgradingTower;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        placeTowerController = FindObjectOfType<PlaceTowerController>();
+        
         cameraController = FindObjectOfType<CameraController>();
     }
 
@@ -42,7 +53,7 @@ public class InputsHandler : MonoBehaviour
             var tower = hit.transform.GetComponent<Tower>();
             if (tower != null)
             {
-                OpenTowerMenu(tower);
+                OpenTowerMenuAndShowTowerRange(tower);
                 return;
             }
 
@@ -50,7 +61,7 @@ public class InputsHandler : MonoBehaviour
             {
                 if (showingTowerMenu.gameObject.activeInHierarchy)
                 {
-                    CloseTowerMenu();
+                    CloseTowerMenuAndTowerRange();
                     return;
                 }
                 else
@@ -68,13 +79,14 @@ public class InputsHandler : MonoBehaviour
 
 
 
-    private void CloseTowerMenu()
+    private void CloseTowerMenuAndTowerRange()
     {
         showingTowerMenu.gameObject.SetActive(false);
         showingTowerMenu = null;
+        towerRangeDisplayer.HideRange();
     }
 
-    private void OpenTowerMenu(Tower tower)
+    private void OpenTowerMenuAndShowTowerRange(Tower tower)
     {
         if (showingTowerMenu != null)
         {
@@ -82,6 +94,8 @@ public class InputsHandler : MonoBehaviour
         }
         tower.OpenTowerMenu();
         showingTowerMenu = tower.MenuCanvas;
+
+        towerRangeDisplayer.ShowRange(tower);
     }
 
 
@@ -102,4 +116,13 @@ public class InputsHandler : MonoBehaviour
         }
     }
 
+    void OnUpgradingTower(UpgradeableTower tower)
+    {
+        towerRangeDisplayer.UpdateRange();
+    }
+
+    private void OnDisable()
+    {
+        placeTowerController.OnUpgradingTowerEvent -= OnUpgradingTower;
+    }
 }

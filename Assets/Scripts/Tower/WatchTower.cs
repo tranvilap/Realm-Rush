@@ -28,7 +28,7 @@ public class WatchTower : BuffingTower
 
     protected override void SeekTarget()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRange.CalculatedValue, WhatIsTarget);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
         foreach (var collider in hitColliders)
         {
             ShootingTower shootingTower = collider.GetComponent<ShootingTower>();

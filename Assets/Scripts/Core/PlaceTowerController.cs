@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class PlaceTowerController : MonoBehaviour, ITowerEvent
+public class PlaceTowerController : MonoBehaviour, ITowerEvent, IUpgradeTowerEvent
 {
     public enum PLACE_TOWER_FAIL_REASON { NOT_ENOUGH_MONEY, UNPLACEABLE_POINT }
 
@@ -12,6 +12,7 @@ public class PlaceTowerController : MonoBehaviour, ITowerEvent
     public event OnFailedPlacingTower FailedPlacingTowerEvent;
 
     public event Action<Tower> OnSellingTowerEvent;
+    public event Action<UpgradeableTower> OnUpgradingTowerEvent;
 
     private TowerData choosingTowerData = null;
     private TowerPlacePoint choosingSpawpoint = null;
@@ -92,5 +93,10 @@ public class PlaceTowerController : MonoBehaviour, ITowerEvent
     public void OnSellingTower(Tower tower)
     {
         OnSellingTowerEvent?.Invoke(tower);
+    }
+
+    public void OnUpgradeTower(UpgradeableTower tower, int moneyToUpgrade)
+    {
+        OnUpgradingTowerEvent?.Invoke(tower);
     }
 }

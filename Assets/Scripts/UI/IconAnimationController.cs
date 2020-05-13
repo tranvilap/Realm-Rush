@@ -15,19 +15,19 @@ public class IconAnimationController : MonoBehaviour
         {
             playerHQ = FindObjectOfType<PlayerHQ>();
         }
-        playerHQ.OnAddMoneyEvent += OnMoneyIncrement;
-        playerHQ.OnDeductMoneyEvent += OnMoneyDecrement;
+        playerHQ.OnEarningMoneyEvent += OnMoneyEarning;
+        playerHQ.OnSpendingMoneyEvent += OnMoneySpending;
         playerHQ.TookDamage += OnHealthDecrement;
 
 
     }
-    private void OnMoneyIncrement(int amount)
+    private void OnMoneyEarning(int amount)
     {
         var go = goldCoin.GetObject();
         if (go == null) { return; }
         go.GetComponent<IconAnimations>().PlayIncrementAnimation(amount);
     }
-    private void OnMoneyDecrement(int amount)
+    private void OnMoneySpending(int amount)
     {
         var go = goldCoin.GetObject();
         if (go == null) { return; }
