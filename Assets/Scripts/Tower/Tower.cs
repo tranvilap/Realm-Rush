@@ -3,30 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Stats;
+using TowerBuffs;
 [SelectionBase]
 public abstract class Tower : MonoBehaviour
 {
     [Header("Basic Info")]
-    [SerializeField] private BaseStat effectRadius;
+    [SerializeField] private BaseStat effectRange;
     [SerializeField] LayerMask whatIsTarget;
     [SerializeField] Canvas menuCanvas = null;
+    [SerializeField] Color gizmoColor = Color.red;
 
     [Tooltip("Must be assign with the value in Tower Data price, can be change in run time")]
     [SerializeField] private int summonPrice = 0;
 
     [Min(0)] protected int towerTotalValue = 0;
 
-    public BaseStat EffectRadius { get => effectRadius; set => effectRadius = value; }
-    public LayerMask WhatIsTarget { get => whatIsTarget; set => whatIsTarget = value; }
+    public virtual BaseStat EffectRange { get => effectRange; set => effectRange = value; }
+    public virtual LayerMask WhatIsTarget { get => whatIsTarget; set => whatIsTarget = value; }
     public virtual int SellingPrice { get => (int)(towerTotalValue * 0.8f); }
     public Canvas MenuCanvas { get => menuCanvas; set => menuCanvas = value; }
 
+    [HideInInspector] public List<BaseTowerBuff> receivingBuffs = new List<BaseTowerBuff>();
     protected ObjectPooler bulletPooler;
     protected PlayerHQ playerHQ;
     public TowerPlacePoint placingPoint;
 
     protected Camera mainCamera;
     protected InputsHandler inputsHandler;
+
 
     protected virtual void Start()
     {
@@ -74,13 +78,39 @@ public abstract class Tower : MonoBehaviour
         MenuCanvas.gameObject.SetActive(false);
     }
 
+    public virtual void AddBuff(BaseTowerBuff towerBuff, int buffLevel)
+    {
+        towerBuff.SetTargetTower(this, buffLevel);
+        towerBuff.ApplyBuffsToTarget();
+
+        receivingBuffs.Add(towerBuff);
+    }
+
+    public virtual void RemoveBuff(BaseTowerBuff towerBuff)
+    {
+        towerBuff.RemoveTargetBuffs();
+
+        if(towerBuff is InstantBuff)
+        {
+            var buffSourceTower = ((InstantBuff)towerBuff).SourceTower;
+            if (buffSourceTower!= null)
+            {
+                buffSourceTower.GivingBuffs.Remove(towerBuff);
+            }
+        }
+
+        Destroy(towerBuff.gameObject);
+
+        receivingBuffs.Remove(towerBuff);
+    }
+
     protected abstract void SeekTarget();
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
+        Gizmos.color = gizmoColor;
         //Use the same vars you use to draw your Overlap SPhere to draw your Wire Sphere.
-        Gizmos.DrawWireSphere(transform.position, effectRadius.CalculatedValue);
+        Gizmos.DrawWireSphere(transform.position, effectRange.CalculatedValue);
     }
 
 }

@@ -12,6 +12,10 @@ public abstract class ShootingTower : UpgradeableTower, IShootable
 
     protected Transform currentTargetEnemy = null;
 
+    public BaseStat FiringRate { get => firingRate; }
+    public BaseStat BulletSpeed { get => bulletSpeed; }
+    public BaseStat Power { get => power;}
+
     protected override void Start()
     {
         base.Start();

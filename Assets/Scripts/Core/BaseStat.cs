@@ -100,7 +100,7 @@ namespace Stats
         public virtual bool RemoveModifiersFromSource(object source)
         {
             bool didRemove = false;
-            for (int i = statModifiers.Count - 1; i <= 0; i--)
+            for (int i = statModifiers.Count - 1; i >= 0; i--)
             {
                 if (statModifiers[i].Source == source)
                 {
@@ -110,6 +110,15 @@ namespace Stats
                 }
             }
             return didRemove;
+        }
+        public virtual bool ChangeModifier(StatModifier from, StatModifier to)
+        {
+            var index = statModifiers.FindIndex(ind => ind.Equals(from));
+            if(index == -1) { return false; }
+            isDirty = true;
+            statModifiers[index] = to;
+            statModifiers.Sort(CompareModifierOrder);
+            return true;
         }
     } 
 }

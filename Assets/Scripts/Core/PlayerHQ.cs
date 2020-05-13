@@ -86,7 +86,7 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
         OnDeductMoneyEvent?.Invoke(amount);
     }
 
-    private void OnPlacingTowerEvent(TowerData towerData)
+    private void OnPlacingTowerEvent(TowerData towerData, GameObject placedTower)
     {
         SubtractMoney(towerData.price);
     }

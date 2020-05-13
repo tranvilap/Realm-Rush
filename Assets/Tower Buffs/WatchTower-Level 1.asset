@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1e09093deb0b6f4cb094c3cad5190bb, type: 3}
+  m_Name: WatchTower-Level 2
+  m_EditorClassIdentifier: 
+  effectRangeMods:
+  - value: 3
+    Type: 100
+    usingTypeOrder: 1
+    order: 0
+  firingRateMods:
+  - value: -0.1
+    Type: 100
+    usingTypeOrder: 1
+    order: 0
+  bulletSpeedMods:
+  - value: 0.1
+    Type: 300
+    usingTypeOrder: 1
+    order: 0
+  powerBonuses:
+  - value: 0
+    Type: 100
+    usingTypeOrder: 1
+    order: 100

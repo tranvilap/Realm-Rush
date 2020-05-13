@@ -1,14 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
-public class PlaceTowerController : MonoBehaviour
+public class PlaceTowerController : MonoBehaviour, ITowerEvent
 {
     public enum PLACE_TOWER_FAIL_REASON { NOT_ENOUGH_MONEY, UNPLACEABLE_POINT }
 
-    public delegate void OnSuccessPlacingTower(TowerData tower);
+    public delegate void OnSuccessPlacingTower(TowerData tower, GameObject placedTower);
     public event OnSuccessPlacingTower SuccessPlacingTowerEvent;
 
     public delegate void OnFailedPlacingTower(TowerData tower, PLACE_TOWER_FAIL_REASON reason);
     public event OnFailedPlacingTower FailedPlacingTowerEvent;
+
+    public event Action<Tower> OnSellingTowerEvent;
 
     private TowerData choosingTowerData = null;
     private TowerPlacePoint choosingSpawpoint = null;
@@ -19,6 +22,7 @@ public class PlaceTowerController : MonoBehaviour
     private void Start()
     {
         playerHQ = FindObjectOfType<PlayerHQ>();
+        EventSystemListener.main.AddListener(gameObject);
     }
 
     public void CheckTowerPlaceable(TowerPlacePoint placePoint)
@@ -54,8 +58,8 @@ public class PlaceTowerController : MonoBehaviour
             FailedPlacingTowerEvent?.Invoke(towerData, PLACE_TOWER_FAIL_REASON.UNPLACEABLE_POINT);
             return;
         }
-        placePoint.BuildTower(towerData.towerPrefab);
-        SuccessPlacingTowerEvent?.Invoke(towerData);
+        var placedTower = placePoint.BuildTower(towerData.towerPrefab);
+        SuccessPlacingTowerEvent?.Invoke(towerData, placedTower);
     }
 
     public void ChooseTowerToPlace(TowerData towerData)
@@ -83,5 +87,10 @@ public class PlaceTowerController : MonoBehaviour
         {
             PlaceTower(choosingSpawpoint, choosingTowerData);
         }
+    }
+
+    public void OnSellingTower(Tower tower)
+    {
+        OnSellingTowerEvent?.Invoke(tower);
     }
 }

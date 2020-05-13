@@ -35,9 +35,9 @@ public class TowerPlacePoint : MonoBehaviour
         previewingTower = null;
     }
 
-    public void BuildTower(GameObject tower)
+    public GameObject BuildTower(GameObject tower)
     {
-        if (!isPlaceable) { return; }
+        if (!isPlaceable) { return null; }
         HidePreviewTower();
         var go = Instantiate(tower, transform.position, Quaternion.identity);
         placingTower = go.GetComponent<Tower>();
@@ -46,6 +46,7 @@ public class TowerPlacePoint : MonoBehaviour
             placingTower.PlaceTowerAt(this);
         }
         IsPlaceable = false;
+        return go;
     }
 
 

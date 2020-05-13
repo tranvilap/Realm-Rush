@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 22e75497a559bf8498388d8f3a01f9b4, type: 3}
-  m_Name: Tower Cannon
+  m_Name: WatchTower
   m_EditorClassIdentifier: 
-  price: 5
-  towerImage: {fileID: 21300000, guid: b3c2643edc7f3314ca185d1f03e9b3af, type: 3}
-  towerPreviewPrefab: {fileID: 100000, guid: af043257944da7f4cba7a0cbaf741bbc, type: 3}
-  towerPrefab: {fileID: 3736152526328824359, guid: 8ec06937e78356a4b95f64e40bea4b63,
+  price: 50
+  towerImage: {fileID: 21300000, guid: d0c05b9125ed56349a5385e1a77547b7, type: 3}
+  towerPreviewPrefab: {fileID: 100002, guid: 3509ec8c18793f94abd96b5f614de8f4, type: 3}
+  towerPrefab: {fileID: 7501660269135874142, guid: b27c758399ac2bb4ab66560fec1809cf,
     type: 3}
