@@ -13,22 +13,10 @@ MonoBehaviour:
   m_Name: WatchTower-Level 0
   m_EditorClassIdentifier: 
   effectRangeMods:
-  - value: 2
-    Type: 100
-    usingTypeOrder: 1
-    order: 0
-  firingRateMods:
-  - value: -0.1
-    Type: 100
-    usingTypeOrder: 1
-    order: 0
-  bulletSpeedMods:
   - value: 0.1
     Type: 300
     usingTypeOrder: 1
     order: 0
-  powerBonuses:
-  - value: 0
-    Type: 100
-    usingTypeOrder: 1
-    order: 100
+  firingRateMods: []
+  bulletSpeedMods: []
+  powerBonuses: []

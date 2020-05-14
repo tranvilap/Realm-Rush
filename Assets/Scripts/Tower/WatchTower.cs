@@ -11,10 +11,13 @@ public class WatchTower : BuffingTower
     [SerializeField] WatchTowerBuff level2WatchTowerBuff = null;
 
     [Header("Level 0")]
+    [SerializeField] float level0EffectRange = 1;
     [SerializeField] GameObject level0TowerModel = null;
     [Header("Level 1")]
+    [SerializeField] float level1EffectRange = 2;
     [SerializeField] GameObject level1TowerModel = null;
     [Header("Level 2")]
+    [SerializeField] float level2EffectRange = 3;
     [SerializeField] GameObject level2TowerModel = null;
 
 
@@ -106,6 +109,7 @@ public class WatchTower : BuffingTower
         {
             case 0:
                 {
+                    EffectRangeRadius.BaseValue = level0EffectRange;
                     usingBuff = level0WatchTowerBuff;
                     level0TowerModel.SetActive(true);
                     level1TowerModel.SetActive(false);
@@ -114,6 +118,7 @@ public class WatchTower : BuffingTower
                 }
             case 1:
                 {
+                    EffectRangeRadius.BaseValue = level1EffectRange;
                     usingBuff = level1WatchTowerBuff;
                     level0TowerModel.SetActive(false);
                     level1TowerModel.SetActive(true);
@@ -122,6 +127,7 @@ public class WatchTower : BuffingTower
                 }
             case 2:
             default:
+                EffectRangeRadius.BaseValue = level2EffectRange;
                 usingBuff = level2WatchTowerBuff;
                 level0TowerModel.SetActive(false);
                 level1TowerModel.SetActive(false);

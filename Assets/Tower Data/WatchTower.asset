@@ -12,8 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22e75497a559bf8498388d8f3a01f9b4, type: 3}
   m_Name: WatchTower
   m_EditorClassIdentifier: 
-  price: 50
+  price: 150
   towerImage: {fileID: 21300000, guid: d0c05b9125ed56349a5385e1a77547b7, type: 3}
-  towerPreviewPrefab: {fileID: 100002, guid: 3509ec8c18793f94abd96b5f614de8f4, type: 3}
+  towerPreviewPrefab: {fileID: 7656733117383189128, guid: cb1eb48bbe1ea2e4ab589be024323634,
+    type: 3}
   towerPrefab: {fileID: 7501660269135874142, guid: b27c758399ac2bb4ab66560fec1809cf,
     type: 3}

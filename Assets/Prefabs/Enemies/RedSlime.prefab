@@ -4600,7 +4600,7 @@ GameObject:
   - component: {fileID: 5220285562542100515}
   - component: {fileID: 5220285562542100516}
   m_Layer: 10
-  m_Name: Slime
+  m_Name: RedSlime
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4683,9 +4683,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3bfa1ef93038234b81eb1e8bd1e37f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthPoint: 1
-  damage: 10
-  money: 0
+  healthPoint: 3
+  damage: 1
+  money: 30
   isHitable: 1
   isDead: 0
   reachedGoal: 0

@@ -1280,7 +1280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectRangeRadius:
-    BaseValue: 2
+    BaseValue: 3
   rangeEffectField: {fileID: 8055712839660766161}
   whatIsTarget:
     serializedVersion: 2
@@ -1291,7 +1291,7 @@ MonoBehaviour:
   receivingBuffs: []
   placingPoint: {fileID: 0}
   upgradeLevelCap: 2
-  upgradePrices: 64000000c8000000
+  upgradePrices: 960000002c010000
   currentTowerUpgradeLevel: 0
   firingRate:
     BaseValue: 0.5
@@ -1300,21 +1300,34 @@ MonoBehaviour:
   power:
     BaseValue: 1
   shootingPoint: {fileID: 0}
-  level0Tower: {fileID: 6917973546644315467}
+  level0EffectRange: 1
+  level0FiringRate: 1
+  level0BulletSpeed: 3.5
+  level0Power: 1
+  level0TowerModel: {fileID: 6917973546644315467}
   level0ShootingPoint: {fileID: 1101817631770976405}
   level0Balista: {fileID: 141308543514615965}
   level0Bow: {fileID: 141308543514615961}
   level0Collider: {fileID: 1085511852271543001}
-  level1Tower: {fileID: 4245604624158556765}
+  level1EffectRange: 2
+  level1FiringRate: 0.7
+  level1BulletSpeed: 4.5
+  level1Power: 2
+  level1TowerModel: {fileID: 4245604624158556765}
   level1ShootingPoint: {fileID: 4245604623254300780}
   level1Balista: {fileID: 4245604623648327668}
   level1Bow: {fileID: 4245604623203760354}
   level1Collider: {fileID: 4245604624158556767}
-  level2Tower: {fileID: 4245604622753363338}
+  level2EffectRange: 3
+  level2FiringRate: 0.5
+  level2BulletSpeed: 6
+  level2Power: 2
+  level2TowerModel: {fileID: 4245604622753363338}
   level2ShootingPoint: {fileID: 4245604624163011018}
   level2Balista: {fileID: 4245604623863081937}
   level2Bow: {fileID: 4245604624656006223}
   level2Collider: {fileID: 4245604622753363340}
+  percentOfTotalPower: 0.5
   secondShootingPoint: {fileID: 3612744662250774862}
   secondBalista: {fileID: 4245604624080337546}
   secondBow: {fileID: 4245604624582984214}

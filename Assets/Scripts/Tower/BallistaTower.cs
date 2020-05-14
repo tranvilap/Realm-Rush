@@ -6,27 +6,43 @@ public class BallistaTower : ShootingTower
 {
 
     [Header("Level 0")]
-    [SerializeField] GameObject level0Tower = null;
+    [SerializeField] float level0EffectRange = 1f;
+    [SerializeField] float level0FiringRate = 1f;
+    [SerializeField] float level0BulletSpeed = 1f;
+    [SerializeField] float level0Power = 1f;
+    [Space]
+    [SerializeField] GameObject level0TowerModel = null;
     [SerializeField] Transform level0ShootingPoint = null;
     [SerializeField] Transform level0Balista = null;
     [SerializeField] Transform level0Bow = null;
     [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level0Collider = null;
 
     [Header("Level 1")]
-    [SerializeField] GameObject level1Tower = null;
+    [SerializeField] float level1EffectRange = 1f;
+    [SerializeField] float level1FiringRate = 1f;
+    [SerializeField] float level1BulletSpeed = 1f;
+    [SerializeField] float level1Power = 1f;
+    [Space]
+    [SerializeField] GameObject level1TowerModel = null;
     [SerializeField] Transform level1ShootingPoint = null;
     [SerializeField] Transform level1Balista = null;
     [SerializeField] Transform level1Bow = null;
     [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level1Collider = null;
 
     [Header("Level 2")]
-    [SerializeField] GameObject level2Tower = null;
+    [SerializeField] float level2EffectRange = 1f;
+    [SerializeField] float level2FiringRate = 1f;
+    [SerializeField] float level2BulletSpeed = 1f;
+    [SerializeField] float level2Power = 1f;
+    [Space]
+    [SerializeField] GameObject level2TowerModel = null;
     [SerializeField] Transform level2ShootingPoint = null;
     [SerializeField] Transform level2Balista = null;
     [SerializeField] Transform level2Bow = null;
     [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level2Collider = null;
 
     [Header("Level 2 - Second Balista")]
+    [SerializeField] [Range(0f, 1f)] [Tooltip("Excluded Firing rate and effect range")] float percentOfTotalPower = 0.5f;
     [SerializeField] Transform secondShootingPoint = null;
     [SerializeField] Transform secondBalista = null;
     [SerializeField] Transform secondBow = null;
@@ -66,7 +82,7 @@ public class BallistaTower : ShootingTower
                         var bullet = PrepareBullet();
                         if (bullet != null)
                         {
-                            bullet.AimTo(shootingPoint,target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                            bullet.AimTo(shootingPoint, target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
                             bullet.gameObject.SetActive(true);
                             bullet.Shoot();
                         }
@@ -84,16 +100,17 @@ public class BallistaTower : ShootingTower
                 if (firingTimer >= FiringRate.CalculatedValue)
                 {
                     var bullet = PrepareBullet();
-                    var secondBullet = PrepareBulletAt(secondShootingPoint);
                     if (bullet != null)
                     {
                         bullet.AimTo(shootingPoint, target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
                         bullet.gameObject.SetActive(true);
                         bullet.Shoot();
                     }
-                    if(secondBullet != null)
+                    var secondBullet = PrepareBulletAt(secondShootingPoint);
+                    if (secondBullet != null)
                     {
-                        secondBullet.AimTo(secondShootingPoint,secondTargetEnemy, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                        secondBullet.AimTo(secondShootingPoint, secondTargetEnemy, 
+                            BulletSpeed.CalculatedValue*percentOfTotalPower, Power.CalculatedValue*percentOfTotalPower);
                         secondBullet.gameObject.SetActive(true);
                         secondBullet.Shoot();
                     }
@@ -121,7 +138,7 @@ public class BallistaTower : ShootingTower
 
         if (CurrentTowerUpgradeLevel >= 2)
         {
-            if(hitColliders.Length < 2)
+            if (hitColliders.Length < 2)
             {
                 secondTargetEnemy = currentTargetEnemy;
             }
@@ -146,9 +163,14 @@ public class BallistaTower : ShootingTower
         {
             case 0:
                 {
-                    level0Tower.SetActive(true);
-                    level1Tower.SetActive(false);
-                    level2Tower.SetActive(false);
+                    EffectRangeRadius.BaseValue = level0EffectRange;
+                    FiringRate.BaseValue = level0FiringRate;
+                    BulletSpeed.BaseValue = level0BulletSpeed;
+                    Power.BaseValue = level0Power;
+
+                    level0TowerModel.SetActive(true);
+                    level1TowerModel.SetActive(false);
+                    level2TowerModel.SetActive(false);
 
                     SetUpCollider(level0Collider);
                     shootingPoint = level0ShootingPoint;
@@ -158,9 +180,14 @@ public class BallistaTower : ShootingTower
                 }
             case 1:
                 {
-                    level0Tower.SetActive(false);
-                    level1Tower.SetActive(true);
-                    level2Tower.SetActive(false);
+                    EffectRangeRadius.BaseValue = level1EffectRange;
+                    FiringRate.BaseValue = level1FiringRate;
+                    BulletSpeed.BaseValue = level1BulletSpeed;
+                    Power.BaseValue = level1Power;
+
+                    level0TowerModel.SetActive(false);
+                    level1TowerModel.SetActive(true);
+                    level2TowerModel.SetActive(false);
 
                     SetUpCollider(level1Collider);
                     shootingPoint = level1ShootingPoint;
@@ -171,9 +198,14 @@ public class BallistaTower : ShootingTower
             case 2:
             default:
                 {
-                    level0Tower.SetActive(false);
-                    level1Tower.SetActive(false);
-                    level2Tower.SetActive(true);
+                    EffectRangeRadius.BaseValue = level2EffectRange;
+                    FiringRate.BaseValue = level2FiringRate;
+                    BulletSpeed.BaseValue = level2BulletSpeed;
+                    Power.BaseValue = level2Power;
+
+                    level0TowerModel.SetActive(false);
+                    level1TowerModel.SetActive(false);
+                    level2TowerModel.SetActive(true);
 
                     SetUpCollider(level2Collider);
                     shootingPoint = level2ShootingPoint;

@@ -1757,7 +1757,7 @@ MonoBehaviour:
   receivingBuffs: []
   placingPoint: {fileID: 0}
   upgradeLevelCap: 2
-  upgradePrices: 
+  upgradePrices: e6000000c2010000
   currentTowerUpgradeLevel: 0
   level0WatchTowerBuff: {fileID: 7908343611573839386, guid: 6dd70125d75f1a344a3881ae0d12c9ea,
     type: 3}
@@ -1765,8 +1765,11 @@ MonoBehaviour:
     type: 3}
   level2WatchTowerBuff: {fileID: 7908343611573839386, guid: 9901e90ebf0a427488ceaba4e469a9f7,
     type: 3}
+  level0EffectRange: 1
   level0TowerModel: {fileID: 7501660267440931009}
+  level1EffectRange: 1
   level1TowerModel: {fileID: 7501660268726765006}
+  level2EffectRange: 2
   level2TowerModel: {fileID: 7501660267573439367}
 --- !u!65 &2858428393952988114
 BoxCollider:

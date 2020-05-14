@@ -6,6 +6,15 @@ public abstract class NormalBullet : Bullet
 {
     [SerializeField] ParticleSystem onHitEnemyParticle = null;
     [SerializeField] ParticleSystem onHitGroundParticle = null;
+    //[SerializeField] AudioClip onHitGroundSFX = null;
+    //[SerializeField] AudioClip onHitEnemySFX = null;
+
+    AudioSource audioSource;
+
+    protected virtual void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -21,22 +30,30 @@ public abstract class NormalBullet : Bullet
         }
         else
         {
-            StartCoroutine(HitVFX(onHitGroundParticle));
+            StartCoroutine(HitEffect(onHitGroundParticle));
         }
     }
 
     protected virtual void DealDamageToEnemy(Enemy enemy)
     {
         enemy.GetHit(BulletPower);
-        StartCoroutine(HitVFX(onHitEnemyParticle));
+        StartCoroutine(HitEffect(onHitEnemyParticle));
     }
 
-    IEnumerator HitVFX(ParticleSystem particle)
+    IEnumerator HitEffect(ParticleSystem particle)
     {
         if (particle != null)
         {
             particle.Play();
         }
+        
+        //if(SFX != null)
+        //{
+        //    if (audioSource != null)
+        //    {
+        //        audioSource.PlayOneShot(SFX);
+        //    }
+        //}
         yield return new WaitForSeconds(particle.main.duration);
 
         gameObject.SetActive(false);
