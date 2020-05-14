@@ -1,41 +1,74 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DG.Tweening;
 public class NormalMovement : EnemyMovement
 {
+    [SerializeField] float arrivalDistance = 0.1f;
+
+    Enemy enemy;
     private Rigidbody rb;
-    int counter = 0;
-    public float distance = 2.0f; //on which distance you want to switch to the next waypoint
+    int waypointIndex = 0;
+    float lastDistanceToTarget = 0f;
 
     protected override void Start()
     {
         base.Start();
         rb = GetComponent<Rigidbody>();
+        enemy = GetComponent<Enemy>();
+
+        Vector3 newPos = pathFinder.ShortestPathBFS[waypointIndex].transform.position;
+        newPos.y = 0;
+        transform.position = newPos;
+        waypointIndex++;
+        transform.LookAt(pathFinder.ShortestPathBFS[waypointIndex].transform);
+        lastDistanceToTarget = Vector3.Distance(transform.position, pathFinder.ShortestPathBFS[waypointIndex].transform.position);
     }
 
     public override void MoveToGoal()
     {
-        var direction = Vector3.zero;
-        //get the vector from your position to current waypoint
-        direction = pathFinder.ShortestPathBFS[counter].transform.position - transform.position;
-        //check our distance to the current waypoint, Are we near enough?
-        if (direction.magnitude < distance)
+        if (!isMovable) { return; }
+        if (enemy != null)
         {
-            if (counter < pathFinder.ShortestPathBFS.Count - 1) //switch to the nex waypoint if exists
-            {
-                counter++;
-            }
+            if (enemy.isDead) { return; }
         }
-        direction = direction.normalized;
-        Vector3 dir = direction;
+        Debug.Log(rb.velocity);
+        var targetWayPoint = pathFinder.ShortestPathBFS[waypointIndex];
 
-       rb.velocity = new Vector2(direction.x * baseMovingSpeed, direction.y * baseMovingSpeed);
+        //If we're close to target, or overshot it, get next waypoint;
+        float distanceToTarget = Vector3.Distance(transform.position, targetWayPoint.transform.position);
+        if ((distanceToTarget < arrivalDistance) || (distanceToTarget > lastDistanceToTarget))
+        {
+            if (waypointIndex +1 >= pathFinder.ShortestPathBFS.Count)
+            {
+                isMovable = false;
+                transform.position = pathFinder.ShortestPathBFS[waypointIndex].transform.position;
+                return;
+            }
+            waypointIndex++;
+            targetWayPoint = pathFinder.ShortestPathBFS[waypointIndex];
+            lastDistanceToTarget = Vector3.Distance(transform.position, targetWayPoint.transform.position);
+
+            transform.DOLookAt(targetWayPoint.transform.position, distanceToTarget/baseMovingSpeed);
+        }
+        else
+        {
+            lastDistanceToTarget = distanceToTarget;
+        }
+
+        //Get direction to the waypoint.
+        //Normalize so it doesn't change with distance.
+        Vector3 dir = (targetWayPoint.transform.position - transform.position).normalized;
+
+
+        rb.MovePosition(transform.position + dir * (baseMovingSpeed * Time.fixedDeltaTime));
+
+
     }
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         MoveToGoal();
     }

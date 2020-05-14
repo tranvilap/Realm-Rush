@@ -26,7 +26,6 @@ public abstract class ShootingTower : UpgradeableTower, IShootable
         var bullet = bulletPooler.GetObject();
         if (bullet == null) { return null; }
         bullet.transform.position = shootingPoint.position;
-        bullet.gameObject.SetActive(true);
         return bullet.GetComponent<Bullet>();
     }
     protected Bullet PrepareBulletAt(Transform target)

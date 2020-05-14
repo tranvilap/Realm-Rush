@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using ExecuteEditor;
 using UnityEditor;
-using ExecuteEditor;
+using UnityEngine;
 
 [CustomEditor(typeof(ExecuteEditorWaypointSnap))]
 [CanEditMultipleObjects]

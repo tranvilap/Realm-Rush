@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float healthPoint = 10f;
     [SerializeField] protected int damage = 10;
     [SerializeField] private int money;
-    
+
     public event Action OnEnemyDieEvent;
 
     public bool isHitable = true;
@@ -22,6 +22,8 @@ public class Enemy : MonoBehaviour
     public float HealthPoint { get => healthPoint; set => healthPoint = value; }
     public int Damage { get => damage; set => damage = value; }
     public int Money { get => money; protected set => money = value; }
+
+    Collider hitCollider;
 
     protected virtual void Start()
     {
@@ -38,6 +40,7 @@ public class Enemy : MonoBehaviour
         {
             goal = map.EndWaypoint;
         }
+        hitCollider = GetComponent<Collider>();
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemySpawned(this));
@@ -51,24 +54,53 @@ public class Enemy : MonoBehaviour
 
     public virtual void Die()
     {
-        if(isDead || reachedGoal) { return; }
-        isDead = true;
-        isHitable = false;
-        OnEnemyDieEvent?.Invoke(); 
+        if (isDead || reachedGoal) { return; }
+        OnDying();
+
+        OnDied();
+    }
+
+    protected virtual void OnDied()
+    {
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemyDie(this));
         }
     }
 
+    protected virtual void OnDying()
+    {
+        isDead = true;
+        isHitable = false;
+        if (hitCollider != null)
+        {
+            hitCollider.enabled = false;
+        }
+        OnEnemyDieEvent?.Invoke();
+    }
+
     public virtual void ReachGoal()
     {
         if (isDead || reachedGoal) { return; }
-        reachedGoal = true;
-        isHitable = false;
+        OnReachingGoal();
+        OnReachedGoal();
+    }
+
+    protected virtual void OnReachedGoal()
+    {
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemyReachedGoal(this));
+        }
+    }
+
+    protected virtual void OnReachingGoal()
+    {
+        reachedGoal = true;
+        isHitable = false;
+        if (hitCollider != null)
+        {
+            hitCollider.enabled = false;
         }
     }
 
@@ -91,4 +123,5 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
 }

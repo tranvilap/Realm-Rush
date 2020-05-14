@@ -66,7 +66,8 @@ public class BallistaTower : ShootingTower
                         var bullet = PrepareBullet();
                         if (bullet != null)
                         {
-                            bullet.AimTo(target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                            bullet.AimTo(shootingPoint,target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                            bullet.gameObject.SetActive(true);
                             bullet.Shoot();
                         }
                         firingTimer = 0f;
@@ -86,12 +87,14 @@ public class BallistaTower : ShootingTower
                     var secondBullet = PrepareBulletAt(secondShootingPoint);
                     if (bullet != null)
                     {
-                        bullet.AimTo(target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                        bullet.AimTo(shootingPoint, target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                        bullet.gameObject.SetActive(true);
                         bullet.Shoot();
                     }
                     if(secondBullet != null)
                     {
-                        secondBullet.AimTo(secondTargetEnemy, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                        secondBullet.AimTo(secondShootingPoint,secondTargetEnemy, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                        secondBullet.gameObject.SetActive(true);
                         secondBullet.Shoot();
                     }
                     firingTimer = 0f;

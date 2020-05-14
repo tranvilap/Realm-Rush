@@ -2,35 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NormalBullet : FlyForwardTagetBullet
+public abstract class NormalBullet : Bullet
 {
-    [SerializeField] ParticleSystem projectileParticle = null;
     [SerializeField] ParticleSystem onHitParticle = null;
-    
 
     protected override void OnTriggerEnter(Collider other)
     {
         if (alreadyHit) { return; }
-        StartCoroutine(HitExplosion());
+
+        base.OnTriggerEnter(other);
         if (other.CompareTag("Enemy"))
         {
-            other.GetComponent<Enemy>().GetHit(BulletPower);
+            if (other.GetComponent<Enemy>() != null)
+            {
+                DealDamageToEnemy(other.GetComponent<Enemy>());
+            }
+
         }
-        base.OnTriggerEnter(other);
+        StartCoroutine(HitVFX());
+
     }
 
-    protected override void OnEnable()
+    protected virtual void DealDamageToEnemy(Enemy enemy)
     {
-        base.OnEnable();
-
-        projectileParticle.gameObject.SetActive(true);
+        enemy.GetHit(BulletPower);
     }
 
-    IEnumerator HitExplosion()
+    IEnumerator HitVFX()
     {
-        projectileParticle.gameObject.SetActive(false);
-        onHitParticle.Play();
+        if (onHitParticle != null)
+        {
+            onHitParticle.Play();
+        }
         yield return new WaitForSeconds(onHitParticle.main.duration);
+
         gameObject.SetActive(false);
+
     }
 }
