@@ -4,7 +4,8 @@ using UnityEngine;
 
 public abstract class NormalBullet : Bullet
 {
-    [SerializeField] ParticleSystem onHitParticle = null;
+    [SerializeField] ParticleSystem onHitEnemyParticle = null;
+    [SerializeField] ParticleSystem onHitGroundParticle = null;
 
     protected override void OnTriggerEnter(Collider other)
     {
@@ -17,24 +18,26 @@ public abstract class NormalBullet : Bullet
             {
                 DealDamageToEnemy(other.GetComponent<Enemy>());
             }
-
         }
-        StartCoroutine(HitVFX());
-
+        else
+        {
+            StartCoroutine(HitVFX(onHitGroundParticle));
+        }
     }
 
     protected virtual void DealDamageToEnemy(Enemy enemy)
     {
         enemy.GetHit(BulletPower);
+        StartCoroutine(HitVFX(onHitEnemyParticle));
     }
 
-    IEnumerator HitVFX()
+    IEnumerator HitVFX(ParticleSystem particle)
     {
-        if (onHitParticle != null)
+        if (particle != null)
         {
-            onHitParticle.Play();
+            particle.Play();
         }
-        yield return new WaitForSeconds(onHitParticle.main.duration);
+        yield return new WaitForSeconds(particle.main.duration);
 
         gameObject.SetActive(false);
 

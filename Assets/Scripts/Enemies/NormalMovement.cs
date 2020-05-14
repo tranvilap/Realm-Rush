@@ -32,7 +32,6 @@ public class NormalMovement : EnemyMovement
         {
             if (enemy.isDead) { return; }
         }
-        Debug.Log(rb.velocity);
         var targetWayPoint = pathFinder.ShortestPathBFS[waypointIndex];
 
         //If we're close to target, or overshot it, get next waypoint;
