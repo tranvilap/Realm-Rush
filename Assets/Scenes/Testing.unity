@@ -3701,7 +3701,7 @@ PrefabInstance:
     - target: {fileID: 2361536774323665670, guid: a868551af03c5a746a59beb1883a9b00,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.00006866455
+      value: 0.00003064913
       objectReference: {fileID: 0}
     - target: {fileID: 2361536774481689115, guid: a868551af03c5a746a59beb1883a9b00,
         type: 3}
@@ -4227,32 +4227,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Shared Object Pooler
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918243659660450005, guid: 34b84eebc68e0444eae4c6c56b4167b1,
-        type: 3}
-      propertyPath: itemsToPool.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918243659660450005, guid: 34b84eebc68e0444eae4c6c56b4167b1,
-        type: 3}
-      propertyPath: itemsToPool.Array.data[1].tag
-      value: WatchTowerBuffAura
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918243659660450005, guid: 34b84eebc68e0444eae4c6c56b4167b1,
-        type: 3}
-      propertyPath: itemsToPool.Array.data[1].gameObjectToPool
-      value: 
-      objectReference: {fileID: 4485936353806316071, guid: 50050ed3d9a9643449ff7c15b98bd21f,
-        type: 3}
-    - target: {fileID: 6918243659660450005, guid: 34b84eebc68e0444eae4c6c56b4167b1,
-        type: 3}
-      propertyPath: itemsToPool.Array.data[1].amountToPool
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 6918243659660450005, guid: 34b84eebc68e0444eae4c6c56b4167b1,
-        type: 3}
-      propertyPath: itemsToPool.Array.data[1].shouldExpand
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 34b84eebc68e0444eae4c6c56b4167b1, type: 3}

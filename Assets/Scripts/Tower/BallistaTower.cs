@@ -40,9 +40,8 @@ public class BallistaTower : ShootingTower
 
     protected override void Start()
     {
-        base.Start();
         boxCollider = GetComponent<BoxCollider>();
-        SetUpTower();
+        base.Start();
     }
 
     void Update()
@@ -138,7 +137,7 @@ public class BallistaTower : ShootingTower
 
     }
 
-    private void SetUpTower()
+    protected override void SetUpTower()
     {
         switch (CurrentTowerUpgradeLevel)
         {
@@ -190,15 +189,6 @@ public class BallistaTower : ShootingTower
     protected override void PostUpgrade()
     {
         EffectRangeRadius.BaseValue += 1;
-        SetUpTower();
-        GameObject upgradeEffect = SharedObjectPooler.main.GetPooledObject(Constants.UPGRADE_TOWER_VFX);
-        if (upgradeEffect != null)
-        {
-            Vector3 effectPosition = transform.position;
-            effectPosition.y = upgradeEffect.transform.position.y;
-            upgradeEffect.transform.position = effectPosition;
-            upgradeEffect.SetActive(true);
-        }
         base.PostUpgrade();
     }
 

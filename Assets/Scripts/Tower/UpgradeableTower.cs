@@ -13,7 +13,7 @@ public abstract class UpgradeableTower : Tower
     [Tooltip("List size must be equal to Upgrade Level Cap. For describing upgrade price for each level")]
     List<int> upgradePrices = new List<int>();
 
-    [SerializeField]private int currentTowerUpgradeLevel = 0;
+    [SerializeField] private int currentTowerUpgradeLevel = 0;
 
     UpgradableTowerMenu towerMenu;
 
@@ -57,10 +57,11 @@ public abstract class UpgradeableTower : Tower
         towerMenu = MenuCanvas.GetComponent<UpgradableTowerMenu>();
         towerMenu.UpdateTowerUI(this);
         CurrentTowerUpgradeLevel = currentTowerUpgradeLevel;
+        SetUpTower();
     }
     public virtual void Upgrade()
     {
-        if (CheckUpgradeable()!= TowerEvents.UPGRADE_TOWER_RESULT.SUCCESS)
+        if (CheckUpgradeable() != TowerEvents.UPGRADE_TOWER_RESULT.SUCCESS)
         {
             FailedUpgrade(CheckUpgradeable());
             return;
@@ -68,18 +69,33 @@ public abstract class UpgradeableTower : Tower
 
         PreUpgrade();
 
+        DisplayUpgradeEffect();
         playerHQ.SpendMoney(NextUpgradeCost);
         towerTotalValue += NextUpgradeCost;
         CurrentTowerUpgradeLevel++;
         
         PostUpgrade();
 
+        SetUpTower();
         towerMenu.UpdateTowerUI(this);
         if (rangeEffectField.activeInHierarchy)
         {
             ShowEffectRange();
         }
     }
+
+    protected virtual void DisplayUpgradeEffect()
+    {
+        GameObject upgradeEffect = SharedObjectPooler.main.GetPooledObject(Constants.UPGRADE_TOWER_VFX);
+        if (upgradeEffect != null)
+        {
+            Vector3 effectPosition = transform.position;
+            effectPosition.y = upgradeEffect.transform.position.y;
+            upgradeEffect.transform.position = effectPosition;
+            upgradeEffect.SetActive(true);
+        }
+    }
+
     protected virtual void FailedUpgrade(TowerEvents.UPGRADE_TOWER_RESULT reason)
     {
         towerEvents.OnFailedUpgradedTower(this, reason);
@@ -111,4 +127,5 @@ public abstract class UpgradeableTower : Tower
     {
         Upgrade();
     }
+    protected abstract void SetUpTower();
 }

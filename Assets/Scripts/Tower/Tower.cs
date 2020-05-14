@@ -11,6 +11,7 @@ public abstract class Tower : MonoBehaviour
     [Header("Basic Info")]
     [SerializeField] protected BaseStat effectRangeRadius;
     [SerializeField] protected GameObject rangeEffectField = null;
+    [Space]
     [SerializeField] protected LayerMask whatIsTarget;
     [SerializeField] protected Canvas menuCanvas = null;
     [SerializeField] protected Color gizmoColor = Color.red;
@@ -63,6 +64,12 @@ public abstract class Tower : MonoBehaviour
         placingPoint.IsPlaceable = true;
         Destroy(gameObject);
         playerHQ.EarnMoney(SellingPrice);
+        var sellingVFX = SharedObjectPooler.main.GetPooledObject(Constants.SELL_TOWER_VFX);
+        if(sellingVFX != null)
+        {
+            sellingVFX.transform.position = new Vector3(transform.position.x, sellingVFX.transform.position.y, transform.position.z);
+            sellingVFX.SetActive(true);
+        }
         PostSellingTower();
     }
     protected virtual void PreSellingTower()

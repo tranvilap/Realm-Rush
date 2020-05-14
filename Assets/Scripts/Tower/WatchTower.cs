@@ -6,16 +6,23 @@ using TowerBuffs;
 public class WatchTower : BuffingTower
 {
     [Header("Watch Tower Buffs")]
-    [SerializeField] WatchTowerBuff firstLevelWatchTowerBuff = null;
-    [SerializeField] WatchTowerBuff secondLevelWatchTowerBuff = null;
-    [SerializeField] WatchTowerBuff thirdLevelWatchTowerBuff = null;
+    [SerializeField] WatchTowerBuff level0WatchTowerBuff = null;
+    [SerializeField] WatchTowerBuff level1WatchTowerBuff = null;
+    [SerializeField] WatchTowerBuff level2WatchTowerBuff = null;
+
+    [Header("Level 0")]
+    [SerializeField] GameObject level0TowerModel = null;
+    [Header("Level 1")]
+    [SerializeField] GameObject level1TowerModel = null;
+    [Header("Level 2")]
+    [SerializeField] GameObject level2TowerModel = null;
+
 
     WatchTowerBuff usingBuff = null;
 
     protected override void Start()
     {
         base.Start();
-        SetCurrentLevelBuff();
         SeekTarget();
     }
 
@@ -78,7 +85,6 @@ public class WatchTower : BuffingTower
     public override void Upgrade()
     {
         base.Upgrade();
-        SetCurrentLevelBuff();
         SeekTarget();
     }
 
@@ -94,25 +100,35 @@ public class WatchTower : BuffingTower
         SeekTarget();
     }
 
-    private void SetCurrentLevelBuff()
+    protected override void SetUpTower()
     {
         switch (CurrentTowerUpgradeLevel)
         {
             case 0:
                 {
-                    usingBuff = firstLevelWatchTowerBuff;
+                    usingBuff = level0WatchTowerBuff;
+                    level0TowerModel.SetActive(true);
+                    level1TowerModel.SetActive(false);
+                    level2TowerModel.SetActive(false);
                     break;
                 }
             case 1:
                 {
-                    usingBuff = secondLevelWatchTowerBuff;
+                    usingBuff = level1WatchTowerBuff;
+                    level0TowerModel.SetActive(false);
+                    level1TowerModel.SetActive(true);
+                    level2TowerModel.SetActive(false);
                     break;
                 }
             case 2:
             default:
-                usingBuff = thirdLevelWatchTowerBuff;
+                usingBuff = level2WatchTowerBuff;
+                level0TowerModel.SetActive(false);
+                level1TowerModel.SetActive(false);
+                level2TowerModel.SetActive(true);
                 break;
 
         }
     }
+
 }

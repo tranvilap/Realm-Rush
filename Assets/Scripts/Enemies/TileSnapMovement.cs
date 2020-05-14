@@ -7,10 +7,7 @@ public class TileSnapMovement : EnemyMovement
     int pathIndex = -1;
     float timeEachStep = 0f;
     float timer = 0f;
-    protected override void Start()
-    {
-        base.Start();
-    }
+
     private void Update()
     {
         MoveToGoal();

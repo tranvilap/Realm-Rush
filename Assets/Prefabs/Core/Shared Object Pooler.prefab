@@ -49,3 +49,13 @@ MonoBehaviour:
       type: 3}
     amountToPool: 5
     shouldExpand: 1
+  - tag: WatchTowerBuffAura
+    gameObjectToPool: {fileID: 4485936353806316071, guid: 50050ed3d9a9643449ff7c15b98bd21f,
+      type: 3}
+    amountToPool: 10
+    shouldExpand: 1
+  - tag: SellTowerVFX
+    gameObjectToPool: {fileID: 1577138479846144383, guid: 2918c18bd20e4e446ac46b553ce906f3,
+      type: 3}
+    amountToPool: 10
+    shouldExpand: 1
