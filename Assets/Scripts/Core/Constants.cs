@@ -6,5 +6,6 @@ public class Constants
 {
     #region Pool Object Tags
     public const string UPGRADE_TOWER_VFX = "UpgradeTowerVFX";
+    public const string WATCH_TOWER_BUFF_AURA = "WatchTowerBuffAura";
     #endregion
 }
