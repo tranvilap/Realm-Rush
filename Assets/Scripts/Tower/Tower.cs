@@ -4,14 +4,16 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Stats;
 using TowerBuffs;
+using TowerEvents;
 [SelectionBase]
 public abstract class Tower : MonoBehaviour
 {
     [Header("Basic Info")]
-    [SerializeField] private BaseStat effectRangeRadius;
-    [SerializeField] LayerMask whatIsTarget;
-    [SerializeField] Canvas menuCanvas = null;
-    [SerializeField] Color gizmoColor = Color.red;
+    [SerializeField] protected BaseStat effectRangeRadius;
+    [SerializeField] protected GameObject rangeEffectField = null;
+    [SerializeField] protected LayerMask whatIsTarget;
+    [SerializeField] protected Canvas menuCanvas = null;
+    [SerializeField] protected Color gizmoColor = Color.red;
 
     [Tooltip("Must be assign with the value in Tower Data price, can be change in run time")]
     [SerializeField] private int summonPrice = 0;
@@ -26,6 +28,7 @@ public abstract class Tower : MonoBehaviour
     [HideInInspector] public List<BaseTowerBuff> receivingBuffs = new List<BaseTowerBuff>();
     protected ObjectPooler bulletPooler;
     protected PlayerHQ playerHQ;
+    protected TowerEvents.TowerEvents towerEvents;
     public TowerPlacePoint placingPoint;
 
     protected Camera mainCamera;
@@ -36,6 +39,7 @@ public abstract class Tower : MonoBehaviour
     {
         bulletPooler = GetComponent<ObjectPooler>();
         playerHQ = FindObjectOfType<PlayerHQ>();
+        towerEvents = FindObjectOfType<TowerEvents.TowerEvents>();
         towerTotalValue = summonPrice;
         inputsHandler = FindObjectOfType<InputsHandler>();
 
@@ -55,14 +59,20 @@ public abstract class Tower : MonoBehaviour
 
     public virtual void SellTower()
     {
-        foreach (var go in EventSystemListener.main.Listeners)
-        {
-            ExecuteEvents.Execute<ITowerEvent>(go, null, (x, y) => x.OnSellingTower(this));
-        }
+        PreSellingTower();
         placingPoint.IsPlaceable = true;
         Destroy(gameObject);
+        playerHQ.EarnMoney(SellingPrice);
+        PostSellingTower();
     }
-
+    protected virtual void PreSellingTower()
+    {
+        towerEvents.OnPreSellingTower(this);
+    }
+    protected virtual void PostSellingTower()
+    {
+        towerEvents.OnPostSellingTower(this);
+    }
     public virtual void OnSellTowerButton()
     {
         SellTower();
@@ -71,11 +81,13 @@ public abstract class Tower : MonoBehaviour
     public virtual void OpenTowerMenu()
     {
         MenuCanvas.gameObject.SetActive(true);
+        ShowEffectRange();
     }
 
     public virtual void CloseTowerMenu()
     {
         MenuCanvas.gameObject.SetActive(false);
+        HideEffectRange();
     }
 
     public virtual void AddBuff(BaseTowerBuff towerBuff, int buffLevel)
@@ -105,6 +117,21 @@ public abstract class Tower : MonoBehaviour
     }
 
     protected abstract void SeekTarget();
+
+    public virtual void ShowEffectRange()
+    {
+        if (rangeEffectField == null) { return; }
+        rangeEffectField.transform.position = transform.position;
+        float rangeDiameter = EffectRangeRadius.CalculatedValue * 2;
+        rangeEffectField.transform.localScale = new Vector3(rangeDiameter, rangeDiameter, rangeDiameter);
+        rangeEffectField.SetActive(true);
+    }
+
+    public virtual void HideEffectRange()
+    {
+        if(rangeEffectField == null) { return; }
+        rangeEffectField.SetActive(false);
+    }
 
     private void OnDrawGizmos()
     {

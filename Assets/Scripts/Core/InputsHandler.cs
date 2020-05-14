@@ -5,26 +5,16 @@ using UnityEngine.EventSystems;
 using DG.Tweening;
 public class InputsHandler : MonoBehaviour
 {
-    [SerializeField] TowerRangeDisplayer towerRangeDisplayer = null;
-
     PlaceTowerController placeTowerController = null;
-    Canvas showingTowerMenu = null;
+    Tower showingMenuTower = null;
     Bounds cameraBounds;
     CameraController cameraController;
-
-    private void OnEnable()
-    {
-        if(placeTowerController == null)
-        {
-            placeTowerController = FindObjectOfType<PlaceTowerController>();
-        }
-        placeTowerController.OnUpgradingTowerEvent += OnUpgradingTower;
-    }
+    TowerEvents.TowerEvents towerEvents;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        placeTowerController = FindObjectOfType<PlaceTowerController>();
         cameraController = FindObjectOfType<CameraController>();
     }
 
@@ -32,7 +22,7 @@ public class InputsHandler : MonoBehaviour
     void Update()
     {
         //Be careful about || EventSystem.current.currentSelectedGameObject != null
-        if (EventSystem.current.IsPointerOverGameObject() || cameraController.cameraIsMoving )
+        if (EventSystem.current.IsPointerOverGameObject() || cameraController.cameraIsMoving)
         {
             return;
         }
@@ -43,12 +33,12 @@ public class InputsHandler : MonoBehaviour
 
             //Handle Hover Mouse
             PreviewTowerOnPlacePoint(selection);
-            
+
         }
         //Handle Clicked Mouse 0
         if (Input.GetMouseButtonUp(0))
         {
-            if(EventSystem.current.currentSelectedGameObject != null) {return; }
+            if (EventSystem.current.currentSelectedGameObject != null) { return; }
             //Handle Opening/Closing Tower Menu
             var tower = hit.transform.GetComponent<Tower>();
             if (tower != null)
@@ -57,16 +47,16 @@ public class InputsHandler : MonoBehaviour
                 return;
             }
 
-            if (showingTowerMenu != null)
+            if (showingMenuTower != null)
             {
-                if (showingTowerMenu.gameObject.activeInHierarchy)
+                if (showingMenuTower.MenuCanvas.gameObject.activeInHierarchy)
                 {
                     CloseTowerMenuAndTowerRange();
                     return;
                 }
                 else
                 {
-                    showingTowerMenu = null;
+                    showingMenuTower = null;
                 }
             }
 
@@ -81,21 +71,19 @@ public class InputsHandler : MonoBehaviour
 
     private void CloseTowerMenuAndTowerRange()
     {
-        showingTowerMenu.gameObject.SetActive(false);
-        showingTowerMenu = null;
-        towerRangeDisplayer.HideRange();
+        showingMenuTower.CloseTowerMenu();
+        showingMenuTower = null;
     }
 
     private void OpenTowerMenuAndShowTowerRange(Tower tower)
     {
-        if (showingTowerMenu != null)
+        if (showingMenuTower != null)
         {
-            showingTowerMenu.gameObject.SetActive(false);
+            showingMenuTower.CloseTowerMenu() ;
         }
         tower.OpenTowerMenu();
-        showingTowerMenu = tower.MenuCanvas;
+        showingMenuTower = tower;
 
-        towerRangeDisplayer.ShowRange(tower);
     }
 
 
@@ -116,13 +104,4 @@ public class InputsHandler : MonoBehaviour
         }
     }
 
-    void OnUpgradingTower(UpgradeableTower tower)
-    {
-        towerRangeDisplayer.UpdateRange();
-    }
-
-    private void OnDisable()
-    {
-        placeTowerController.OnUpgradingTowerEvent -= OnUpgradingTower;
-    }
 }

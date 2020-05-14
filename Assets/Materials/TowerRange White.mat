@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: TowerRange
+  m_Name: TowerRange White
   m_Shader: {fileID: 4800000, guid: ee5a16140c8abf949a450faf66a6f300, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4

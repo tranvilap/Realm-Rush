@@ -1,44 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEvent
+public class PlayerHQ : MonoBehaviour, IEnemyEvent
 {
     [SerializeField] int hqHealth = 10;
     [SerializeField] private int money = 0;
 
-    public delegate void OnAddMoney(int amount);
-    public event OnAddMoney OnEarningMoneyEvent;   //For Add money animation on UI
-
-    public delegate void OnSubtractMoney(int amount);
-    public event OnSubtractMoney OnSpendingMoneyEvent;   //For Subtract money animation on UI
-
-    public delegate void OnChangeMoney(int amount);
-    public event OnChangeMoney OnChangeMoneyEvent;
-
-    public delegate void OnTakeDamage(int amount);
-    public event OnTakeDamage TookDamage;
-
-    PlaceTowerController placeTowerController;
     GameController gameController;
+
+    public event Action<int> OnEarningMoneyEvent;   
+    public event Action<int> OnSpendingMoneyEvent;
+    public event Action<int> OnChangingMoneyEvent;
+
+    public event Action<int> OnTakingDamage;
+
+    public event Action<int> OnHealing;
 
     public int HQHealth { get => hqHealth; set => hqHealth = value; }
     public int Money { get => money; }
 
-    private void OnEnable()
-    {
-        if (placeTowerController == null)
-        {
-            placeTowerController = FindObjectOfType<PlaceTowerController>();
-        }
-        placeTowerController.SuccessPlacingTowerEvent += OnPlacingTowerEvent;
-    }
-
     private void Start()
     {
         EventSystemListener.main.AddListener(gameObject);
-
         gameController = FindObjectOfType<GameController>();
     }
     
@@ -48,7 +34,7 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
     }
     public void OnEnemyDie(Enemy enemy)
     {
-        AddMoney(enemy.Money);
+        EarnMoney(enemy.Money);
     }
     public void OnEnemySpawned(Enemy enemy) { }
 
@@ -57,7 +43,7 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
         if (HQHealth > 0)
         {
             HQHealth -= amount;
-            TookDamage?.Invoke(amount);
+            OnTakingDamage?.Invoke(amount);
             if (HQHealth <= 0)
             {
                 HQHealth = 0;
@@ -73,35 +59,16 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent, ITowerEvent, IUpgradeTowerEv
             amount = 0;
         }
         money = amount;
-        OnChangeMoneyEvent?.Invoke(amount);
+        OnChangingMoneyEvent?.Invoke(amount);
     }
-    public void AddMoney(int amount)
+    public void EarnMoney(int amount)
     {
         ChangeMoney(money + amount);
         OnEarningMoneyEvent?.Invoke(amount);
     }
-    public void SubtractMoney(int amount)
+    public void SpendMoney(int amount)
     {
         ChangeMoney(money - amount);
         OnSpendingMoneyEvent?.Invoke(amount);
     }
-
-    private void OnPlacingTowerEvent(TowerData towerData, GameObject placedTower)
-    {
-        SubtractMoney(towerData.price);
-    }
-    public void OnSellingTower(Tower tower)
-    {
-        AddMoney(tower.SellingPrice);
-    }
-    public void OnUpgradeTower(UpgradeableTower tower, int moneyToUpgrade)
-    {
-        SubtractMoney(moneyToUpgrade);
-    }
-
-    private void OnDisable()
-    {
-        placeTowerController.SuccessPlacingTowerEvent -= OnPlacingTowerEvent;
-    }
-    
 }

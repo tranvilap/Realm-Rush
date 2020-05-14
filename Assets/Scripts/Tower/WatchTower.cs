@@ -12,13 +12,6 @@ public class WatchTower : BuffingTower
 
     WatchTowerBuff usingBuff = null;
 
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        placeTowerController.OnSellingTowerEvent += OnSellingTower;
-    }
-
     protected override void Start()
     {
         base.Start();
@@ -56,11 +49,6 @@ public class WatchTower : BuffingTower
         }
     }
 
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        placeTowerController.OnSellingTowerEvent -= OnSellingTower;
-    }
 
     public override void BuffTower(Tower tower, int buffLevel)
     {
@@ -94,15 +82,15 @@ public class WatchTower : BuffingTower
         SeekTarget();
     }
 
-    protected override void OnSuccessPlacingTower(TowerData tower, GameObject placedTower)
+    protected override void OnSuccessPlacedTower(TowerData tower, GameObject placedTower)
     {
         if (placedTower == gameObject) { return; }
         SeekTarget();
     }
 
-    protected override void OnSellingTower(Tower sellingTower)
+    protected override void OnPostSellingTower(Tower soldTower)
     {
-        if (sellingTower == this) { return; }
+        if (soldTower == this) { return; }
         SeekTarget();
     }
 

@@ -17,7 +17,7 @@ public class IconAnimationController : MonoBehaviour
         }
         playerHQ.OnEarningMoneyEvent += OnMoneyEarning;
         playerHQ.OnSpendingMoneyEvent += OnMoneySpending;
-        playerHQ.TookDamage += OnHealthDecrement;
+        playerHQ.OnTakingDamage += OnHealthDecrement;
 
 
     }

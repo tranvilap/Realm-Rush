@@ -32,8 +32,8 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
         {
             spawningController = FindObjectOfType<SpawningController>();
         }
-        playerHQ.OnChangeMoneyEvent += UpdateMoneyText;
-        playerHQ.TookDamage += OnHQTakeDamage;
+        playerHQ.OnChangingMoneyEvent += UpdateMoneyText;
+        playerHQ.OnTakingDamage += OnHQTakeDamage;
         spawningController.OnSpawnedNextWave += OnSpawnedNextWave;
         
     }
@@ -95,8 +95,8 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
 
     private void OnDisable()
     {
-        playerHQ.OnChangeMoneyEvent -= UpdateMoneyText;
-        playerHQ.TookDamage -= OnHQTakeDamage;
+        playerHQ.OnChangingMoneyEvent -= UpdateMoneyText;
+        playerHQ.OnTakingDamage -= OnHQTakeDamage;
         spawningController.OnSpawnedNextWave -= OnSpawnedNextWave;
     }
 }

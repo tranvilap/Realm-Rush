@@ -10,34 +10,7 @@ public class UpgradableTowerMenu : LookAtCameraObject
     [SerializeField] TextMeshProUGUI upgradeCostText = null;
     [SerializeField] TextMeshProUGUI sellPriceText = null;
 
-    UpgradeableTower tower;
-
-    protected override void OnEnable()
-    {
-        base.OnEnable();
-        if (tower == null)
-        {
-            tower = GetComponentInParent<UpgradeableTower>();
-        }
-        if(tower != null)
-        {
-            tower.OnUpgradeEvent += OnUpgradeTower;
-        }
-    }
-     private void Start()
-    {
-        if(tower!= null)
-        {
-            UpdateTowerUI(tower);
-        }
-        GetComponent<Canvas>().worldCamera = Camera.main;
-    }
-    private void OnUpgradeTower(UpgradeableTower tower)
-    {
-        UpdateTowerUI(tower);
-    }
-
-    private void UpdateTowerUI(UpgradeableTower tower)
+    public void UpdateTowerUI(UpgradeableTower tower)
     {
         if (tower.isFinalLevel)
         {
@@ -51,12 +24,5 @@ public class UpgradableTowerMenu : LookAtCameraObject
         sellPriceText.text = tower.SellingPrice + "$";
     }
 
-    protected override void OnDisable()
-    {
-        base.OnDisable();
-        if (tower != null)
-        {
-            tower.OnUpgradeEvent -= OnUpgradeTower;
-        }
-    }
+    
 }

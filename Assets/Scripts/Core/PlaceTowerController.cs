@@ -1,18 +1,10 @@
 ﻿using System;
+using TowerEvents;
 using UnityEngine;
 using UnityEngine.EventSystems;
-public class PlaceTowerController : MonoBehaviour, ITowerEvent, IUpgradeTowerEvent
+public class PlaceTowerController : MonoBehaviour
 {
-    public enum PLACE_TOWER_FAIL_REASON { NOT_ENOUGH_MONEY, UNPLACEABLE_POINT }
-
-    public delegate void OnSuccessPlacingTower(TowerData tower, GameObject placedTower);
-    public event OnSuccessPlacingTower SuccessPlacingTowerEvent;
-
-    public delegate void OnFailedPlacingTower(TowerData tower, PLACE_TOWER_FAIL_REASON reason);
-    public event OnFailedPlacingTower FailedPlacingTowerEvent;
-
-    public event Action<Tower> OnSellingTowerEvent;
-    public event Action<UpgradeableTower> OnUpgradingTowerEvent;
+    TowerEvents.TowerEvents towerEvents;
 
     private TowerData choosingTowerData = null;
     private TowerPlacePoint choosingSpawpoint = null;
@@ -23,7 +15,7 @@ public class PlaceTowerController : MonoBehaviour, ITowerEvent, IUpgradeTowerEve
     private void Start()
     {
         playerHQ = FindObjectOfType<PlayerHQ>();
-        EventSystemListener.main.AddListener(gameObject);
+        towerEvents = FindObjectOfType<TowerEvents.TowerEvents>();
     }
 
     public void CheckTowerPlaceable(TowerPlacePoint placePoint)
@@ -50,17 +42,18 @@ public class PlaceTowerController : MonoBehaviour, ITowerEvent, IUpgradeTowerEve
         if (playerHQ.Money < towerData.price)
         {
             Debug.LogWarning("Not enough money");
-            FailedPlacingTowerEvent?.Invoke(towerData, PLACE_TOWER_FAIL_REASON.NOT_ENOUGH_MONEY);
+            towerEvents.OnFailedPlacedTower(towerData, PLACE_TOWER_FAIL_REASON.NOT_ENOUGH_MONEY);
             return;
         }
         if(!placePoint.IsPlaceable)
         {
             Debug.LogWarning("This point is unplaceable");
-            FailedPlacingTowerEvent?.Invoke(towerData, PLACE_TOWER_FAIL_REASON.UNPLACEABLE_POINT);
+            towerEvents.OnFailedPlacedTower(towerData, PLACE_TOWER_FAIL_REASON.UNPLACEABLE_POINT);
             return;
         }
         var placedTower = placePoint.BuildTower(towerData.towerPrefab);
-        SuccessPlacingTowerEvent?.Invoke(towerData, placedTower);
+        playerHQ.SpendMoney(towerData.price);
+        towerEvents.OnSuccessPlacedTower(towerData, placedTower);
     }
 
     public void ChooseTowerToPlace(TowerData towerData)
@@ -88,15 +81,5 @@ public class PlaceTowerController : MonoBehaviour, ITowerEvent, IUpgradeTowerEve
         {
             PlaceTower(choosingSpawpoint, choosingTowerData);
         }
-    }
-
-    public void OnSellingTower(Tower tower)
-    {
-        OnSellingTowerEvent?.Invoke(tower);
-    }
-
-    public void OnUpgradeTower(UpgradeableTower tower, int moneyToUpgrade)
-    {
-        OnUpgradingTowerEvent?.Invoke(tower);
     }
 }

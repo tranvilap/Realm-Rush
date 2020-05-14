@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TowerBuffs;
-
+using TowerEvents;
 public abstract class BuffingTower : UpgradeableTower
 {
-    protected PlaceTowerController placeTowerController = null;
+    protected TowerEvents.TowerEvents towerEvent = null;
     protected List<BaseTowerBuff> givingBuffs = new List<BaseTowerBuff>();
 
     public List<BaseTowerBuff> GivingBuffs { get => givingBuffs; }
@@ -13,19 +13,21 @@ public abstract class BuffingTower : UpgradeableTower
     public abstract void BuffTower(Tower tower, int buffLevel);
     public abstract void CancleBuff(BaseTowerBuff buff);
 
-    protected abstract void OnSuccessPlacingTower(TowerData tower, GameObject placedTower);
-    protected abstract void OnSellingTower(Tower placedTower);
+    protected abstract void OnSuccessPlacedTower(TowerData tower, GameObject placedTower);
+    protected abstract void OnPostSellingTower(Tower placedTower);
 
     protected virtual void OnEnable()
     {
-        if (placeTowerController == null)
+        if (towerEvent == null)
         {
-            placeTowerController = FindObjectOfType<PlaceTowerController>();
+            towerEvent = FindObjectOfType<TowerEvents.TowerEvents>();
         }
-        placeTowerController.SuccessPlacingTowerEvent += OnSuccessPlacingTower;
+        towerEvent.OnSuccessPlacedTowerEvent += OnSuccessPlacedTower;
+        towerEvent.OnPostSellingTowerEvent += OnPostSellingTower;
     }
     protected virtual void OnDisable()
     {
-        placeTowerController.SuccessPlacingTowerEvent -= OnSuccessPlacingTower;
+        towerEvent.OnSuccessPlacedTowerEvent -= OnSuccessPlacedTower;
+        towerEvent.OnPostSellingTowerEvent -= OnPostSellingTower;
     }
 }

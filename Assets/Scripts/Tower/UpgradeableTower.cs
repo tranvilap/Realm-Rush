@@ -15,7 +15,8 @@ public abstract class UpgradeableTower : Tower
 
     [SerializeField]private int currentTowerUpgradeLevel = 0;
 
-    public event Action<UpgradeableTower> OnUpgradeEvent;
+    UpgradableTowerMenu towerMenu;
+
 
     public int CurrentTowerUpgradeLevel
     {
@@ -53,33 +54,57 @@ public abstract class UpgradeableTower : Tower
     protected override void Start()
     {
         base.Start();
+        towerMenu = MenuCanvas.GetComponent<UpgradableTowerMenu>();
+        towerMenu.UpdateTowerUI(this);
         CurrentTowerUpgradeLevel = currentTowerUpgradeLevel;
     }
     public virtual void Upgrade()
     {
-        if (!CheckUpgradeable()) { return; }
-        towerTotalValue += NextUpgradeCost;
-        foreach (var go in EventSystemListener.main.Listeners)
+        if (CheckUpgradeable()!= TowerEvents.UPGRADE_TOWER_RESULT.SUCCESS)
         {
-            ExecuteEvents.Execute<IUpgradeTowerEvent>(go, null, (x, y) => x.OnUpgradeTower(this, NextUpgradeCost));
+            FailedUpgrade(CheckUpgradeable());
+            return;
         }
-        CurrentTowerUpgradeLevel++;
-        OnUpgradeEvent?.Invoke(this);
-    }
 
-    protected virtual bool CheckUpgradeable()
+        PreUpgrade();
+
+        playerHQ.SpendMoney(NextUpgradeCost);
+        towerTotalValue += NextUpgradeCost;
+        CurrentTowerUpgradeLevel++;
+        
+        PostUpgrade();
+
+        towerMenu.UpdateTowerUI(this);
+        if (rangeEffectField.activeInHierarchy)
+        {
+            ShowEffectRange();
+        }
+    }
+    protected virtual void FailedUpgrade(TowerEvents.UPGRADE_TOWER_RESULT reason)
+    {
+        towerEvents.OnFailedUpgradedTower(this, reason);
+    }
+    protected virtual void PreUpgrade()
+    {
+        towerEvents.OnPreUpgradeTower(this);
+    }
+    protected virtual void PostUpgrade()
+    {
+        towerEvents.OnSuccessUpgradedTower(this);
+    }
+    protected virtual TowerEvents.UPGRADE_TOWER_RESULT CheckUpgradeable()
     {
         if (CurrentTowerUpgradeLevel >= upgradeLevelCap)
         {
             Debug.LogWarning("Tower reached level cap", gameObject);
-            return false;
+            return TowerEvents.UPGRADE_TOWER_RESULT.TOWER_REACHED_MAX_LEVEL;
         }
         if (playerHQ.Money < NextUpgradeCost)
         {
             Debug.LogWarning("Not enough money to upgrade this tower", gameObject);
-            return false;
+            return TowerEvents.UPGRADE_TOWER_RESULT.NOT_ENOUGH_MONEY;
         }
-        return true;
+        return TowerEvents.UPGRADE_TOWER_RESULT.SUCCESS;
     }
 
     public virtual void OnUpgradeButton()

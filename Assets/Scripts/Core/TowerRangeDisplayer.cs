@@ -5,13 +5,12 @@ using UnityEngine;
 public class TowerRangeDisplayer : MonoBehaviour
 {
     Tower choosingTower = null;
+
+    public Tower ChoosingTower { get => choosingTower; }
+    public bool IsDisplaying { get { return (choosingTower != null); } }
     public void ShowRange(Tower tower)
     {
-        choosingTower = tower;
-        transform.position = tower.transform.position;
-        float rangeDiameter = tower.EffectRangeRadius.CalculatedValue * 2;
-        transform.localScale = new Vector3(rangeDiameter, rangeDiameter, rangeDiameter);
-        gameObject.SetActive(true);
+
     }
     public void HideRange()
     {

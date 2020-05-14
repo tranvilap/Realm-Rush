@@ -187,20 +187,19 @@ public class BallistaTower : ShootingTower
         boxCollider.center = targetBoxCollider.center;
     }
 
-    public override void Upgrade()
+    protected override void PostUpgrade()
     {
-        if (!CheckUpgradeable()) { return; }
-        base.Upgrade();
         EffectRangeRadius.BaseValue += 1;
         SetUpTower();
-        GameObject upgradeEffect =  SharedObjectPooler.main.GetPooledObject(Constants.UPGRADE_TOWER_VFX);
-        if(upgradeEffect != null)
+        GameObject upgradeEffect = SharedObjectPooler.main.GetPooledObject(Constants.UPGRADE_TOWER_VFX);
+        if (upgradeEffect != null)
         {
             Vector3 effectPosition = transform.position;
             effectPosition.y = upgradeEffect.transform.position.y;
             upgradeEffect.transform.position = effectPosition;
             upgradeEffect.SetActive(true);
         }
+        base.PostUpgrade();
     }
 
 }
