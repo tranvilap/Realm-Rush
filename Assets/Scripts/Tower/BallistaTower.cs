@@ -1,10 +1,10 @@
-﻿using System.Collections;
+﻿using Game.Sound;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using DigitalRuby.SoundManagerNamespace;
 public class BallistaTower : ShootingTower
 {
-
     [Header("Level 0")]
     [SerializeField] float level0EffectRange = 1f;
     [SerializeField] float level0FiringRate = 1f;
@@ -85,6 +85,7 @@ public class BallistaTower : ShootingTower
                             bullet.AimTo(shootingPoint, target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
                             bullet.gameObject.SetActive(true);
                             bullet.Shoot();
+                            PlayOnShootSFX();
                         }
                         firingTimer = 0f;
                     }
@@ -105,12 +106,13 @@ public class BallistaTower : ShootingTower
                         bullet.AimTo(shootingPoint, target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
                         bullet.gameObject.SetActive(true);
                         bullet.Shoot();
+                        PlayOnShootSFX();
                     }
                     var secondBullet = PrepareBulletAt(secondShootingPoint);
                     if (secondBullet != null)
                     {
-                        secondBullet.AimTo(secondShootingPoint, secondTargetEnemy, 
-                            BulletSpeed.CalculatedValue*percentOfTotalPower, Power.CalculatedValue*percentOfTotalPower);
+                        secondBullet.AimTo(secondShootingPoint, secondTargetEnemy,
+                            BulletSpeed.CalculatedValue * percentOfTotalPower, Power.CalculatedValue * percentOfTotalPower);
                         secondBullet.gameObject.SetActive(true);
                         secondBullet.Shoot();
                     }
@@ -122,6 +124,11 @@ public class BallistaTower : ShootingTower
                 }
                 break;
         }
+    }
+
+    private void PlayOnShootSFX()
+    {
+        AudioManager.PlayOneShotSound(audioSource, onShootSFX);
     }
 
     protected override void SeekTarget()

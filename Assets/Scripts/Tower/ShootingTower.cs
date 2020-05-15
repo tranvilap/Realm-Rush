@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Stats;
+using Game.Sound;
 
 [RequireComponent(typeof(ObjectPooler))]
 public abstract class ShootingTower : UpgradeableTower, IShootable
@@ -10,15 +11,21 @@ public abstract class ShootingTower : UpgradeableTower, IShootable
     [SerializeField] protected BaseStat power;
     [SerializeField] protected Transform shootingPoint = null;
 
+    [Space(25f)]
+    [SerializeField] protected SFXObj onShootSFX = null;
+
     protected Transform currentTargetEnemy = null;
 
     public BaseStat FiringRate { get => firingRate; }
     public BaseStat BulletSpeed { get => bulletSpeed; }
     public BaseStat Power { get => power;}
 
+    protected AudioSource audioSource;
+
     protected override void Start()
     {
         base.Start();
+        audioSource = GetComponent<AudioSource>();
     }
 
     protected Bullet PrepareBullet()

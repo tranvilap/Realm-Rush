@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Sound;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,12 +11,18 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected int damage = 10;
     [SerializeField] private int money;
 
+    [Header("SFX")]
+    [SerializeField] SFXObj movingSFX = null;
+    [SerializeField] SFXObj damageSFX = null;
+    [SerializeField] SFXObj dieSFX = null;
+    [SerializeField] SFXObj attackSFX = null;
+
+
     public event Action OnEnemyDieEvent;
 
     public bool isHitable = true;
     public bool isDead = false;
     public bool reachedGoal = false;
-
 
     protected Waypoint goal;
 
@@ -23,7 +30,8 @@ public class Enemy : MonoBehaviour
     public int Damage { get => damage; set => damage = value; }
     public int Money { get => money; protected set => money = value; }
 
-    Collider hitCollider;
+    protected Collider hitCollider;
+    protected AudioSource audioSource;
 
     protected virtual void Start()
     {
@@ -41,6 +49,7 @@ public class Enemy : MonoBehaviour
             goal = map.EndWaypoint;
         }
         hitCollider = GetComponent<Collider>();
+        audioSource = GetComponent<AudioSource>();
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemySpawned(this));
@@ -77,6 +86,7 @@ public class Enemy : MonoBehaviour
             hitCollider.enabled = false;
         }
         OnEnemyDieEvent?.Invoke();
+        AudioManager.PlayOneShotSound(audioSource, dieSFX);
     }
 
     public virtual void ReachGoal()
@@ -102,6 +112,7 @@ public class Enemy : MonoBehaviour
         {
             hitCollider.enabled = false;
         }
+        AudioManager.PlayOneShotSound(audioSource, attackSFX);
     }
 
     public virtual void GetHit(float damage)
@@ -111,6 +122,10 @@ public class Enemy : MonoBehaviour
         if (healthPoint <= 0)
         {
             Die();
+        }
+        else
+        {
+            AudioManager.PlayOneShotSound(audioSource, damageSFX);
         }
     }
     protected virtual void CheckIfReachGoal(Vector3 pos)
@@ -123,5 +138,13 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+    
 
+    /// <summary>
+    /// Using at Animation Clip
+    /// </summary>
+    public virtual void PlayMovingSound()
+    {
+        AudioManager.PlayOneShotSound(audioSource, movingSFX);
+    }
 }

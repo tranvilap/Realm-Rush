@@ -9,4 +9,10 @@ public class Constants
     public const string WATCH_TOWER_BUFF_AURA = "WatchTowerBuffAura";
     public const string SELL_TOWER_VFX = "SellTowerVFX";
     #endregion
+
+    #region PlayerPref
+    public const string GLOBAL_MUSIC = "Global Music";
+    public const string GLOBAL_SFX = "Global SFX";
+
+    #endregion
 }

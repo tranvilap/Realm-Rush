@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Sound;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,13 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent
     [SerializeField] int hqHealth = 10;
     [SerializeField] private int money = 0;
 
-    GameController gameController;
+    [SerializeField] SFX coinEarningSFX = null;
+    [SerializeField] SFX coinSpendingSFX = null;
 
-    public event Action<int> OnEarningMoneyEvent;   
+    GameController gameController;
+    AudioSource audioSource;
+
+    public event Action<int> OnEarningMoneyEvent;
     public event Action<int> OnSpendingMoneyEvent;
     public event Action<int> OnChangingMoneyEvent;
 
@@ -26,8 +31,9 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent
     {
         EventSystemListener.main.AddListener(gameObject);
         gameController = FindObjectOfType<GameController>();
+        audioSource = GetComponent<AudioSource>();
     }
-    
+
     public void OnEnemyReachedGoal(Enemy enemy)
     {
         TakeDamage(enemy.Damage);
@@ -64,11 +70,13 @@ public class PlayerHQ : MonoBehaviour, IEnemyEvent
     public void EarnMoney(int amount)
     {
         ChangeMoney(money + amount);
+        AudioManager.PlayOneShotSound(audioSource, coinEarningSFX);
         OnEarningMoneyEvent?.Invoke(amount);
     }
     public void SpendMoney(int amount)
     {
         ChangeMoney(money - amount);
+        AudioManager.PlayOneShotSound(audioSource, coinSpendingSFX);
         OnSpendingMoneyEvent?.Invoke(amount);
     }
 }

@@ -3,7 +3,11 @@ guid: 94636fc452b032443adffdbd47608682
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - rangeEffectField: {instanceID: 0}
+  - sellingSFX: {fileID: 11400000, guid: 7966d0724f0d6cb43b905b30640897ee, type: 2}
+  - menuCanvas: {instanceID: 0}
+  - placingPoint: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

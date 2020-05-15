@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Game.Sound;
+using System.Collections;
 using UnityEngine;
-
+using DigitalRuby.SoundManagerNamespace;
 public abstract class NormalBullet : Bullet
 {
     [SerializeField] ParticleSystem onHitEnemyParticle = null;
     [SerializeField] ParticleSystem onHitGroundParticle = null;
-    //[SerializeField] AudioClip onHitGroundSFX = null;
-    //[SerializeField] AudioClip onHitEnemySFX = null;
 
     AudioSource audioSource;
 
@@ -25,38 +23,41 @@ public abstract class NormalBullet : Bullet
         {
             if (other.GetComponent<Enemy>() != null)
             {
-                DealDamageToEnemy(other.GetComponent<Enemy>());
+                CollideWithEnemy(other.GetComponent<Enemy>(), other.transform);
+            }
+            else
+            {
+                Debug.LogWarning("Has tag Enemy but doesn't has Enemy script");
             }
         }
         else
         {
-            StartCoroutine(HitEffect(onHitGroundParticle));
+            CollideWithOther(other.transform);
         }
     }
 
-    protected virtual void DealDamageToEnemy(Enemy enemy)
+    protected virtual void CollideWithOther(Transform atTransform)
     {
-        enemy.GetHit(BulletPower);
-        StartCoroutine(HitEffect(onHitEnemyParticle));
+        StartCoroutine(CollideEffect(onHitGroundParticle));
     }
 
-    IEnumerator HitEffect(ParticleSystem particle)
+    protected virtual void CollideWithEnemy(Enemy enemy, Transform atTransform)
+    {
+        DealDamageTo(enemy);
+        StartCoroutine(CollideEffect(onHitEnemyParticle));
+    }
+
+    private void DealDamageTo(Enemy enemy)
+    {
+        enemy.GetHit(BulletPower);
+    }
+
+    IEnumerator CollideEffect(ParticleSystem particle)
     {
         if (particle != null)
         {
-            particle.Play();
+            yield return new WaitForSeconds(particle.main.duration);
         }
-        
-        //if(SFX != null)
-        //{
-        //    if (audioSource != null)
-        //    {
-        //        audioSource.PlayOneShot(SFX);
-        //    }
-        //}
-        yield return new WaitForSeconds(particle.main.duration);
-
         gameObject.SetActive(false);
-
     }
 }

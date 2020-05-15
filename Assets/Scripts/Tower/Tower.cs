@@ -11,13 +11,13 @@ public abstract class Tower : MonoBehaviour
     [Header("Basic Info")]
     [SerializeField] protected BaseStat effectRangeRadius;
     [SerializeField] protected GameObject rangeEffectField = null;
-    [Space]
+    [Space(10f)]
+    [Tooltip("Must be assign with the value in Tower Data price, can be change in run time")]
+    [SerializeField] private int summonPrice = 0;
+
     [SerializeField] protected LayerMask whatIsTarget;
     [SerializeField] protected Canvas menuCanvas = null;
     [SerializeField] protected Color gizmoColor = Color.red;
-
-    [Tooltip("Must be assign with the value in Tower Data price, can be change in run time")]
-    [SerializeField] private int summonPrice = 0;
 
     [Min(0)] protected int towerTotalValue = 0;
 
@@ -30,7 +30,7 @@ public abstract class Tower : MonoBehaviour
     protected ObjectPooler bulletPooler;
     protected PlayerHQ playerHQ;
     protected TowerEvents.TowerEvents towerEvents;
-    public TowerPlacePoint placingPoint;
+    [HideInInspector]public TowerPlacePoint placingPoint;
 
     protected Camera mainCamera;
     protected InputsHandler inputsHandler;
