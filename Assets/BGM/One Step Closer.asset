@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: UpgradeSFX
-  m_EditorClassIdentifier: Assembly-CSharp:Game.Sound:SFXObj
-  clip: {fileID: 8300000, guid: edc5a62f65e1c55429555e07be7f34b8, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e27625287ea0184485d735434f00bfa, type: 3}
+  m_Name: One Step Closer
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 626629c2c0a736543ae5813cc989b3d3, type: 3}
   volume: 1
+  pitch: 1
+  fadeTime: 2

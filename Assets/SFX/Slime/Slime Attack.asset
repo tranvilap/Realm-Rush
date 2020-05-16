@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 6c517da769a3fdc49979ecf79aca027a, type: 3}
   m_Name: Slime Attack
-  m_EditorClassIdentifier: Assembly-CSharp:Game.Sound:SFXObj
+  m_EditorClassIdentifier: 
   clip: {fileID: 8300000, guid: 3dc4b3ed55111e544bca4f05ed165063, type: 3}
   volume: 1

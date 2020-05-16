@@ -4783,8 +4783,8 @@ MonoBehaviour:
   healthPoint: 3
   damage: 1
   money: 30
-  movingSFX: {fileID: 11400000, guid: fcfbc401fbf11de43976182ff6e5cca9, type: 2}
-  damageSFX: {fileID: 11400000, guid: 00206d714b0a4a942ae6f6f0a8df5251, type: 2}
+  movingSFX: {fileID: 11400000, guid: f30b9670913f48b4a8795568466848f6, type: 2}
+  damageSFX: {fileID: 11400000, guid: 67e4087e18a795c4bb3a53938c402ab8, type: 2}
   dieSFX: {fileID: 11400000, guid: 617b29bd36c0f964da736895d69c6f20, type: 2}
   attackSFX: {fileID: 11400000, guid: 1359177a5852acd4ab8c9d244ff70577, type: 2}
   isHitable: 1
@@ -4805,7 +4805,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 497c21647de27db4183f19d5281cd283, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseMovingSpeed: 1
+  baseMovingSpeed:
+    BaseValue: 1
   arrivalDistance: 0.1
 --- !u!1 &5220356551224965169
 GameObject:

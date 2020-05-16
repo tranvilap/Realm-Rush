@@ -3,17 +3,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RedSlime : Enemy
+public class Slime : Enemy
 {
     [SerializeField] AnimationClip dieAnimationClip = null;
     [SerializeField] AnimationClip reachedGoalAnimationClip = null;
-    Animator animator;
-
-    protected override void Start()
-    {
-        base.Start();
-        animator = GetComponent<Animator>();
-    }
 
     public override void ReachGoal()
     {
@@ -29,7 +22,6 @@ public class RedSlime : Enemy
     IEnumerator GoalReaching()
     {
         base.OnReachingGoal();
-        animator.SetTrigger("Win");
         yield return new WaitForSeconds(reachedGoalAnimationClip.length);
         Destroy(gameObject);
         base.OnReachedGoal();
@@ -37,11 +29,9 @@ public class RedSlime : Enemy
     IEnumerator Dying()
     {
         base.OnDying();
-
-        animator.SetTrigger("Die");
-        yield return new WaitForSeconds(dieAnimationClip.length + 0.1f);
+        base.OnDied();
+        yield return new WaitForSeconds(dieAnimationClip.length);
         Destroy(gameObject);
 
-        base.OnDied();
     }
 }

@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: Slime Moving
-  m_EditorClassIdentifier: Assembly-CSharp:Game.Sound:SFXObj
-  clip: {fileID: 8300000, guid: b6c7d0a227a5e8f4a85ac487beafbdae, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c517da769a3fdc49979ecf79aca027a, type: 3}
+  m_Name: UpgradeTowerSFX
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 2e3cf5ce964addf4e910e721d4228720, type: 3}
   volume: 1

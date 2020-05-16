@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using Stats;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 public abstract class EnemyMovement : MonoBehaviour, IEnemyMove
 {
-    [SerializeField] protected float baseMovingSpeed = 5f;
+    [SerializeField] public BaseStat baseMovingSpeed;
     protected PathFinder pathFinder = null;
     protected bool isMovable = true;
 

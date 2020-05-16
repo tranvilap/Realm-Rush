@@ -1397,7 +1397,7 @@ MonoBehaviour:
   power:
     BaseValue: 1
   shootingPoint: {fileID: 0}
-  onShootSFX: {fileID: 11400000, guid: 474f8e06a5812b44cacce537bce1d6ee, type: 2}
+  onShootSFX: {fileID: 11400000, guid: c47d27366f8121641a0b852f1f89a159, type: 2}
   level0EffectRange: 1
   level0FiringRate: 1
   level0BulletSpeed: 3.5

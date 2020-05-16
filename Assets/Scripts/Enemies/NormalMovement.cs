@@ -28,6 +28,8 @@ public class NormalMovement : EnemyMovement
     public override void MoveToGoal()
     {
         if (!isMovable) { return; }
+        if (baseMovingSpeed.CalculatedValue <= 0) { return; }
+
         if (enemy != null)
         {
             if (enemy.isDead) { return; }
@@ -48,7 +50,7 @@ public class NormalMovement : EnemyMovement
             targetWayPoint = pathFinder.ShortestPathBFS[waypointIndex];
             lastDistanceToTarget = Vector3.Distance(transform.position, targetWayPoint.transform.position);
 
-            transform.DOLookAt(targetWayPoint.transform.position, distanceToTarget/baseMovingSpeed);
+            transform.DOLookAt(targetWayPoint.transform.position, distanceToTarget/baseMovingSpeed.CalculatedValue);
         }
         else
         {
@@ -60,7 +62,7 @@ public class NormalMovement : EnemyMovement
         Vector3 dir = (targetWayPoint.transform.position - transform.position).normalized;
 
 
-        rb.MovePosition(transform.position + dir * (baseMovingSpeed * Time.fixedDeltaTime));
+        rb.MovePosition(transform.position + dir * (baseMovingSpeed.CalculatedValue * Time.fixedDeltaTime));
 
 
     }

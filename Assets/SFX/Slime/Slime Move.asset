@@ -9,10 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
-  m_Name: MusMus046
-  m_EditorClassIdentifier: Assembly-CSharp:Game.Sound:MusicObj
-  clip: {fileID: 8300000, guid: 89009926e22f53d4ca4a4a9da36382a3, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c517da769a3fdc49979ecf79aca027a, type: 3}
+  m_Name: Slime Move
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: b6c7d0a227a5e8f4a85ac487beafbdae, type: 3}
   volume: 1
-  pitch: 1.2
-  fadeTime: 1.3
