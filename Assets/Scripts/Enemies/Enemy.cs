@@ -7,8 +7,6 @@ using UnityEngine.EventSystems;
 
 public class Enemy : MonoBehaviour
 {
-    Animator animator;
-
     [SerializeField] protected float healthPoint = 10f;
     [SerializeField] protected int damage = 10;
     [SerializeField] private int money;
@@ -18,9 +16,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] SFXObj damageSFX = null;
     [SerializeField] SFXObj dieSFX = null;
     [SerializeField] SFXObj attackSFX = null;
-
-    protected string movingAnimationSpeedMultParam = "speedMultiplier";
-    protected int movingAnimationSpeedMultHashID;
+    
 
     public event Action OnEnemyDieEvent;
 
@@ -37,6 +33,8 @@ public class Enemy : MonoBehaviour
     protected Collider hitCollider;
     protected AudioSource audioSource;
     protected EnemyMovement enemyMovementScript = null;
+
+    protected float lastMovementSpeed=0f;
 
     protected virtual void Start()
     {
@@ -56,10 +54,13 @@ public class Enemy : MonoBehaviour
 
         hitCollider = GetComponent<Collider>();
         audioSource = GetComponent<AudioSource>();
-        animator = GetComponent<Animator>();
+        
         enemyMovementScript = GetComponent<EnemyMovement>();
 
-        movingAnimationSpeedMultHashID = Animator.StringToHash(movingAnimationSpeedMultParam);
+        if(enemyMovementScript != null)
+        {
+            lastMovementSpeed = enemyMovementScript.movingSpeed.CalculatedValue;
+        }
 
         foreach (var go in EventSystemListener.main.Listeners)
         {
@@ -70,33 +71,9 @@ public class Enemy : MonoBehaviour
     protected virtual void Update()
     {
         CheckIfReachGoal(transform.position);
-        ControlMovingAnimation();
     }
 
-    protected virtual void ControlMovingAnimation()
-    {
-        if (animator != null)
-        {
-            if (enemyMovementScript != null)
-            {
-                if (enemyMovementScript.baseMovingSpeed.CalculatedValue >= 0)
-                {
-                    if (enemyMovementScript.baseMovingSpeed.BaseValue == 0)
-                    {
-                        animator.SetFloat(movingAnimationSpeedMultHashID, enemyMovementScript.baseMovingSpeed.CalculatedValue);
-                    }
-                    else
-                    {
-                        animator.SetFloat(movingAnimationSpeedMultHashID, enemyMovementScript.baseMovingSpeed.CalculatedValue/enemyMovementScript.baseMovingSpeed.BaseValue);
-                    }
-                }
-            }
-            else
-            {
-                animator.SetFloat(movingAnimationSpeedMultHashID, 0f);
-            }
-        }
-    }
+
 
     public virtual void Die()
     {
@@ -124,16 +101,9 @@ public class Enemy : MonoBehaviour
         }
         OnEnemyDieEvent?.Invoke();
         AudioManager.PlayOneShotSound(audioSource, dieSFX);
-        PlayDieAnimation();
     }
 
-    protected virtual void PlayDieAnimation()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-        }
-    }
+
 
     public virtual void ReachGoal()
     {
@@ -159,16 +129,9 @@ public class Enemy : MonoBehaviour
             hitCollider.enabled = false;
         }
         AudioManager.PlayOneShotSound(audioSource, attackSFX);
-        PlayWinAniamtion();
     }
 
-    protected virtual void PlayWinAniamtion()
-    {
-        if (animator != null)
-        {
-            animator.SetTrigger("Win");
-        }
-    }
+
 
     public virtual void GetHit(float damage)
     {

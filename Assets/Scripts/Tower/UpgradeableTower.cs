@@ -55,8 +55,14 @@ public abstract class UpgradeableTower : Tower
     protected override void Start()
     {
         base.Start();
-        towerMenu = MenuCanvas.GetComponent<UpgradableTowerMenu>();
-        towerMenu.UpdateTowerUI(this);
+        if (menuCanvas != null)
+        {
+            towerMenu = MenuCanvas.GetComponent<UpgradableTowerMenu>();
+        }
+        if (towerMenu != null)
+        {
+            towerMenu.UpdateTowerUI(this);
+        }
         CurrentTowerUpgradeLevel = currentTowerUpgradeLevel;
         SetUpTower();
     }
@@ -74,7 +80,7 @@ public abstract class UpgradeableTower : Tower
         playerHQ.SpendMoney(NextUpgradeCost);
         towerTotalValue += NextUpgradeCost;
         CurrentTowerUpgradeLevel++;
-        
+
         PostUpgrade();
 
         SetUpTower();

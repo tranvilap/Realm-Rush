@@ -15,9 +15,9 @@ public class TileSnapMovement : EnemyMovement
     public override void MoveToGoal()
     {
         if (!isMovable) { return; }
-        if (baseMovingSpeed.CalculatedValue > 0)
+        if (movingSpeed.CalculatedValue > 0)
         {
-            timeEachStep = 1 / baseMovingSpeed.CalculatedValue;
+            timeEachStep = 1 / movingSpeed.CalculatedValue;
         }
         if(pathIndex < 0) { timer = timeEachStep; }
         if (timer < timeEachStep) { timer += Time.deltaTime; }
