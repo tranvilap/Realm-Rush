@@ -6,14 +6,12 @@ using UnityEngine;
 
 public abstract class LaserTower : UpgradeableTower
 {
-    [SerializeField] protected BaseStat power;
-    [SerializeField] protected Transform shootingPoint = null;
+    [SerializeField] protected BaseStat dps;
+    protected Transform currentShootingPoint = null;
 
-    [Space(25f)]
-    [SerializeField] protected SFXObj onShootSFX = null;
     protected AudioSource audioSource;
 
-    public BaseStat Power { get => power; }
+    public BaseStat DPS { get => dps; }
 
     protected override void Start()
     {
@@ -22,5 +20,8 @@ public abstract class LaserTower : UpgradeableTower
     }
 
     public abstract void Shoot();
-
+    protected virtual void DealDamagePerSecond(Enemy enemy)
+    {
+        enemy.GetHit(dps.CalculatedValue * Time.deltaTime);
+    }
 }

@@ -31,6 +31,7 @@ public abstract class Tower : MonoBehaviour
     protected PlayerHQ playerHQ;
     protected TowerEvents.TowerEvents towerEvents;
     [HideInInspector]public TowerPlacePoint placingPoint;
+    protected BoxCollider towerCollider;
 
     protected Camera mainCamera;
     protected InputsHandler inputsHandler;
@@ -43,7 +44,7 @@ public abstract class Tower : MonoBehaviour
         towerEvents = FindObjectOfType<TowerEvents.TowerEvents>();
         towerTotalValue = summonPrice;
         inputsHandler = FindObjectOfType<InputsHandler>();
-
+        towerCollider = GetComponent<BoxCollider>();
         var parent = GameObject.Find("Towers");
         if(parent == null)
         {
@@ -138,6 +139,12 @@ public abstract class Tower : MonoBehaviour
     {
         if(rangeEffectField == null) { return; }
         rangeEffectField.SetActive(false);
+    }
+
+    protected void SetUpCollider(BoxCollider targetBoxCollider)
+    {
+        towerCollider.size = targetBoxCollider.size;
+        towerCollider.center = targetBoxCollider.center;
     }
 
     private void OnDrawGizmos()

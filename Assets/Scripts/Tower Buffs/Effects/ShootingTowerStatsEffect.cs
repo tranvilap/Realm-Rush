@@ -10,7 +10,7 @@ namespace TowerBuffs
         [SerializeField] protected StatModifier[] effectRangeMods = null;
         [SerializeField] protected StatModifier[] firingRateMods = null;
         [SerializeField] protected StatModifier[] bulletSpeedMods = null;
-        [SerializeField] protected StatModifier[] powerBonuses = null;
+        [SerializeField] protected StatModifier[] powerMods = null;
 
         public override void ApplyEffect(BaseTowerBuff parent, Tower tower)
         {
@@ -19,6 +19,7 @@ namespace TowerBuffs
                 var newMod = new StatModifier(mod, parent);
                 tower.EffectRangeRadius.AddModifier(newMod);
             }
+
             if (tower is ShootingTower)
             {
                 foreach (var mod in firingRateMods)
@@ -31,10 +32,18 @@ namespace TowerBuffs
                     var newMod = new StatModifier(mod, parent);
                     ((ShootingTower)tower).BulletSpeed.AddModifier(newMod);
                 }
-                foreach (var mod in powerBonuses)
+                foreach (var mod in powerMods)
                 {
                     var newMod = new StatModifier(mod, parent);
                     ((ShootingTower)tower).Power.AddModifier(newMod);
+                }
+            }
+            else if(tower is LaserTower)
+            {
+                foreach (var mod in powerMods)
+                {
+                    var newMod = new StatModifier(mod, parent);
+                    ((LaserTower)tower).DPS.AddModifier(newMod);
                 }
             }
         }
@@ -43,6 +52,7 @@ namespace TowerBuffs
         {
             bool didRemove = false;
             didRemove = tower.EffectRangeRadius.RemoveModifiersFromSource(parent);
+
             if (tower is ShootingTower)
             {
                 if (!didRemove)
@@ -58,6 +68,17 @@ namespace TowerBuffs
                     ((ShootingTower)tower).Power.RemoveModifiersFromSource(parent);
                 }
             }
+            else if(tower is LaserTower)
+            {
+                if (!didRemove)
+                {
+                    didRemove = ((LaserTower)tower).DPS.RemoveModifiersFromSource(parent);
+                }
+                else
+                {
+                    ((LaserTower)tower).DPS.RemoveModifiersFromSource(parent);
+                }
+            }
 
             return didRemove;
         }
@@ -67,7 +88,7 @@ namespace TowerBuffs
             if (effectRangeMods == null || effectRangeMods.Length == 0) { effectRangeMods = new StatModifier[1]; }
             if (firingRateMods == null || firingRateMods.Length == 0) { firingRateMods = new StatModifier[1]; }
             if (bulletSpeedMods == null || bulletSpeedMods.Length == 0) { bulletSpeedMods = new StatModifier[1]; }
-            if (powerBonuses == null || powerBonuses.Length == 0) { powerBonuses = new StatModifier[1]; }
+            if (powerMods == null || powerMods.Length == 0) { powerMods = new StatModifier[1]; }
         }
     }
 }

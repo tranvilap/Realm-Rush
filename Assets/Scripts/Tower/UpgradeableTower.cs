@@ -75,20 +75,11 @@ public abstract class UpgradeableTower : Tower
         }
 
         PreUpgrade();
-
-        DisplayUpgradeEffect();
         playerHQ.SpendMoney(NextUpgradeCost);
         towerTotalValue += NextUpgradeCost;
         CurrentTowerUpgradeLevel++;
 
         PostUpgrade();
-
-        SetUpTower();
-        towerMenu.UpdateTowerUI(this);
-        if (rangeEffectField.activeInHierarchy)
-        {
-            ShowEffectRange();
-        }
     }
 
     protected virtual void DisplayUpgradeEffect()
@@ -110,10 +101,17 @@ public abstract class UpgradeableTower : Tower
     protected virtual void PreUpgrade()
     {
         towerEvents.OnPreUpgradeTower(this);
+        DisplayUpgradeEffect();
     }
     protected virtual void PostUpgrade()
     {
         towerEvents.OnSuccessUpgradedTower(this);
+        SetUpTower();
+        towerMenu.UpdateTowerUI(this);
+        if (rangeEffectField.activeInHierarchy)
+        {
+            ShowEffectRange();
+        }
     }
     protected virtual TowerEvents.UPGRADE_TOWER_RESULT CheckUpgradeable()
     {
@@ -129,10 +127,25 @@ public abstract class UpgradeableTower : Tower
         }
         return TowerEvents.UPGRADE_TOWER_RESULT.SUCCESS;
     }
-
+    protected virtual TowerEvents.UPGRADE_TOWER_RESULT CheckUpgradeable(int level, int cost)
+    {
+        if (level > upgradeLevelCap || level <0)
+        {
+            Debug.LogWarning("This Level is invalid", gameObject);
+            return TowerEvents.UPGRADE_TOWER_RESULT.INVALID_LEVEL;
+        }
+        if (playerHQ.Money < cost)
+        {
+            Debug.LogWarning("Not enough money to upgrade this tower", gameObject);
+            return TowerEvents.UPGRADE_TOWER_RESULT.NOT_ENOUGH_MONEY;
+        }
+        return TowerEvents.UPGRADE_TOWER_RESULT.SUCCESS;
+    }
     public virtual void OnUpgradeButton()
     {
         Upgrade();
     }
     protected abstract void SetUpTower();
+
+   
 }

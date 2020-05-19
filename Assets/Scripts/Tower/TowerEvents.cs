@@ -6,7 +6,7 @@ using UnityEngine;
 namespace TowerEvents
 {
     public enum PLACE_TOWER_FAIL_REASON { NOT_ENOUGH_MONEY, UNPLACEABLE_POINT }
-    public enum UPGRADE_TOWER_RESULT { SUCCESS,NOT_ENOUGH_MONEY, TOWER_REACHED_MAX_LEVEL }
+    public enum UPGRADE_TOWER_RESULT { SUCCESS,NOT_ENOUGH_MONEY, TOWER_REACHED_MAX_LEVEL, INVALID_LEVEL }
 
     public class TowerEvents : MonoBehaviour
     {

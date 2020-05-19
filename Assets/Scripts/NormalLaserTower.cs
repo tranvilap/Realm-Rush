@@ -2,17 +2,48 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TowerBuffs;
-public class PoisonLaserTower : LaserTower
+public class NormalLaserTower : LaserTower
 {
     [SerializeField] LineRenderer firstLaserBeam;
     [SerializeField] LineRenderer secondLaserBeam;
     [SerializeField] LineRenderer thirdLaserBeam;
 
-    [SerializeField] BaseTowerBuff poisonLaserDebuff;
+    [Header("Level 0")]
+    [SerializeField] float level0EffectRange = 1f;
+    [SerializeField] float level0Power = 1f;
+    [Space]
+    [SerializeField] GameObject level0TowerModel = null;
+    [SerializeField] Transform level0ShootingPoint = null;
+    [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level0Collider = null;
+
+    [Header("Level 1")]
+    [SerializeField] float level1EffectRange = 1f;
+    [SerializeField] float level1Power = 1f;
+    [Space]
+    [SerializeField] GameObject level1TowerModel = null;
+    [SerializeField] Transform level1ShootingPoint = null;
+    [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level1Collider = null;
+
+    [Header("Level 2")]
+    [SerializeField] float level2EffectRange = 1f;
+    [SerializeField] float level2Power = 1f;
+    [Space]
+    [SerializeField] GameObject level2TowerModel = null;
+    [SerializeField] Transform level2ShootingPoint = null;
+    [SerializeField] [Tooltip("For receiving mouse input")] BoxCollider level2Collider = null;
+
 
     Enemy firstTarget;
     Enemy secondTarget;
     Enemy thirdTarget;
+
+    protected override void Start()
+    {
+        base.Start();
+        firstLaserBeam.useWorldSpace = true;
+        secondLaserBeam.useWorldSpace = true;
+        thirdLaserBeam.useWorldSpace = true;
+    }
 
     private void Update()
     {
@@ -34,11 +65,11 @@ public class PoisonLaserTower : LaserTower
                 }
             case 1:
                 {
-                    if(firstTarget != null)
+                    if (firstTarget != null)
                     {
                         ShootLaser(firstLaserBeam, firstTarget);
                     }
-                    if(secondTarget != null)
+                    if (secondTarget != null)
                     {
                         ShootLaser(secondLaserBeam, secondTarget);
                     }
@@ -55,17 +86,13 @@ public class PoisonLaserTower : LaserTower
                     {
                         ShootLaser(secondLaserBeam, secondTarget);
                     }
-                    if(thirdTarget != null)
+                    if (thirdTarget != null)
                     {
                         ShootLaser(thirdLaserBeam, thirdTarget);
                     }
                     break;
                 }
         }
-
-        ShootLaser(firstLaserBeam, firstTarget);
-        ShootLaser(secondLaserBeam, secondTarget);
-        ShootLaser(thirdLaserBeam, thirdTarget);
     }
 
     protected override void SeekTarget()
@@ -170,7 +197,7 @@ public class PoisonLaserTower : LaserTower
                     secondLaserBeam.enabled = false;
                 }
             }
-            if (thirdLaserBeam == null)
+            if (thirdTarget == null)
             {
                 if (thirdLaserBeam.enabled)
                 {
@@ -182,7 +209,49 @@ public class PoisonLaserTower : LaserTower
 
     protected override void SetUpTower()
     {
+        switch (CurrentTowerUpgradeLevel)
+        {
+            case 0:
+                {
+                    EffectRangeRadius.BaseValue = level0EffectRange;
+                    DPS.BaseValue = level0Power;
 
+                    level0TowerModel.SetActive(true);
+                    level1TowerModel.SetActive(false);
+                    level2TowerModel.SetActive(false);
+
+                    SetUpCollider(level0Collider);
+                    currentShootingPoint = level0ShootingPoint;
+                    break;
+                }
+            case 1:
+                {
+                    EffectRangeRadius.BaseValue = level1EffectRange;
+                    DPS.BaseValue = level1Power;
+
+                    level0TowerModel.SetActive(false);
+                    level1TowerModel.SetActive(true);
+                    level2TowerModel.SetActive(false);
+
+                    SetUpCollider(level1Collider);
+                    currentShootingPoint = level1ShootingPoint;
+                    break;
+                }
+            case 2:
+            default:
+                {
+                    EffectRangeRadius.BaseValue = level2EffectRange;
+                    DPS.BaseValue = level2Power;
+
+                    level0TowerModel.SetActive(false);
+                    level1TowerModel.SetActive(false);
+                    level2TowerModel.SetActive(true);
+
+                    SetUpCollider(level2Collider);
+                    currentShootingPoint = level2ShootingPoint;
+                    break;
+                }
+        }
     }
 
     private void ShootLaser(LineRenderer laserBeam, Enemy target)
@@ -192,7 +261,10 @@ public class PoisonLaserTower : LaserTower
         {
             laserBeam.enabled = true;
         }
-        laserBeam.SetPosition(0, shootingPoint.position);
+        laserBeam.SetPosition(0, currentShootingPoint.position);
         laserBeam.SetPosition(1, target.transform.position);
+        DealDamagePerSecond(target);
     }
+
+    
 }

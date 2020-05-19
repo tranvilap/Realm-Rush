@@ -17,6 +17,18 @@ MonoBehaviour:
     Type: 300
     usingTypeOrder: 1
     order: 0
-  firingRateMods: []
-  bulletSpeedMods: []
-  powerBonuses: []
+  firingRateMods:
+  - value: 0
+    Type: 100
+    usingTypeOrder: 1
+    order: 0
+  bulletSpeedMods:
+  - value: 0
+    Type: 100
+    usingTypeOrder: 1
+    order: 0
+  powerMods:
+  - value: 0
+    Type: 100
+    usingTypeOrder: 1
+    order: 0

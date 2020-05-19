@@ -31,8 +31,8 @@ MonoBehaviour:
     Type: 100
     usingTypeOrder: 1
     order: 0
-  powerBonuses:
-  - value: 2
+  powerMods:
+  - value: 1
     Type: 100
     usingTypeOrder: 1
-    order: 100
+    order: 0

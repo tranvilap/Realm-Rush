@@ -1710,7 +1710,7 @@ GameObject:
   - component: {fileID: 1061513136507720340}
   - component: {fileID: 7501660269135874140}
   - component: {fileID: 2858428393952988114}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: WatchTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1847,7 +1847,6 @@ MonoBehaviour:
     BaseValue: 2
   rangeEffectField: {fileID: 4963675803810297986}
   summonPrice: 150
-  sellingSFX: {fileID: 11400000, guid: 7966d0724f0d6cb43b905b30640897ee, type: 2}
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 4096
@@ -1881,8 +1880,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 2.4793077, z: 1}
-  m_Center: {x: 0, y: 0.7396538, z: 0}
+  m_Size: {x: 1, y: 2, z: 1}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &7742145341354960933
 GameObject:
   m_ObjectHideFlags: 0

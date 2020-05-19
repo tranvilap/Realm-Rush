@@ -16,8 +16,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] SFXObj damageSFX = null;
     [SerializeField] SFXObj dieSFX = null;
     [SerializeField] SFXObj attackSFX = null;
-    
 
+    [SerializeField] [Tooltip("Prevent playing every frame (Ex: Laser hit)")] float audioDelay = 0.1f;
     public event Action OnEnemyDieEvent;
 
     public bool isHitable = true;
@@ -34,7 +34,10 @@ public class Enemy : MonoBehaviour
     protected AudioSource audioSource;
     protected EnemyMovement enemyMovementScript = null;
 
-    protected float lastMovementSpeed=0f;
+    private bool isCoolingDownAudioDelay = false;
+    private float audioDelayCounter = 0f;
+
+    protected float lastMovementSpeed = 0f;
 
     protected virtual void Start()
     {
@@ -54,10 +57,10 @@ public class Enemy : MonoBehaviour
 
         hitCollider = GetComponent<Collider>();
         audioSource = GetComponent<AudioSource>();
-        
+
         enemyMovementScript = GetComponent<EnemyMovement>();
 
-        if(enemyMovementScript != null)
+        if (enemyMovementScript != null)
         {
             lastMovementSpeed = enemyMovementScript.movingSpeed.CalculatedValue;
         }
@@ -70,6 +73,15 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Update()
     {
+        if (isCoolingDownAudioDelay)
+        {
+            audioDelayCounter += Time.deltaTime;
+            if (audioDelayCounter >= audioDelay)
+            {
+                isCoolingDownAudioDelay = false;
+                audioDelayCounter = 0f;
+            }
+        }
         CheckIfReachGoal(transform.position);
     }
 
@@ -143,7 +155,11 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            AudioManager.PlayOneShotSound(audioSource, damageSFX);
+            if (!isCoolingDownAudioDelay)
+            {
+                AudioManager.PlayOneShotSound(audioSource, damageSFX);
+                isCoolingDownAudioDelay = true;
+            }
         }
     }
     protected virtual void CheckIfReachGoal(Vector3 pos)

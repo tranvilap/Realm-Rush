@@ -34,7 +34,8 @@ public class WatchTower : BuffingTower
         Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
         foreach (var collider in hitColliders)
         {
-            ShootingTower shootingTower = collider.GetComponent<ShootingTower>();
+            if(collider.transform == transform) { continue; }
+            Tower shootingTower = collider.GetComponent<Tower>();
             if (shootingTower != null)
             {
                 bool havingSameBuff = false;

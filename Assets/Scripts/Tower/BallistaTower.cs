@@ -49,14 +49,12 @@ public class BallistaTower : ShootingTower
 
     Transform balistaToPan = null;
     Transform bowToPan = null;
-    BoxCollider boxCollider;
 
     private float firingTimer = 0f;
     private Transform secondTargetEnemy = null;
 
     protected override void Start()
     {
-        boxCollider = GetComponent<BoxCollider>();
         base.Start();
     }
 
@@ -222,16 +220,4 @@ public class BallistaTower : ShootingTower
                 }
         }
     }
-    private void SetUpCollider(BoxCollider targetBoxCollider)
-    {
-        boxCollider.size = targetBoxCollider.size;
-        boxCollider.center = targetBoxCollider.center;
-    }
-
-    protected override void PostUpgrade()
-    {
-        EffectRangeRadius.BaseValue += 1;
-        base.PostUpgrade();
-    }
-
 }
