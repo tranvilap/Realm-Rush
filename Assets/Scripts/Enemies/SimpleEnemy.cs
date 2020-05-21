@@ -13,9 +13,12 @@ public class SimpleEnemy : Enemy
     protected string movingAnimationSpeedMultParam = "speedMultiplier";
     protected int movingAnimationSpeedMultHashID;
 
+    protected float lastMovementSpeed = 0f;
+
     protected override void Start()
     {
         base.Start();
+        lastMovementSpeed = MoveSpeed.CalculatedValue;
         animator = GetComponent<Animator>();
         movingAnimationSpeedMultHashID = Animator.StringToHash(movingAnimationSpeedMultParam);
     }
@@ -23,7 +26,7 @@ public class SimpleEnemy : Enemy
     protected override void Update()
     {
         base.Update();
-        ControlMovingAnimation();
+        ControlMovingAnimationSpeed();
     }
 
     public override void ReachGoal()
@@ -55,23 +58,23 @@ public class SimpleEnemy : Enemy
 
     }
 
-    protected virtual void ControlMovingAnimation()
+    protected virtual void ControlMovingAnimationSpeed()
     {
-        if (animator != null || enemyMovementScript != null)
+        if (animator != null)
         {
-            if (enemyMovementScript.movingSpeed.CalculatedValue >= 0)
+            if (MoveSpeed.CalculatedValue >= 0)
             {
-                if (lastMovementSpeed != enemyMovementScript.movingSpeed.CalculatedValue)
+                if (lastMovementSpeed != MoveSpeed.CalculatedValue)
                 {
-                    if (enemyMovementScript.movingSpeed.BaseValue == 0)
+                    if (MoveSpeed.BaseValue == 0)
                     {
-                        animator.SetFloat(movingAnimationSpeedMultHashID, enemyMovementScript.movingSpeed.CalculatedValue);
+                        animator.SetFloat(movingAnimationSpeedMultHashID, MoveSpeed.CalculatedValue);
                     }
                     else
                     {
-                        animator.SetFloat(movingAnimationSpeedMultHashID, enemyMovementScript.movingSpeed.CalculatedValue / enemyMovementScript.movingSpeed.BaseValue);
+                        animator.SetFloat(movingAnimationSpeedMultHashID, MoveSpeed.CalculatedValue / MoveSpeed.BaseValue);
                     }
-                    lastMovementSpeed = enemyMovementScript.movingSpeed.CalculatedValue;
+                    lastMovementSpeed = MoveSpeed.CalculatedValue;
                 }
             }
         }

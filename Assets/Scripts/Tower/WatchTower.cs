@@ -134,7 +134,6 @@ public class WatchTower : BuffingTower
                 level1TowerModel.SetActive(false);
                 level2TowerModel.SetActive(true);
                 break;
-
         }
     }
 

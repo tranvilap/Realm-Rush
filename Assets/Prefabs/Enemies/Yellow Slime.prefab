@@ -573,6 +573,7 @@ MonoBehaviour:
   damageSFX: {fileID: 11400000, guid: 67e4087e18a795c4bb3a53938c402ab8, type: 2}
   dieSFX: {fileID: 11400000, guid: 937eb5eed37bc8241887716a272495f7, type: 2}
   attackSFX: {fileID: 11400000, guid: 6d3de63096b12c34fb2cbd6c418c6fd5, type: 2}
+  audioDelay: 0.1
   isHitable: 1
   isDead: 0
   reachedGoal: 0

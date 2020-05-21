@@ -4,12 +4,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-
+using Stats;
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] protected float healthPoint = 10f;
+    [SerializeField] private BaseStat maxHP;
+    [SerializeField] private BaseStat moveSpeed;
     [SerializeField] protected int damage = 10;
     [SerializeField] private int money;
+
+    [SerializeField] HealthBar healthBar = null;
 
     [Header("SFX")]
     [SerializeField] SFXObj movingSFX = null;
@@ -20,26 +23,42 @@ public class Enemy : MonoBehaviour
     [SerializeField] [Tooltip("Prevent playing every frame (Ex: Laser hit)")] float audioDelay = 0.1f;
     public event Action OnEnemyDieEvent;
 
+    private float currentHP;
     public bool isHitable = true;
     public bool isDead = false;
     public bool reachedGoal = false;
 
     protected Waypoint goal;
 
-    public float HealthPoint { get => healthPoint; set => healthPoint = value; }
+    public float CurrentHP { get => currentHP;
+        set
+        {
+            if(value <= 0)
+            {
+                currentHP = 0;
+            }
+            else if(value >= MaxHP.CalculatedValue)
+            {
+                currentHP = MaxHP.CalculatedValue;
+            }
+            else
+            {
+                currentHP = value;
+            }
+        }
+    }
     public int Damage { get => damage; set => damage = value; }
     public int Money { get => money; protected set => money = value; }
+    public BaseStat MaxHP { get => maxHP; set => maxHP = value; }
+    public BaseStat MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
 
     protected Collider hitCollider;
     protected AudioSource audioSource;
-    protected EnemyMovement enemyMovementScript = null;
-
+    
     private bool isCoolingDownAudioDelay = false;
     private float audioDelayCounter = 0f;
-
-    protected float lastMovementSpeed = 0f;
-
-    protected virtual void Start()
+    
+    protected virtual void Awake()
     {
         var parent = GameObject.Find("Enemies");
         if (parent == null)
@@ -49,6 +68,11 @@ public class Enemy : MonoBehaviour
         }
         transform.parent = parent.transform;
 
+        currentHP = MaxHP.CalculatedValue;
+    }
+
+    protected virtual void Start()
+    {
         Map map = FindObjectOfType<Map>();
         if (map != null)
         {
@@ -57,14 +81,11 @@ public class Enemy : MonoBehaviour
 
         hitCollider = GetComponent<Collider>();
         audioSource = GetComponent<AudioSource>();
-
-        enemyMovementScript = GetComponent<EnemyMovement>();
-
-        if (enemyMovementScript != null)
+        if (healthBar != null)
         {
-            lastMovementSpeed = enemyMovementScript.movingSpeed.CalculatedValue;
+            healthBar.SetMaxHealth(MaxHP.CalculatedValue);
+            healthBar.SetHealth(CurrentHP);
         }
-
         foreach (var go in EventSystemListener.main.Listeners)
         {
             ExecuteEvents.Execute<IEnemyEvent>(go, null, (x, y) => x.OnEnemySpawned(this));
@@ -148,8 +169,12 @@ public class Enemy : MonoBehaviour
     public virtual void GetHit(float damage)
     {
         if (!isHitable || isDead || reachedGoal) { return; }
-        healthPoint -= damage;
-        if (healthPoint <= 0)
+        CurrentHP -= damage;
+        if (healthBar != null)
+        {
+            healthBar.SetHealth(CurrentHP);
+        }
+        if (CurrentHP <= 0)
         {
             Die();
         }

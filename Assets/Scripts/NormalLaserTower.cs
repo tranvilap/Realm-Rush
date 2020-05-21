@@ -4,9 +4,9 @@ using UnityEngine;
 using TowerBuffs;
 public class NormalLaserTower : LaserTower
 {
-    [SerializeField] LineRenderer firstLaserBeam;
-    [SerializeField] LineRenderer secondLaserBeam;
-    [SerializeField] LineRenderer thirdLaserBeam;
+    [SerializeField] LineRenderer firstLaserBeam = null;
+    [SerializeField] LineRenderer secondLaserBeam = null;
+    [SerializeField] LineRenderer thirdLaserBeam = null;
 
     [Header("Level 0")]
     [SerializeField] float level0EffectRange = 1f;
@@ -95,6 +95,8 @@ public class NormalLaserTower : LaserTower
         }
     }
 
+
+
     protected override void SeekTarget()
     {
         var hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
@@ -133,7 +135,11 @@ public class NormalLaserTower : LaserTower
             Enemy first = hitColliders[0].GetComponent<Enemy>();
             if (first != null)
             {
-                firstTarget = first;
+                if (!first.isDead && !first.reachedGoal && first.isHitable)
+                {
+                    if ((first.transform.position - transform.position).magnitude <= EffectRangeRadius.CalculatedValue)
+                        firstTarget = first;
+                }
             }
             else
             {
@@ -153,31 +159,34 @@ public class NormalLaserTower : LaserTower
                 var enemy = hit.GetComponent<Enemy>();
                 if (enemy != null)
                 {
-                    if (CurrentTowerUpgradeLevel <= 0)
+                    if (!enemy.isDead && !enemy.reachedGoal && enemy.isHitable)
                     {
-                        if (firstTarget == null)
+                        if (CurrentTowerUpgradeLevel <= 0)
                         {
-                            firstTarget = enemy;
-                            break;
-                        }
-                    }
-                    else
-                    {
-                        if (firstTarget == null)
-                        {
-                            firstTarget = enemy;
-                        }
-                        else if (secondTarget == null)
-                        {
-                            secondTarget = enemy;
-                        }
-                        else if (thirdTarget == null)
-                        {
-                            thirdTarget = enemy;
+                            if (firstTarget == null)
+                            {
+                                firstTarget = enemy;
+                                break;
+                            }
                         }
                         else
                         {
-                            break;
+                            if (firstTarget == null)
+                            {
+                                firstTarget = enemy;
+                            }
+                            else if (secondTarget == null)
+                            {
+                                secondTarget = enemy;
+                            }
+                            else if (thirdTarget == null)
+                            {
+                                thirdTarget = enemy;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
                     }
 
@@ -265,6 +274,4 @@ public class NormalLaserTower : LaserTower
         laserBeam.SetPosition(1, target.transform.position);
         DealDamagePerSecond(target);
     }
-
-    
 }

@@ -3,21 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public abstract class EnemyMovement : MonoBehaviour, IEnemyMove
+[RequireComponent(typeof(Enemy))]
+public abstract class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] public BaseStat movingSpeed;
     protected PathFinder pathFinder = null;
     protected bool isMovable = true;
 
-    Enemy enemyMain;
+    protected Enemy enemyScript;
 
     protected virtual void OnEnable()
     {
-        enemyMain = GetComponent<Enemy>();
-        if (enemyMain != null)
+        enemyScript = GetComponent<Enemy>();
+        if (enemyScript != null)
         {
-            enemyMain.OnEnemyDieEvent += StopMoving;
+            enemyScript.OnEnemyDieEvent += StopMoving;
         }
     }
 
@@ -40,6 +39,6 @@ public abstract class EnemyMovement : MonoBehaviour, IEnemyMove
 
     protected virtual void OnDisable()
     {
-        enemyMain.OnEnemyDieEvent -= StopMoving;
+        enemyScript.OnEnemyDieEvent -= StopMoving;
     }
 }

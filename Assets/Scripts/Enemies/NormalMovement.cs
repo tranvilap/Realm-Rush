@@ -28,7 +28,7 @@ public class NormalMovement : EnemyMovement
     public override void MoveToGoal()
     {
         if (!isMovable) { return; }
-        if (movingSpeed.CalculatedValue <= 0) { return; }
+        if (enemyScript.MoveSpeed.CalculatedValue <= 0) { return; }
 
         if (enemy != null)
         {
@@ -50,7 +50,7 @@ public class NormalMovement : EnemyMovement
             targetWayPoint = pathFinder.ShortestPathBFS[waypointIndex];
             lastDistanceToTarget = Vector3.Distance(transform.position, targetWayPoint.transform.position);
 
-            transform.DOLookAt(targetWayPoint.transform.position, distanceToTarget/movingSpeed.CalculatedValue);
+            transform.DOLookAt(targetWayPoint.transform.position, distanceToTarget/enemyScript.MoveSpeed.CalculatedValue);
         }
         else
         {
@@ -60,11 +60,7 @@ public class NormalMovement : EnemyMovement
         //Get direction to the waypoint.
         //Normalize so it doesn't change with distance.
         Vector3 dir = (targetWayPoint.transform.position - transform.position).normalized;
-
-
-        rb.MovePosition(transform.position + dir * (movingSpeed.CalculatedValue * Time.fixedDeltaTime));
-
-
+        rb.MovePosition(transform.position + dir * (enemyScript.MoveSpeed.CalculatedValue * Time.fixedDeltaTime));
     }
 
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class UpgradableTowerMenu : LookAtCameraObject
+public class UpgradableTowerMenu : StaticBillboard
 {
     [SerializeField] Button upgradeButton = null;
     [SerializeField] TextMeshProUGUI upgradeCostText = null;

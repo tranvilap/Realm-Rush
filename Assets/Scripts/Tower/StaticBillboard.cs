@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LookAtCameraObject : MonoBehaviour
+public class StaticBillboard : MonoBehaviour
 {
     Camera mainCamera;
     Camera MainCamera
@@ -23,6 +23,11 @@ public class LookAtCameraObject : MonoBehaviour
             cameraController = FindObjectOfType<CameraController>();
         }
         cameraController.RotateCameraEvent += OnRotateCamera;
+        LookAtCamera();
+    }
+
+    private void Start()
+    {
         LookAtCamera();
     }
 
