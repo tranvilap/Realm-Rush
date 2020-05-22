@@ -270,7 +270,14 @@ public class NormalLaserTower : LaserTower
             laserBeam.enabled = true;
         }
         laserBeam.SetPosition(0, currentShootingPoint.position);
-        laserBeam.SetPosition(1, target.transform.position);
+        if (target.Body != null)
+        {
+            laserBeam.SetPosition(1, target.Body.position);
+        }
+        else
+        {
+            laserBeam.SetPosition(1, target.transform.position);
+        }
         DealDamagePerSecond(target);
     }
 }

@@ -70,7 +70,7 @@ public class BallistaTower : ShootingTower
 
     public override void Shoot()
     {
-        Debug.Log(firingTimer);
+
         if (firstTargetEnemy == null)
         {
             firingTimer = 0f;

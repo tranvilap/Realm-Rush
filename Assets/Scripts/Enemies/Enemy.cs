@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int money;
 
     [SerializeField] HealthBar healthBar = null;
+    [SerializeField][Tooltip("To get location for laser")] Transform body = null;
 
     [Header("SFX")]
     [SerializeField] SFXObj movingSFX = null;
@@ -28,7 +29,7 @@ public class Enemy : MonoBehaviour
     public bool isDead = false;
     public bool reachedGoal = false;
 
-    protected Waypoint goal;
+    private WaypointPath goalPath;
 
     public float CurrentHP { get => currentHP;
         set
@@ -51,6 +52,8 @@ public class Enemy : MonoBehaviour
     public int Money { get => money; protected set => money = value; }
     public BaseStat MaxHP { get => maxHP; set => maxHP = value; }
     public BaseStat MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
+    public Transform Body { get => body; set => body = value; }
+    public WaypointPath GoalPath { get => goalPath; }
 
     protected Collider hitCollider;
     protected AudioSource audioSource;
@@ -73,12 +76,6 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Start()
     {
-        Map map = FindObjectOfType<Map>();
-        if (map != null)
-        {
-            goal = map.EndWaypoint;
-        }
-
         hitCollider = GetComponent<Collider>();
         audioSource = GetComponent<AudioSource>();
         if (healthBar != null)
@@ -189,7 +186,7 @@ public class Enemy : MonoBehaviour
     }
     protected virtual void CheckIfReachGoal(Vector3 pos)
     {
-        if (pos.x == goal.GridPos.x && pos.z == goal.GridPos.y && !isDead)
+        if (pos.x == GoalPath.EndWaypoint.GridPos.x && pos.z == GoalPath.EndWaypoint.GridPos.y && !isDead)
         {
             if (!reachedGoal)
             {
@@ -207,6 +204,9 @@ public class Enemy : MonoBehaviour
         AudioManager.PlayOneShotSound(audioSource, movingSFX);
     }
 
-
+    public void SetPath(WaypointPath path)
+    {
+        this.goalPath = new WaypointPath(path);
+    }
 
 }

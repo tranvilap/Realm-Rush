@@ -13,7 +13,7 @@ public class SpawningController : MonoBehaviour
     private int waveIndex = -1;
     private PlayerHQ playerHQ;
     GameController gameController;
-
+    Map map;
 
     private bool isSpawning = false;
     public bool IsSpawning { get => isSpawning; }
@@ -22,6 +22,7 @@ public class SpawningController : MonoBehaviour
     {
         playerHQ = FindObjectOfType<PlayerHQ>();
         gameController = FindObjectOfType<GameController>();
+        map = FindObjectOfType<Map>();
     }
 
     Wave GetNextWave()
@@ -107,9 +108,17 @@ public class SpawningController : MonoBehaviour
         }
         foreach (var minorWave in wave.minorWaves)
         {
+            WaypointPath path = map.GetPath(minorWave.PathIndex);
             for (int i = 0; i < minorWave.EnemyNumber; i++)
             {
-                GameObject go = Instantiate(minorWave.EnemyPrefab);
+                GameObject go = Instantiate(minorWave.EnemyPrefab, 
+                    path.StartWaypoint.transform.position,
+                    Quaternion.identity);
+                var enemyScript = go.GetComponent<Enemy>();
+                if(enemyScript != null)
+                {
+                    enemyScript.SetPath(path);
+                }
                 yield return new WaitForSeconds(minorWave.TimeDelayBetweenSpawns);
             }
             yield return new WaitForSeconds(minorWave.TimeDelayNextWave);

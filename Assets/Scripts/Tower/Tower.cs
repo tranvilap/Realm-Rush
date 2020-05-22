@@ -149,6 +149,7 @@ public abstract class Tower : MonoBehaviour
 
     private void OnDrawGizmos()
     {
+        if(EffectRangeRadius.CalculatedValue <= 0) { return; }
         Gizmos.color = gizmoColor;
         //Use the same vars you use to draw your Overlap SPhere to draw your Wire Sphere.
         Gizmos.DrawWireSphere(transform.position, effectRangeRadius.CalculatedValue);

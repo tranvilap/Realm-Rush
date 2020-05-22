@@ -23,14 +23,14 @@ public class TileSnapMovement : EnemyMovement
         if (timer < timeEachStep) { timer += Time.deltaTime; }
         else
         {
-            if (pathIndex + 1 >= pathFinder.ShortestPathBFS.Count) { isMovable = false; }
+            if (pathIndex + 1 >= movingPath.Count) { isMovable = false; }
             else
             {
                 pathIndex++;
-                transform.position = pathFinder.ShortestPathBFS[pathIndex].transform.position;
-                if (pathIndex + 1 < pathFinder.ShortestPathBFS.Count)
+                transform.position = movingPath[pathIndex].transform.position;
+                if (pathIndex + 1 < movingPath.Count)
                 {
-                    Waypoint wp = pathFinder.ShortestPathBFS[pathIndex + 1];
+                    Waypoint wp = movingPath[pathIndex + 1];
                     //transform.LookAt(pathFinder.ShortestPathBFS[pathIndex + 1].transform);
                     transform.DOLookAt(wp.transform.position, timeEachStep);
                 }

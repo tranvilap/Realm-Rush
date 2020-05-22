@@ -6,14 +6,17 @@ using UnityEngine;
 [RequireComponent(typeof(Enemy))]
 public abstract class EnemyMovement : MonoBehaviour
 {
-    protected PathFinder pathFinder = null;
     protected bool isMovable = true;
 
     protected Enemy enemyScript;
+    protected List<Waypoint> movingPath = null;
 
     protected virtual void OnEnable()
     {
-        enemyScript = GetComponent<Enemy>();
+        if (enemyScript == null)
+        {
+            enemyScript = GetComponent<Enemy>();
+        }
         if (enemyScript != null)
         {
             enemyScript.OnEnemyDieEvent += StopMoving;
@@ -22,12 +25,7 @@ public abstract class EnemyMovement : MonoBehaviour
 
     protected virtual void Start()
     {
-        pathFinder = FindObjectOfType<PathFinder>();
-        if (pathFinder == null)
-        {
-            Debug.LogError("Couldn't find PathFinder");
-            return;
-        }
+        movingPath = enemyScript.GoalPath.path;
     }
 
     public abstract void MoveToGoal();

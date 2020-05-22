@@ -475,6 +475,7 @@ MonoBehaviour:
   damage: 2
   money: 100
   healthBar: {fileID: 3343056871813993043}
+  body: {fileID: 5223617860559874301}
   movingSFX: {fileID: 11400000, guid: f30b9670913f48b4a8795568466848f6, type: 2}
   damageSFX: {fileID: 11400000, guid: 67e4087e18a795c4bb3a53938c402ab8, type: 2}
   dieSFX: {fileID: 11400000, guid: 617b29bd36c0f964da736895d69c6f20, type: 2}
