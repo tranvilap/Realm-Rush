@@ -3,7 +3,7 @@ using Stats;
 using Game.Sound;
 
 [RequireComponent(typeof(ObjectPooler))]
-public abstract class ShootingTower : UpgradeableTower, IShootable
+public abstract class ShootingTower : UpgradeableTower
 {
     [Header("Shooting Info")]
     [SerializeField] protected BaseStat firingRate;
@@ -13,8 +13,6 @@ public abstract class ShootingTower : UpgradeableTower, IShootable
 
     [Space(25f)]
     [SerializeField] protected SFXObj onShootSFX = null;
-
-    protected Transform currentTargetEnemy = null;
 
     public BaseStat FiringRate { get => firingRate; }
     public BaseStat BulletSpeed { get => bulletSpeed; }
@@ -43,6 +41,6 @@ public abstract class ShootingTower : UpgradeableTower, IShootable
         bullet.gameObject.SetActive(true);
         return bullet.GetComponent<Bullet>();
     }
-    public abstract void Shoot(Transform target);
+    public abstract void Shoot();
 
 }

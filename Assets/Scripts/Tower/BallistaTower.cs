@@ -51,7 +51,9 @@ public class BallistaTower : ShootingTower
     Transform bowToPan = null;
 
     private float firingTimer = 0f;
-    private Transform secondTargetEnemy = null;
+
+    private Enemy firstTargetEnemy = null;
+    private Enemy secondTargetEnemy = null;
 
     protected override void Start()
     {
@@ -62,25 +64,31 @@ public class BallistaTower : ShootingTower
     {
         if (balistaToPan == null || bowToPan == null) { return; }
         SeekTarget();
-        if (currentTargetEnemy == null) { return; }
-        Shoot(currentTargetEnemy);
+        Shoot();
 
     }
 
-    public override void Shoot(Transform target)
+    public override void Shoot()
     {
+        Debug.Log(firingTimer);
+        if (firstTargetEnemy == null)
+        {
+            firingTimer = 0f;
+            return;
+        }
+
         switch (CurrentTowerUpgradeLevel)
         {
             case 0:
             case 1:
                 {
-                    if (target == null) { return; }
+                    if (firstTargetEnemy == null) { return; }
                     if (firingTimer >= FiringRate.CalculatedValue)
                     {
                         var bullet = PrepareBullet();
                         if (bullet != null)
                         {
-                            bullet.AimTo(shootingPoint, target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                            bullet.AimTo(shootingPoint, firstTargetEnemy.transform, BulletSpeed.CalculatedValue, Power.CalculatedValue);
                             bullet.gameObject.SetActive(true);
                             bullet.Shoot();
                             PlayOnShootSFX();
@@ -95,13 +103,13 @@ public class BallistaTower : ShootingTower
                 }
             case 2:
             default:
-                if (target == null) { return; }
+                if (firstTargetEnemy == null) { return; }
                 if (firingTimer >= FiringRate.CalculatedValue)
                 {
                     var bullet = PrepareBullet();
                     if (bullet != null)
                     {
-                        bullet.AimTo(shootingPoint, target, BulletSpeed.CalculatedValue, Power.CalculatedValue);
+                        bullet.AimTo(shootingPoint, firstTargetEnemy.transform, BulletSpeed.CalculatedValue, Power.CalculatedValue);
                         bullet.gameObject.SetActive(true);
                         bullet.Shoot();
                         PlayOnShootSFX();
@@ -109,7 +117,7 @@ public class BallistaTower : ShootingTower
                     var secondBullet = PrepareBulletAt(secondShootingPoint);
                     if (secondBullet != null)
                     {
-                        secondBullet.AimTo(secondShootingPoint, secondTargetEnemy,
+                        secondBullet.AimTo(secondShootingPoint, secondTargetEnemy.transform,
                             BulletSpeed.CalculatedValue * percentOfTotalPower, Power.CalculatedValue * percentOfTotalPower);
                         secondBullet.gameObject.SetActive(true);
                         secondBullet.Shoot();
@@ -131,35 +139,137 @@ public class BallistaTower : ShootingTower
 
     protected override void SeekTarget()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
-        if (hitColliders.Length == 0) { currentTargetEnemy = null; return; }
-        currentTargetEnemy = hitColliders[0].transform;
-        Vector3 balistaTarget = new Vector3(currentTargetEnemy.transform.position.x,
-                                        balistaToPan.transform.position.y,
-                                        currentTargetEnemy.transform.position.z);
-
-        balistaToPan.LookAt(balistaTarget);
-        bowToPan.LookAt(currentTargetEnemy);
-
-        if (CurrentTowerUpgradeLevel >= 2)
+        if (firstTargetEnemy != null)
         {
-            if (hitColliders.Length < 2)
+            if (!firstTargetEnemy.isHitable || firstTargetEnemy.isDead || firstTargetEnemy.reachedGoal)
             {
-                secondTargetEnemy = currentTargetEnemy;
+                firstTargetEnemy = null;
             }
             else
             {
-                secondTargetEnemy = hitColliders[1].transform;
+                if ((firstTargetEnemy.transform.position - transform.position).sqrMagnitude
+                        > EffectRangeRadius.CalculatedValue * EffectRangeRadius.CalculatedValue)
+                {
+                    firstTargetEnemy = null;
+                }
             }
-            Vector3 secondBalistaTarget = new Vector3(secondTargetEnemy.position.x,
-                                        secondBalista.position.y,
-                                        secondTargetEnemy.position.z);
-
-            secondBalista.LookAt(secondBalistaTarget);
-            secondBow.LookAt(secondTargetEnemy);
+        }
+        if (firstTargetEnemy != null)
+        {
+            if(CurrentTowerUpgradeLevel >= 2)
+            {
+                if (secondTargetEnemy != null)
+                {
+                    if (secondTargetEnemy == firstTargetEnemy)
+                    {
+                        secondTargetEnemy = null;
+                    }
+                    else
+                    {
+                        if (!secondTargetEnemy.isHitable || secondTargetEnemy.isDead || secondTargetEnemy.reachedGoal)
+                        {
+                            secondTargetEnemy = null;
+                        }
+                        else
+                        {
+                            if ((secondTargetEnemy.transform.position - transform.position).sqrMagnitude
+                            > EffectRangeRadius.CalculatedValue * EffectRangeRadius.CalculatedValue)
+                            {
+                                secondTargetEnemy = null;
+                            }
+                        }
+                    }
+                }
+                if (secondTargetEnemy == null)
+                {
+                    Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
+                    foreach (var col in hitColliders)
+                    {
+                        var enemyScript = col.GetComponent<Enemy>();
+                        if (enemyScript == null) { continue; }
+                        if (!enemyScript.isHitable || enemyScript.isDead || enemyScript.reachedGoal) { continue; }
+                        secondTargetEnemy = enemyScript;
+                        break;
+                    }
+                    if (secondTargetEnemy == null)
+                    {
+                        secondTargetEnemy = firstTargetEnemy;
+                    }
+                }
+            }
+        }
+        else
+        {
+            secondTargetEnemy = null;
+            Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
+            foreach (var col in hitColliders)
+            {
+                var enemyScript = col.GetComponent<Enemy>();
+                if (enemyScript == null) { continue; }
+                if (!enemyScript.isHitable || enemyScript.isDead || enemyScript.reachedGoal) { continue; }
+                if (firstTargetEnemy == null)
+                {
+                    firstTargetEnemy = enemyScript;
+                }
+                else if (secondTargetEnemy == null)
+                {
+                    if(CurrentTowerUpgradeLevel < 2)
+                    {
+                        break;
+                    }
+                    secondTargetEnemy = enemyScript;
+                }
+                else
+                {
+                    break;
+                }
+            }
+            if (firstTargetEnemy != null && secondTargetEnemy == null)
+            {
+                secondTargetEnemy = firstTargetEnemy;
+            }
         }
 
+        if (firstTargetEnemy != null)
+        {
+            Vector3 balistaTarget = new Vector3(firstTargetEnemy.transform.position.x,
+                                        balistaToPan.transform.position.y,
+                                        firstTargetEnemy.transform.position.z);
 
+            balistaToPan.LookAt(balistaTarget);
+            bowToPan.LookAt(firstTargetEnemy.transform);
+        }
+        if (secondTargetEnemy != null)
+        {
+            Vector3 secondBalistaTarget = new Vector3(secondTargetEnemy.transform.position.x,
+                            secondBalista.position.y,
+                            secondTargetEnemy.transform.position.z);
+
+            secondBalista.LookAt(secondBalistaTarget);
+            secondBow.LookAt(secondTargetEnemy.transform);
+        }
+        //Collider[] hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
+        //if (hitColliders.Length == 0) { currentTargetEnemy = null; return; }
+        //currentTargetEnemy = hitColliders[0].transform;
+
+
+        //if (CurrentTowerUpgradeLevel >= 2)
+        //{
+        //    if (hitColliders.Length < 2)
+        //    {
+        //        secondTargetEnemy = currentTargetEnemy;
+        //    }
+        //    else
+        //    {
+        //        secondTargetEnemy = hitColliders[1].transform;
+        //    }
+        //    Vector3 secondBalistaTarget = new Vector3(secondTargetEnemy.position.x,
+        //                                secondBalista.position.y,
+        //                                secondTargetEnemy.position.z);
+
+        //    secondBalista.LookAt(secondBalistaTarget);
+        //    secondBow.LookAt(secondTargetEnemy);
+        //}
     }
 
     protected override void SetUpTower()

@@ -137,8 +137,7 @@ public class NormalLaserTower : LaserTower
             {
                 if (!first.isDead && !first.reachedGoal && first.isHitable)
                 {
-                    if ((first.transform.position - transform.position).magnitude <= EffectRangeRadius.CalculatedValue)
-                        firstTarget = first;
+                    firstTarget = first;
                 }
             }
             else

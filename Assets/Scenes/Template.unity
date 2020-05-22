@@ -924,6 +924,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5220285562542100515, guid: cfd3321b3766f9849afa0e6992aefba7,
+        type: 3}
+      propertyPath: maxHP.BaseValue
+      value: 9999999
+      objectReference: {fileID: 0}
     - target: {fileID: 5220285562542100519, guid: cfd3321b3766f9849afa0e6992aefba7,
         type: 3}
       propertyPath: m_Name
