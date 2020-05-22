@@ -82,4 +82,37 @@ public class SharedObjectPooler : MonoBehaviour
         }
 
     }
+
+    public void AddPooledObject (string tag, GameObject objectToPool, int amount, bool canExpand)
+    {
+        if (poolDictionary.ContainsKey(tag))
+        {
+            Debug.LogWarning("Pool with tag " + tag + " already't existed");
+            return;
+        }
+        if(objectToPool == null)
+        {
+            Debug.LogError("Object to pool is null");
+            return;
+        }
+        if(amount <= 0) { amount = 0; }
+
+        var newPoolItem = new ItemToPool();
+        newPoolItem.amountToPool = amount;
+        newPoolItem.gameObjectToPool = objectToPool;
+        newPoolItem.tag = tag;
+        newPoolItem.shouldExpand = canExpand;
+
+        itemsToPool.Add(newPoolItem);
+
+        List<GameObject> objectPool = new List<GameObject>();
+
+        for (int i = 0; i < amount; i++)
+        {
+            GameObject go = Instantiate(objectToPool, transform);
+            go.SetActive(false);
+            objectPool.Add(go);
+        }
+        poolDictionary.Add(tag, objectPool);
+    }
 }

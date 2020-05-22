@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hqHealth: 100
-  money: 500
+  money: 3000
   coinEarningSFX:
     clip: {fileID: 8300000, guid: bdf2a60daa33f3e4ca62ded379bfe719, type: 3}
     volume: 1
@@ -344,7 +344,7 @@ MonoBehaviour:
   bringingTowers:
   - {fileID: 11400000, guid: 61f3e44632a74df47a74a2d6916cc849, type: 2}
   - {fileID: 11400000, guid: 88862a1c9f8b6294a84fee2ca0d70228, type: 2}
-  - {fileID: 11400000, guid: 66fc7268a05e1f74c863af87b12095a9, type: 2}
+  - {fileID: 11400000, guid: a84aac845226145479532ed77e118cfd, type: 2}
   - {fileID: 11400000, guid: 66fc7268a05e1f74c863af87b12095a9, type: 2}
   - {fileID: 11400000, guid: 66fc7268a05e1f74c863af87b12095a9, type: 2}
 --- !u!114 &2254205178904945315
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88488571965ea1145966bad481413900, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bgm: {fileID: 0}
+  bgm: {fileID: 11400000, guid: 17ff866b65f1eca4589aa2c389decfe9, type: 2}
 --- !u!1 &6094180023019491174
 GameObject:
   m_ObjectHideFlags: 0
