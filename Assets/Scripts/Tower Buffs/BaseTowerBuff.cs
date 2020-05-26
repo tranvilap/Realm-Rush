@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TowerBuffs
+namespace Buffs
 {
     public enum TowerBuffType { Default, WatchTower }
     public class BaseTowerBuff : MonoBehaviour

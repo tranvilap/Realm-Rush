@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TowerBuffs;
+using Buffs;
 using TowerEvents;
 public abstract class BuffingTower : UpgradeableTower
 {

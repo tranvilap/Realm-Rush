@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-namespace TowerBuffs
+namespace Buffs
 {
     public class InstantBuff : BaseTowerBuff
     {

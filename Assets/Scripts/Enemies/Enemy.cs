@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Stats;
+using Buffs;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private BaseStat maxHP;
@@ -28,7 +29,7 @@ public class Enemy : MonoBehaviour
     public bool isHitable = true;
     public bool isDead = false;
     public bool reachedGoal = false;
-
+    List<BaseEnemyBuff> buffs = new List<BaseEnemyBuff>();
     private WaypointPath goalPath;
 
     public float CurrentHP { get => currentHP;
@@ -54,6 +55,7 @@ public class Enemy : MonoBehaviour
     public BaseStat MoveSpeed { get => moveSpeed; set => moveSpeed = value; }
     public Transform Body { get => body; set => body = value; }
     public WaypointPath GoalPath { get => goalPath; }
+    public List<BaseEnemyBuff> Buffs { get => buffs;}
 
     protected Collider hitCollider;
     protected AudioSource audioSource;

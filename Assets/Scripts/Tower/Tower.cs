@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Stats;
-using TowerBuffs;
+using Buffs;
 using TowerEvents;
 [SelectionBase]
 public abstract class Tower : MonoBehaviour

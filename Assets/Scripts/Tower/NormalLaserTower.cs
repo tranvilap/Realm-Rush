@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TowerBuffs;
+using Buffs;
 public class NormalLaserTower : LaserTower
 {
     [SerializeField] LineRenderer firstLaserBeam = null;

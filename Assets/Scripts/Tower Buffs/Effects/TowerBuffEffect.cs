@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace TowerBuffs
+namespace Buffs
 {
     public abstract class TowerBuffEffect : ScriptableObject
     {

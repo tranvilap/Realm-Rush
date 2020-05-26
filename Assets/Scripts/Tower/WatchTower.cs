@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Stats;
-using TowerBuffs;
+using Buffs;
 public class WatchTower : BuffingTower
 {
     [Header("Watch Tower Buffs")]

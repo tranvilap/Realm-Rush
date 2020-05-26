@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Stats;
-namespace TowerBuffs
+namespace Buffs
 {
     [CreateAssetMenu(menuName = "Tower Buff Effect/Shooting Tower")]
     public class ShootingTowerStatsEffect : TowerBuffEffect
