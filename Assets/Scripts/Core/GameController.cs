@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Game.Sound;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,6 +33,7 @@ public class GameController : MonoBehaviour, IEnemyEvent
     }
 
     public StageRank CurrentStageRank { get => currentStageRank; private set => currentStageRank = value; }
+    public bool IsGameOver { get => gameOver; }
 
     private void Start()
     {
@@ -39,6 +41,7 @@ public class GameController : MonoBehaviour, IEnemyEvent
         spawningController = FindObjectOfType<SpawningController>();
         EventSystemListener.main.AddListener(gameObject);
         RecheckAliveEnemies();
+        AudioManager.UpdateVolumes();
     }
 
     private void RecheckAliveEnemies()

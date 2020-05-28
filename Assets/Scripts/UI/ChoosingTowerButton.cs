@@ -8,6 +8,7 @@ public class ChoosingTowerButton : MonoBehaviour
     public TowerData holdingTowerData = null;
     [SerializeField] Sprite isChoosingSprite = null;
     [SerializeField] Image towerImage = null;
+    [SerializeField] TMPro.TextMeshProUGUI priceText=null;
 
     public bool isChoosing = false;
     Sprite originalButtonSprite;
@@ -27,6 +28,7 @@ public class ChoosingTowerButton : MonoBehaviour
         holdingTowerData = towerData;
         button.onClick.AddListener(() => OnClickButton());
         towerImage.sprite = holdingTowerData.towerImage;
+        priceText.text = towerData.price.ToString();
     }
 
     public void OnClickButton()

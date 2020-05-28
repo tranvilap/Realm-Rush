@@ -432,7 +432,7 @@ MonoBehaviour:
   receivingBuffs: []
   placingPoint: {fileID: 0}
   upgradeLevelCap: 2
-  upgradePrices: e6000000f4010000
+  upgradePrices: fa000000f4010000
   currentTowerUpgradeLevel: 0
   dps:
     BaseValue: 0.5

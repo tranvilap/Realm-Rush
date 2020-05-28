@@ -42,8 +42,8 @@ class CameraController : MonoBehaviour
 
         newZoom = mainCamera.transform.localPosition;
         ClampNewZoom();
-
-
+        Application.targetFrameRate = 60;
+        QualitySettings.vSyncCount = 0;
     }
 
     private void Update()

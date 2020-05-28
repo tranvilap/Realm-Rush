@@ -118,6 +118,17 @@ public class CrystalTower : UpgradeableTower
     {
         givingBuffs.Remove(baseEnemyBuff);
     }
-
+    protected override void PostSellingTower()
+    {
+        for(int i = givingBuffs.Count -1; i>=0; i--)
+        {
+            if(givingBuffs[i]!= null)
+            {
+                givingBuffs[i].Target.Buffs.Remove(givingBuffs[i]);
+                givingBuffs[i].RemoveTargetBuffs();
+            }
+        }
+        base.PostSellingTower();
+    }
 
 }

@@ -25,7 +25,6 @@ namespace Buffs
             base.ApplyBuffsToTarget();
 
             buffVFX= SharedObjectPooler.main.GetPooledObject(Constants.SLOW_VFX);
-            Debug.Log("GET NEW VFX");
             buffVFX.SetActive(true);
             buffVFX.transform.position = Target.transform.position;
         }

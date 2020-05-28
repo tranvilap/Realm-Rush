@@ -1844,7 +1844,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   effectRangeRadius:
-    BaseValue: 2
+    BaseValue: 1
   rangeEffectField: {fileID: 4963675803810297986}
   summonPrice: 150
   whatIsTarget:
@@ -1855,7 +1855,7 @@ MonoBehaviour:
   receivingBuffs: []
   placingPoint: {fileID: 0}
   upgradeLevelCap: 2
-  upgradePrices: e6000000c2010000
+  upgradePrices: e6000000ee020000
   currentTowerUpgradeLevel: 0
   level0WatchTowerBuff: {fileID: 7908343611573839386, guid: 6dd70125d75f1a344a3881ae0d12c9ea,
     type: 3}
@@ -1867,7 +1867,7 @@ MonoBehaviour:
   level0TowerModel: {fileID: 7501660267440931009}
   level1EffectRange: 1
   level1TowerModel: {fileID: 7501660268726765006}
-  level2EffectRange: 2
+  level2EffectRange: 1.75
   level2TowerModel: {fileID: 7501660267573439367}
 --- !u!65 &2858428393952988114
 BoxCollider:

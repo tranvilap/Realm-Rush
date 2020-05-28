@@ -1398,7 +1398,7 @@ MonoBehaviour:
     BaseValue: 1
   shootingPoint: {fileID: 0}
   onShootSFX: {fileID: 11400000, guid: c47d27366f8121641a0b852f1f89a159, type: 2}
-  level0EffectRange: 1
+  level0EffectRange: 1.5
   level0FiringRate: 1
   level0BulletSpeed: 3.5
   level0Power: 1
@@ -1410,7 +1410,7 @@ MonoBehaviour:
   level1EffectRange: 2
   level1FiringRate: 0.7
   level1BulletSpeed: 4.5
-  level1Power: 2
+  level1Power: 1
   level1TowerModel: {fileID: 4245604624158556765}
   level1ShootingPoint: {fileID: 4245604623254300780}
   level1Balista: {fileID: 4245604623648327668}

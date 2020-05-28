@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minorWaves:
     array:
-    - enemyNumber: 1
+    - enemyNumber: 2
       enemyPrefab: {fileID: 5220285562542100519, guid: cfd3321b3766f9849afa0e6992aefba7,
         type: 3}
-      timeDelayBetweenSpawns: 5
+      timeDelayBetweenSpawns: 3
       timeDelayNextWave: 0
       pathIndex: 0

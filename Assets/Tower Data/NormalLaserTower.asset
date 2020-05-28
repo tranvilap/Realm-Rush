@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NormalLaserTower
   m_EditorClassIdentifier: 
   price: 100
-  towerImage: {fileID: 21300000, guid: 59c8cd2a91ad7f846b9efd79b945c356, type: 3}
+  towerImage: {fileID: 21300000, guid: aa8447768c3bd1d4bac2f8452308110b, type: 3}
   towerPreviewPrefab: {fileID: 3388600951339813946, guid: d18ad5a7d0d92f5449802307a8309e94,
     type: 3}
   towerPrefab: {fileID: 3408612077580142708, guid: e6c4caefcbc659e4487aecddb9e53c90,

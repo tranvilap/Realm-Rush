@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.UI;
+using Game.Sound;
+
 public class MainGameUIController : MonoBehaviour, IMainGameEvent
 {
     [Header("Health")]
@@ -19,7 +22,13 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     [SerializeField] GameOverCanvas gameOverLoseCanvas = null;
     [SerializeField] GameOverCanvas gameOverWinCanvas = null;
 
+    [Header("Pause")]
+    [SerializeField] GameObject pausePanel = null;
+    [SerializeField] Slider musicSlider = null;
+    [SerializeField] Slider sfxSlider = null;
+
     PlayerHQ playerHQ = null;
+    GameController gameController;
     SpawningController spawningController;
 
     private void OnEnable()
@@ -42,6 +51,7 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     {
         EventSystemListener.main.AddListener(gameObject);
         SetUpUI();
+        gameController = FindObjectOfType<GameController>();
     }
 
     private void UpdateHQHealthText(int currentHealth)
@@ -65,7 +75,6 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     public void OnGameOverLose(){
         OpenGameOverMenu(gameOverLoseCanvas);
     }
-
     public void OnGameOverWin(){
         OpenGameOverMenu(gameOverWinCanvas);
     }
@@ -74,12 +83,31 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
     {
         moneyValueText.text = amount.ToString();
     }
-
+    public void OnClickPauseButton()
+    {
+        if (gameController.IsGameOver) { return; }
+        pausePanel.SetActive(true);
+        musicSlider.value = PlayerPrefs.GetFloat(Constants.GLOBAL_MUSIC, 1f);
+        sfxSlider.value = PlayerPrefs.GetFloat(Constants.GLOBAL_SFX, 1f);
+        Time.timeScale = 0f;
+    }
+    public void OnClickClosePausePanel()
+    {
+        pausePanel.SetActive(false);
+        Time.timeScale = 1f;
+    }
+    public void OnChangeMusicVolume(float volume)
+    {
+        AudioManager.ChangeGlobalMusicVolume(volume);
+    }
+    public void OnChangeSFXVolume(float volume)
+    {
+        AudioManager.ChangeGlobalSFXVolume(volume);
+    }
     private void OnSpawnedNextWave()
     {
         currentWaveText.text = (spawningController.CurrentWaveIndex+1).ToString();
     }
-
     private void SetUpUI()
     {
         UpdateHQHealthText(playerHQ.HQHealth);
@@ -87,7 +115,6 @@ public class MainGameUIController : MonoBehaviour, IMainGameEvent
         UpdateCurrentWaveText(spawningController.CurrentWaveIndex + 1);
         UpdateWaveCapText(spawningController.WaveQuantity);
     }
-
     private void OpenGameOverMenu(GameOverCanvas gameOverCanvas)
     {
         gameOverCanvas.ActiveCanvas();

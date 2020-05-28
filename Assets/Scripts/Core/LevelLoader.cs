@@ -21,6 +21,28 @@ public class LevelLoader : MonoBehaviour
     }
     public void LoadNextScene()
     {
-        LoadScene(SceneManager.GetActiveScene().buildIndex +1);
+        LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+    }
+    public void Quit()
+    {
+        Application.Quit();
+    }
+    public void LoadSceneDelay(int sceneIndex, float delay)
+    {
+        StartCoroutine(DelaySceneLoad(sceneIndex, delay));
+    }
+    public void LoadSceneDelay(string sceneName, float delay)
+    {
+        StartCoroutine(DelaySceneLoad(sceneName, delay));
+    }
+    private IEnumerator DelaySceneLoad(int sceneIndex, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        LoadScene(sceneIndex);
+    }
+    private IEnumerator DelaySceneLoad(string sceneName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        LoadScene(sceneName);
     }
 }

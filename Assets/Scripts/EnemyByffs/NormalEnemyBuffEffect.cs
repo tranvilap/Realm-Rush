@@ -7,16 +7,16 @@ namespace Buffs
     [CreateAssetMenu(menuName = "Enemy Buff Effect/Normal Enemy")]
     public class NormalEnemyBuffEffect : EnemyBuffEffect
     {
-        [SerializeField] protected StatModifier[] maxHPMod = null;
+        //[SerializeField] protected StatModifier[] maxHPMod = null;
         [SerializeField] protected StatModifier[] speedMod = null;
 
         public override void ApplyEffect(object source, Enemy enemy)
         {
-            foreach (var mod in maxHPMod)
-            {
-                var newMod = new StatModifier(mod, source);
-                enemy.MaxHP.AddModifier(mod);
-            }
+            //foreach (var mod in maxHPMod)
+            //{
+            //    var newMod = new StatModifier(mod, source);
+            //    enemy.MaxHP.AddModifier(mod);
+            //}
             foreach (var mod in speedMod)
             {
                 var newMod = new StatModifier(mod, source);
@@ -26,16 +26,16 @@ namespace Buffs
 
         public override bool RemoveEffect(object source, Enemy enemy)
         {
-            bool result = enemy.MaxHP.RemoveModifiersFromSource(source);
-            if (result)
-            {
-                result = enemy.MoveSpeed.RemoveModifiersFromSource(source);
-            }
-            else
-            {
-                enemy.MoveSpeed.RemoveModifiersFromSource(source);
-            }
-            return result;
+            //bool result = enemy.MaxHP.RemoveModifiersFromSource(source);
+            //if (result)
+            //{
+            //    result = enemy.MoveSpeed.RemoveModifiersFromSource(source);
+            //}
+            //else
+            //{
+            //    enemy.MoveSpeed.RemoveModifiersFromSource(source);
+            //}
+            return enemy.MoveSpeed.RemoveModifiersFromSource(source);
         }
     }
 }

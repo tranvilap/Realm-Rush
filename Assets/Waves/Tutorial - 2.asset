@@ -18,9 +18,11 @@ MonoBehaviour:
       enemyPrefab: {fileID: 5220285562542100519, guid: cfd3321b3766f9849afa0e6992aefba7,
         type: 3}
       timeDelayBetweenSpawns: 2
-      timeDelayNextWave: 2
+      timeDelayNextWave: 5
+      pathIndex: 0
     - enemyNumber: 5
       enemyPrefab: {fileID: 5220285562542100519, guid: cfd3321b3766f9849afa0e6992aefba7,
         type: 3}
-      timeDelayBetweenSpawns: 1
+      timeDelayBetweenSpawns: 2
       timeDelayNextWave: 0
+      pathIndex: 0

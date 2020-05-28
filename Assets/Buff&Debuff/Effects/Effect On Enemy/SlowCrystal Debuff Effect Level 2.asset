@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6d2ffea032407d438ece2a8b3bb7d57, type: 3}
   m_Name: SlowCrystal Debuff Effect Level 2
   m_EditorClassIdentifier: 
-  maxHPMod: []
   speedMod:
-  - value: -0.3
+  - value: -0.4
     Type: 300
     usingTypeOrder: 1
     order: 0

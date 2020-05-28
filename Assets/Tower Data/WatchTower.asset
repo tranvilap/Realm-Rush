@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: WatchTower
   m_EditorClassIdentifier: 
   price: 150
-  towerImage: {fileID: 21300000, guid: d0c05b9125ed56349a5385e1a77547b7, type: 3}
+  towerImage: {fileID: 21300000, guid: 2225ff1ab81d3ca46830432eb72c077e, type: 3}
   towerPreviewPrefab: {fileID: 7656733117383189128, guid: cb1eb48bbe1ea2e4ab589be024323634,
     type: 3}
   towerPrefab: {fileID: 7501660269135874142, guid: b27c758399ac2bb4ab66560fec1809cf,

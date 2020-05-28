@@ -8,6 +8,20 @@ namespace Game.Sound
 {
     public class AudioManager
     {
+        public static float GlobalMusicVolume
+        {
+            get
+            {
+                return SoundManager.MusicVolume;
+            }
+        }
+        public static float GlobalSFXVolume
+        {
+            get
+            {
+                return SoundManager.SoundVolume;
+            }
+        }
         public static void ChangeGlobalMusicVolume(float volume)
         {
             SoundManager.MusicVolume = volume;
@@ -35,6 +49,27 @@ namespace Game.Sound
             {
                 audioSource.PlayOneShotSoundManaged(sfx.clip, sfx.volume);
             }
+        }
+
+        public static void PlayOneShotMusic(AudioSource audioSource, MusicObj musicObj)
+        {
+            if (musicObj == null || audioSource == null) { return; }
+            if (musicObj.clip == null) { return; }
+            audioSource.PlayOneShotMusicManaged(musicObj.clip, musicObj.volume);
+        }
+        public static void PlayLoopMusic(AudioSource audioSource, MusicObj musicObj, bool persist)
+        {
+            if (musicObj == null || audioSource == null) { return; }
+            if (musicObj.clip == null) { return; }
+            audioSource.clip = musicObj.clip;
+            audioSource.pitch = musicObj.pitch;
+            audioSource.PlayLoopingMusicManaged(musicObj.volume, musicObj.fadeTime, persist);
+        }
+
+        public static void UpdateVolumes()
+        {
+            ChangeGlobalMusicVolume(PlayerPrefs.GetFloat(Constants.GLOBAL_MUSIC, 1f));
+            ChangeGlobalSFXVolume(PlayerPrefs.GetFloat(Constants.GLOBAL_SFX, 1f));
         }
     }
 }
