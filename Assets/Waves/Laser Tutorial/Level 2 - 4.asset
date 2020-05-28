@@ -10,13 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b3ffd79ac4ecb149897a0d0724f9fcf, type: 3}
-  m_Name: Tutorial - 1
+  m_Name: Level 2 - 4
   m_EditorClassIdentifier: 
   minorWaves:
     array:
-    - enemyNumber: 2
-      enemyPrefab: {fileID: 5220285562542100519, guid: cfd3321b3766f9849afa0e6992aefba7,
+    - enemyNumber: 6
+      enemyPrefab: {fileID: 5123863354344230115, guid: 54e53c834370e074e87a8aa199fb2061,
         type: 3}
-      timeDelayBetweenSpawns: 3
+      timeDelayBetweenSpawns: 0.2
+      timeDelayNextWave: 0.5
+      pathIndex: 0
+    - enemyNumber: 6
+      enemyPrefab: {fileID: 5123863354344230115, guid: 54e53c834370e074e87a8aa199fb2061,
+        type: 3}
+      timeDelayBetweenSpawns: 0.2
       timeDelayNextWave: 0
       pathIndex: 0

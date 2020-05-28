@@ -10,19 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7b3ffd79ac4ecb149897a0d0724f9fcf, type: 3}
-  m_Name: Tutorial - 2
+  m_Name: LaserTutorial - 1
   m_EditorClassIdentifier: 
   minorWaves:
     array:
-    - enemyNumber: 3
-      enemyPrefab: {fileID: 5220285562542100519, guid: cfd3321b3766f9849afa0e6992aefba7,
+    - enemyNumber: 2
+      enemyPrefab: {fileID: 5123863354344230115, guid: 54e53c834370e074e87a8aa199fb2061,
         type: 3}
       timeDelayBetweenSpawns: 2
-      timeDelayNextWave: 5
-      pathIndex: 0
-    - enemyNumber: 5
-      enemyPrefab: {fileID: 5220285562542100519, guid: cfd3321b3766f9849afa0e6992aefba7,
-        type: 3}
-      timeDelayBetweenSpawns: 2
-      timeDelayNextWave: 0
+      timeDelayNextWave: 2
       pathIndex: 0

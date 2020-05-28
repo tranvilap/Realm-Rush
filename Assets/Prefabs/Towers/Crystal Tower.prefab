@@ -1641,7 +1641,7 @@ MonoBehaviour:
   level1Debuff: {fileID: 6656604818536302466, guid: d8afcee114b24b248a7e6c78c718a8de,
     type: 3}
   level2Model: {fileID: 1211797892705695679}
-  level2RangeRadius: 1.75
+  level2RangeRadius: 1.5
   level2Debuff: {fileID: 6656604818536302466, guid: 150f662cd6d24854199f92cdeece760c,
     type: 3}
 --- !u!1 &8179296280316046232
@@ -1904,7 +1904,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 21300000, guid: 5e3774c709d0147479d5f328b67b1232, type: 3}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: 4fe20ff2e9832cf4c990a413f4515ace, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted

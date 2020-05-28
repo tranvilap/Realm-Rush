@@ -100,119 +100,266 @@ public class NormalLaserTower : LaserTower
     protected override void SeekTarget()
     {
         var hitColliders = Physics.OverlapSphere(transform.position, EffectRangeRadius.CalculatedValue, WhatIsTarget);
-        if (hitColliders.Length == 0)
+        List<Enemy> detectedEnemies = new List<Enemy>();
+        foreach (var hit in hitColliders)
         {
-            firstTarget = null;
-            secondTarget = null;
-            thirdTarget = null;
-            if (firstLaserBeam.enabled)
+            var enemy = hit.GetComponent<Enemy>();
+            if (enemy != null)
             {
-                firstLaserBeam.enabled = false;
-            }
-            if (secondLaserBeam.enabled)
-            {
-                secondLaserBeam.enabled = false;
-            }
-            if (thirdLaserBeam.enabled)
-            {
-                thirdLaserBeam.enabled = false;
-            }
-            return;
-        }
-        if (hitColliders.Length == 1)
-        {
-            firstTarget = null;
-            secondTarget = null;
-            thirdTarget = null;
-            if (secondLaserBeam.enabled)
-            {
-                secondLaserBeam.enabled = false;
-            }
-            if (thirdLaserBeam.enabled)
-            {
-                thirdLaserBeam.enabled = false;
-            }
-            Enemy first = hitColliders[0].GetComponent<Enemy>();
-            if (first != null)
-            {
-                if (!first.isDead && !first.reachedGoal && first.isHitable)
+                if (!enemy.isDead && !enemy.reachedGoal && enemy.isHitable)
                 {
-                    firstTarget = first;
+                    detectedEnemies.Add(enemy);
+                }
+            }
+        }
+        if (firstTarget != null)
+        {
+            if (detectedEnemies.Contains(firstTarget))
+            {
+                if (firstTarget.isDead || firstTarget.reachedGoal || !firstTarget.isHitable)
+                {
+                    firstTarget = null;
                 }
             }
             else
             {
-                if (firstLaserBeam.enabled)
+                firstTarget = null;
+            }
+        }
+        if (firstTarget == null)
+        {
+            if (detectedEnemies.Count > 0)
+            {
+                foreach (var enemy in detectedEnemies)
                 {
-                    firstLaserBeam.enabled = false;
+                    if (enemy == thirdTarget || enemy == secondTarget) { continue; }
+                    firstTarget = enemy;
+                    break;
                 }
             }
         }
-        else
+        if (CurrentTowerUpgradeLevel >= 1)
         {
-            firstTarget = null;
-            secondTarget = null;
-            thirdTarget = null;
-            foreach (var hit in hitColliders)
+            if (secondTarget != null)
             {
-                var enemy = hit.GetComponent<Enemy>();
-                if (enemy != null)
+                if (detectedEnemies.Contains(secondTarget))
                 {
-                    if (!enemy.isDead && !enemy.reachedGoal && enemy.isHitable)
+                    if (secondTarget.isDead || secondTarget.reachedGoal || !secondTarget.isHitable)
                     {
-                        if (CurrentTowerUpgradeLevel <= 0)
-                        {
-                            if (firstTarget == null)
-                            {
-                                firstTarget = enemy;
-                                break;
-                            }
-                        }
-                        else
-                        {
-                            if (firstTarget == null)
-                            {
-                                firstTarget = enemy;
-                            }
-                            else if (secondTarget == null)
-                            {
-                                secondTarget = enemy;
-                            }
-                            else if (thirdTarget == null)
-                            {
-                                thirdTarget = enemy;
-                            }
-                            else
-                            {
-                                break;
-                            }
-                        }
+                        secondTarget = null;
                     }
-
+                }
+                else
+                {
+                    secondTarget = null;
                 }
             }
-            if (firstTarget == null)
+            if(secondTarget == null)
             {
-                if (firstLaserBeam.enabled)
+                if(detectedEnemies.Count > 1)
                 {
-                    firstLaserBeam.enabled = false;
+                    foreach (var enemy in detectedEnemies)
+                    {
+                        if (enemy == thirdTarget || enemy == firstTarget) { continue; }
+                        secondTarget = enemy;
+                        break;
+                    }
                 }
             }
-            if (secondTarget == null)
+        }
+        if(CurrentTowerUpgradeLevel >=2)
+        {
+            if (thirdTarget != null)
             {
-                if (secondLaserBeam.enabled)
+                if (detectedEnemies.Contains(thirdTarget))
                 {
-                    secondLaserBeam.enabled = false;
+                    if (thirdTarget.isDead || thirdTarget.reachedGoal || !thirdTarget.isHitable)
+                    {
+                        thirdTarget = null;
+                    }
+                }
+                else
+                {
+                    thirdTarget = null;
                 }
             }
             if (thirdTarget == null)
             {
-                if (thirdLaserBeam.enabled)
+                if (detectedEnemies.Count > 2)
                 {
-                    thirdLaserBeam.enabled = false;
+                    foreach(var enemy in detectedEnemies)
+                    {
+                        if(enemy == firstTarget || enemy == secondTarget) { continue; }
+                        thirdTarget = enemy;
+                        break;
+                    }
                 }
             }
         }
+        if (firstTarget == null)
+        {
+            if (firstLaserBeam.enabled)
+            {
+                firstLaserBeam.enabled = false;
+            }
+        }
+        if (secondTarget == null)
+        {
+            if (secondLaserBeam.enabled)
+            {
+                secondLaserBeam.enabled = false;
+            }
+        }
+        if (thirdTarget == null)
+        {
+            if (thirdLaserBeam.enabled)
+            {
+                thirdLaserBeam.enabled = false;
+            }
+        }
+
+        //if (hitColliders.Length == 0)
+        //{
+        //    firstTarget = null;
+        //    secondTarget = null;
+        //    thirdTarget = null;
+        //    if (firstLaserBeam.enabled)
+        //    {
+        //        firstLaserBeam.enabled = false;
+        //    }
+        //    if (secondLaserBeam.enabled)
+        //    {
+        //        secondLaserBeam.enabled = false;
+        //    }
+        //    if (thirdLaserBeam.enabled)
+        //    {
+        //        thirdLaserBeam.enabled = false;
+        //    }
+        //    return;
+        //}
+        //if (hitColliders.Length == 1)
+        //{
+        //    firstTarget = null;
+        //    secondTarget = null;
+        //    thirdTarget = null;
+        //    if (secondLaserBeam.enabled)
+        //    {
+        //        secondLaserBeam.enabled = false;
+        //    }
+        //    if (thirdLaserBeam.enabled)
+        //    {
+        //        thirdLaserBeam.enabled = false;
+        //    }
+        //    Enemy first = hitColliders[0].GetComponent<Enemy>();
+        //    if (first != null)
+        //    {
+        //        if (!first.isDead && !first.reachedGoal && first.isHitable)
+        //        {
+        //            firstTarget = first;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (firstLaserBeam.enabled)
+        //        {
+        //            firstLaserBeam.enabled = false;
+        //        }
+        //    }
+        //}
+        //else
+        //{
+
+        //    if (detectedEnemies.Count > 0)
+        //    {
+        //        if (firstTarget != null)
+        //        {
+        //            if (detectedEnemies.Contains(firstTarget))
+        //            {
+        //                if (!firstTarget.isHitable || firstTarget.isDead || firstTarget.reachedGoal)
+        //                {
+        //                    firstTarget = null;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                firstTarget = null;
+        //            }
+        //        }
+        //        if (secondTarget != null)
+        //        {
+        //            if (detectedEnemies.Contains(secondTarget))
+        //            {
+        //                if (!secondTarget.isHitable || secondTarget.isDead || secondTarget.reachedGoal)
+        //                {
+        //                    secondTarget = null;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                secondTarget = null;
+        //            }
+        //        }
+        //        if (thirdTarget != null)
+        //        {
+        //            if (detectedEnemies.Contains(thirdTarget))
+        //            {
+        //                if (!thirdTarget.isHitable || thirdTarget.isDead || thirdTarget.reachedGoal)
+        //                {
+        //                    thirdTarget = null;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                thirdTarget = null;
+        //            }
+        //        }
+
+        //        if (CurrentTowerUpgradeLevel <= 0)
+        //        {
+        //            if (firstTarget == null)
+        //            {
+        //                firstTarget = detectedEnemies[0];
+        //            }
+        //        }
+        //        else
+        //        {
+        //            if (detectedEnemies.Count == 1)
+        //            {
+        //                if (firstTarget == null)
+        //                {
+        //                    firstTarget = detectedEnemies[0];
+        //                }
+        //            }
+        //            else if(detectedEnemies.Count == 2)
+        //            {
+        //                if (firstTarget == null)
+        //                {
+        //                    firstTarget = detectedEnemies[0];
+        //                }
+        //                if (secondTarget == null)
+        //                {
+        //                    firstTarget = detectedEnemies[1];
+        //                }
+        //            }
+        //            else
+        //            {
+        //                if (firstTarget == null)
+        //                {
+        //                    firstTarget = detectedEnemies[0];
+        //                }
+        //                if (secondTarget == null)
+        //                {
+        //                    secondTarget = detectedEnemies[1];
+        //                }
+        //                 if (thirdTarget == null)
+        //                {
+        //                    thirdTarget = detectedEnemies[2];
+        //                }
+        //            }
+
+        //        }
+        //    }
+        //}
     }
 
     protected override void SetUpTower()

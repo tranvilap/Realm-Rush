@@ -440,17 +440,17 @@ MonoBehaviour:
   secondLaserBeam: {fileID: 8233748208754283340}
   thirdLaserBeam: {fileID: 8233748209669155215}
   level0EffectRange: 2
-  level0Power: 0.5
+  level0Power: 1
   level0TowerModel: {fileID: 8233748208425596303}
   level0ShootingPoint: {fileID: 8233748209138949763}
   level0Collider: {fileID: 8233748208425596301}
   level1EffectRange: 2.5
-  level1Power: 0.75
+  level1Power: 1.5
   level1TowerModel: {fileID: 8233748208700581271}
   level1ShootingPoint: {fileID: 8233748208208291356}
   level1Collider: {fileID: 8233748208700581269}
   level2EffectRange: 3
-  level2Power: 1
+  level2Power: 2
   level2TowerModel: {fileID: 8233748209430987176}
   level2ShootingPoint: {fileID: 7524475226299547130}
   level2Collider: {fileID: 8233748209430987182}
@@ -3295,7 +3295,7 @@ MonoBehaviour:
   m_SpriteState:
     m_HighlightedSprite: {fileID: 0}
     m_PressedSprite: {fileID: 21300000, guid: 5e3774c709d0147479d5f328b67b1232, type: 3}
-    m_DisabledSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 21300000, guid: 4fe20ff2e9832cf4c990a413f4515ace, type: 3}
   m_AnimationTriggers:
     m_NormalTrigger: Normal
     m_HighlightedTrigger: Highlighted

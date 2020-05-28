@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: WatchTower-Level 1
   m_EditorClassIdentifier: 
   effectRangeMods:
-  - value: 0.15
-    Type: 300
+  - value: 0.5
+    Type: 100
     usingTypeOrder: 1
     order: 0
   firingRateMods:
